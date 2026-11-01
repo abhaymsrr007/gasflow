@@ -1,5 +1,8 @@
-import 'dotenv/config'; // Ye line .env load karti hai (zaroori hai!)
+import { config } from 'dotenv';
+import path from 'path';
 import { defineConfig, env } from 'prisma/config';
+
+config({ path: path.resolve(__dirname, '../../.env') });
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
@@ -7,6 +10,6 @@ export default defineConfig({
     path: 'prisma/migrations',
   },
   datasource: {
-    url: env('DATABASE_URL_OWNER'), // Tumhara .env wala variable
+    url: env('DATABASE_URL_OWNER'),
   },
 });
