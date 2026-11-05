@@ -1,22 +1,24 @@
----
+# 🚀 GASFlow — Master Developer Guide
 
-# 🚀 GASFlow — Master Developer Guide (Final)
+Welcome to **GASFlow**! Ye ek multi-tenant SaaS platform hai jo LPG cylinder distribution agencies ke liye banaya ja raha hai. Is guide mein project setup, modular architecture, database access rules, coding standards aur core business logic explain kiya gaya hai.
 
-Welcome to **GASFlow**! Ye ek Multi-tenant SaaS platform hai jo LPG Cylinder distribution agencies ke liye banaya ja raha hai.
+**Architecture Note:** Project mein database access ke liye **Hybrid Database Approach** use hota hai:
 
-**Architecture Note:** Is project mein Database access ke liye **Hybrid Approach** use hota hai:
-1. **Prisma ORM:** Simple CRUD (Users, Tenants, Customers, Products) aur type-safety ke liye.
-2. **Native SQL (`pg` Pool):** Complex operations (Stock, Deliveries, Invoices, Payments) aur strict Row Level Security (RLS) ke liye.
+1. **Prisma ORM:** Simple CRUD (Users, Tenants, Customers, Staff, Products) aur type-safety ke liye.
+2. **Native SQL (`pg` Pool):** Complex financial aur inventory operations (Trips, Deliveries, Stock, Invoices, Payments), row locking aur strict Row Level Security (RLS) ke liye.
+
+> **Important:** API modules database ko directly access nahi karenge. Saara database access `packages/db` ke approved helpers ke through hoga.
 
 ---
 
 ## 1. System Prerequisites
 
 System mein ye cheezein honi chahiye:
+
 1. **Node.js** (v20.11.0 ya usse naya)
-2. **pnpm** (v9.12.0) — *Agar global `pnpm` install nahi hai, toh har command ke aage `npx pnpm@9.12.0` use karein.*
-3. **PostgreSQL** (v16 recommended) — *(Local setup ke liye)*
-4. **Docker Desktop** — *(Docker setup ke liye)*
+2. **pnpm** (v9.12.0) — Agar global `pnpm` install nahi hai, toh har command ke aage `npx pnpm@9.12.0` use karein.
+3. **PostgreSQL** (v16 recommended) — Local setup ke liye.
+4. **Docker Desktop** — Docker setup ke liye.
 
 ---
 
@@ -29,31 +31,57 @@ npx pnpm@9.12.0 install
 ```
 
 ### Environment Variables
+
 `.env.example` ko copy karke `.env` banao:
+
 ```bash
 cp .env.example .env
 ```
-Ab `.env` file kholo aur saare `CHANGE_ME_*` placeholders ki jagah apne real random passwords daalo (`GASFLOW_APP_PASSWORD`, `GASFLOW_OWNER_PASSWORD`, `POSTGRES_SUPERUSER_PASSWORD`, `SESSION_SECRET`).
+
+Ab `.env` file kholo aur saare `CHANGE_ME_*` placeholders ki jagah apne secure random secrets daalo. Existing database setup ke liye in variables ko configure karein:
+
+- `GASFLOW_APP_PASSWORD`
+- `GASFLOW_OWNER_PASSWORD`
+- `POSTGRES_SUPERUSER_PASSWORD`
+- `DATABASE_URL_OWNER`
+- `DATABASE_URL_APP`
+- `SESSION_SECRET`
+
+Feature integrations configure karte waqt, agar enabled hon, toh ye variables bhi set karein:
+
+- `WHATSAPP_API_KEY` — Invoice/notification delivery ke liye.
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_SECRET` — Online payment integration ke liye.
+
+`.env` ko Git mein commit **kabhi nahi** karna. `.env.example` mein sirf placeholder values rakhein.
 
 ---
 
 ## 3. Database Setup (Do Options)
 
-### Option A: Local Postgres Setup (Bina Docker ke)
-1. PostgreSQL install karte time jo **`postgres` superuser ka password** diya tha, wo yaad rakhna.
+### Option A: Local PostgreSQL Setup (Bina Docker ke)
+
+1. PostgreSQL install karte waqt jo `postgres` superuser ka password diya tha, use securely note karein.
 2. Beekeeper Studio / pgAdmin kholo aur `postgres` user se connect karo.
-3. Naya SQL Editor kholo aur ye script run karo (isme apne `.env` wale passwords daalna):
-   ```sql
-   -- gasflow_owner aur gasflow_app roles banao, gasflow database banao
-   -- (Pura SQL script pichhle messages mein diya gaya hai)
-   ```
+3. Naya SQL Editor kholo aur project ke database-role bootstrap SQL ko run karo. Is setup mein `gasflow_owner`, `gasflow_app` roles aur `gasflow` database create/configure hote hain.
+4. `.env` mein configured passwords aur connection strings verify karein.
 
 ### Option B: Docker Desktop Setup
+
 ```bash
 docker compose up -d
 ```
-Docker khud `00-run-roles.sh` script chala kar database aur roles bana dega.
-Reset karne ke liye: `docker compose down -v && docker compose up -d`.
+
+Docker initialization scripts database aur required roles create karengi.
+
+Reset karne ke liye:
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+> **Warning:** `docker compose down -v` database volumes delete karta hai. Isse local database ka data permanently remove ho sakta hai. Zaroorat aur backup confirm karke hi run karein.
 
 ---
 
@@ -61,204 +89,289 @@ Reset karne ke liye: `docker compose down -v && docker compose up -d`.
 
 | Field | Value |
 |---|---|
-| **Host** | `localhost` |
-| **Port** | `5432` |
-| **Database** | `gasflow` |
-| **User** | `gasflow_owner` (Migrations/Tables dekhne ke liye) |
-| **Password** | `.env` se `GASFLOW_OWNER_PASSWORD` ki value |
+| Host | `localhost` |
+| Port | `5432` |
+| Database | `gasflow` |
+| User | `gasflow_owner` (Migrations/Tables inspect karne ke liye) |
+| Password | `.env` se `GASFLOW_OWNER_PASSWORD` ki value |
 
-*(Note: `gasflow_app` user RLS ke bina kuch nahi dikhayega. Abhi ke liye owner use karo).*
+**Note:** `gasflow_app` runtime role restricted hai aur RLS policies ke under kaam karta hai. Database inspect/admin tasks ke liye `gasflow_owner` use karein. Application runtime ko kabhi owner ya PostgreSQL superuser credentials se connect na karein.
 
 ---
 
-## 5. Detail Folder Structure (Kahan Kya Hai)
+## 5. Project Folder Structure
+
+Project **Turborepo + pnpm monorepo** hai. Backend mein feature-based **Modular Architecture** follow hoti hai. Har feature ka apna module folder hoga, jisme controller, service aur routes rahenge.
 
 ```text
 gasflow/
-   │
-   ├── apps/
-   │   │
-   │   ├── api/                          # Express Backend (Modular Architecture)
-   │   │   ├── src/
-   │   │   │   ├── modules/              # Feature-based modules (Har feature ka apna folder)
-   │   │   │   │   ├── auth/
-   │   │   │   │   │   ├── auth.controller.ts   # HTTP Request/Response handling
-   │   │   │   │   │   ├── auth.service.ts      # Business Logic (DB layer se baat karega)
-   │   │   │   │   │   └── auth.routes.ts       # Endpoints (Swagger comments yahan honge)
-   │   │   │   │   ├── tenant/
-   │   │   │   │   │   ├── tenant.controller.ts
-   │   │   │   │   │   ├── tenant.service.ts
-   │   │   │   │   │   └── tenant.routes.ts
-   │   │   │   │   └── ... (future modules: customer, inventory, billing)
-   │   │   │   │
-   │   │   │   ├── shared/               # Global Utilities (Jo sab modules use karenge)
-   │   │   │   │   ├── middlewares/      # auth.middleware.ts, error.middleware.ts
-   │   │   │   │   └── utils/            # Helper functions (date formatting, etc.)
-   │   │   │   │
-   │   │   │   ├── routes.ts             # Central Router (Sirf modules ko link karega)
-   │   │   │   ├── app.ts                # Express App setup (Middleware, Swagger)
-   │   │   │   ├── index.ts              # Server Entry Point (Port listen)
-   │   │   │   └── swagger.ts            # Swagger/OpenAPI Configuration
-   │   │   │
-   │   │   ├── tsconfig.json
-   │   │   └── package.json
-   │   │
-   │   └── web/                          # Next.js Frontend
-   │       ├── app/                      # Next.js App Router (Pages & Layouts)
-   │       ├── components/               # Reusable UI Components (shadcn/ui)
-   │       ├── lib/                      # API Client & TanStack Query setup
-   │       ├── tsconfig.json
-   │       └── package.json
-   │
-   ├── packages/
-   │   │
-   │   ├── db/                           # Database Layer (Sabse Important & Strictly Isolated)
-   │   │   ├── prisma/
-   │   │   │   ├── schema.prisma         # Prisma Models (Users, Tenants, etc.)
-   │   │   │   └── migrations/           # Native SQL Migrations (Tables + RLS Policies)
-   │   │   │       ├── 0001_extensions_and_indexes.sql
-   │   │   │       ├── 0002_users_and_auth.sql
-   │   │   │       └── 0003_tenants_and_core.sql
-   │   │   │
-   │   │   ├── src/
-   │   │   │   ├── pool.ts               # Native pg Pool (For RLS & Complex Queries)
-   │   │   │   ├── prisma.ts             # Prisma Client + PrismaPg Adapter + withTenantPrisma
-   │   │   │   ├── tx.ts                 # withTenantContext helper (For Native SQL)
-   │   │   │   └── migrate.ts            # Custom Migration Runner Script
-   │   │   │
-   │   │   ├── prisma.config.ts          # Prisma 7 Configuration (Loads dotenv)
-   │   │   ├── tsconfig.json
-   │   │   └── package.json
-   │   │
-   │   ├── shared/                       # Common Code (Frontend + Backend dono use karenge)
-   │   │   ├── src/
-   │   │   │   ├── schemas/              # Zod Validation Schemas
-   │   │   │   ├── types/                # TypeScript Interfaces & Types
-   │   │   │   └── constants/            # Enums, Roles (owner, manager, etc.)
-   │   │   └── package.json
-   │   │
-   │   └── config/                       # Shared TypeScript & ESLint Configurations
-   │
-   ├── tests/                            # Integration & E2E Tests (Cross-cutting)
-   │
-   ├── docker/                           # Docker Init Scripts
-   │   └── postgres/
-   │       └── init/
-   │           ├── 00-roles.sql.template # Creates gasflow_owner & gasflow_app roles
-   │           └── 00-run-roles.sh       # Wrapper for psql execution
-   │
-   ├── scripts/                          # Helper Scripts
-   │   ├── guard-npm.mjs                 # Blocks npm, enforces pnpm
-   │   └── verify-db-roles.ps1           # Verifies DB security setup (Roles & RLS)
-   │
-   ├── .env                              # Real Secrets (Gitignored)
-   ├── .env.example                      # Template (Commit this)
-   ├── .gitignore
-   ├── .npmrc
-   ├── docker-compose.yml                # Docker Setup (Postgres for local/prod)
-   ├── package.json                      # Root Workspace Scripts & Turbo
-   ├── pnpm-workspace.yaml               # Monorepo Config
-   ├── turbo.json                        # Build Pipeline Config
-   └── README.md                         # Project Documentation
+├── apps/
+│   ├── api/                          # Express + TypeScript backend
+│   │   ├── src/
+│   │   │   ├── modules/               # Feature-based API modules
+│   │   │   │   ├── auth/
+│   │   │   │   │   ├── auth.controller.ts
+│   │   │   │   │   ├── auth.service.ts
+│   │   │   │   │   └── auth.routes.ts
+│   │   │   │   ├── staff/
+│   │   │   │   │   ├── staff.controller.ts
+│   │   │   │   │   ├── staff.service.ts
+│   │   │   │   │   └── staff.routes.ts
+│   │   │   │   ├── trips/
+│   │   │   │   │   ├── trips.controller.ts
+│   │   │   │   │   ├── trips.service.ts
+│   │   │   │   │   └── trips.routes.ts
+│   │   │   │   ├── deliveries/
+│   │   │   │   │   ├── deliveries.controller.ts
+│   │   │   │   │   ├── deliveries.service.ts
+│   │   │   │   │   └── deliveries.routes.ts
+│   │   │   │   ├── customers/
+│   │   │   │   │   ├── customers.controller.ts
+│   │   │   │   │   ├── customers.service.ts
+│   │   │   │   │   └── customers.routes.ts
+│   │   │   │   ├── billing/
+│   │   │   │   │   ├── billing.controller.ts
+│   │   │   │   │   ├── billing.service.ts
+│   │   │   │   │   └── billing.routes.ts
+│   │   │   │   └── ...                # Other/future feature modules
+│   │   │   ├── shared/
+│   │   │   │   ├── middlewares/       # auth, tenant, error, etc.
+│   │   │   │   └── utils/             # Shared helpers (WhatsApp, PDF, etc.)
+│   │   │   ├── routes.ts              # Central router: mounts module routers
+│   │   │   ├── app.ts                 # Express app, middleware, Swagger
+│   │   │   ├── index.ts               # Server entry point
+│   │   │   └── swagger.ts             # Swagger/OpenAPI configuration
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   └── web/                           # Next.js frontend
+│       ├── app/                       # Next.js App Router
+│       ├── components/                # Reusable UI (shadcn/ui etc.)
+│       ├── lib/                       # API client and TanStack Query setup
+│       ├── tsconfig.json
+│       └── package.json
+│
+├── packages/
+│   ├── db/                            # Isolated database access layer
+│   │   ├── prisma/
+│   │   │   ├── schema.prisma           # Prisma models
+│   │   │   └── migrations/             # Native SQL migrations + RLS policies
+│   │   ├── src/
+│   │   │   ├── pool.ts                 # Native pg Pool
+│   │   │   ├── prisma.ts               # Prisma Client + withTenantPrisma
+│   │   │   ├── tx.ts                   # withTenantContext helper
+│   │   │   └── migrate.ts              # Custom SQL migration runner
+│   │   ├── prisma.config.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   ├── shared/                        # Frontend + backend shared code
+│   │   ├── src/
+│   │   │   ├── schemas/                # Zod validation schemas
+│   │   │   ├── types/                  # Shared TypeScript types
+│   │   │   └── constants/              # Shared constants/enums
+│   │   └── package.json
+│   │
+│   └── config/                        # Shared TS/ESLint configuration
+│
+├── tests/                             # Integration and E2E tests
+├── docker/
+│   └── postgres/
+│       └── init/
+│           ├── 00-roles.sql.template
+│           └── 00-run-roles.sh
+├── scripts/
+│   ├── guard-npm.mjs                  # Blocks npm/yarn; enforces pnpm
+│   └── verify-db-roles.ps1            # Verifies DB roles and security setup
+├── .env                               # Real secrets (Gitignored)
+├── .env.example                       # Safe environment template
+├── .gitignore
+├── .npmrc
+├── docker-compose.yml
+├── package.json                       # Root workspace scripts + Turbo
+├── pnpm-workspace.yaml
+├── turbo.json                         # Build pipeline
+└── README.md
 ```
 
-### Important Folders Samjhayein:
-- **`packages/db/src/pool.ts`**: Native `pg` connection. Ye RLS aur complex inventory queries ke liye use hota hai. Isme `DATABASE_URL_APP` (restricted role) use hota hai.
-- **`packages/db/src/prisma.ts`**: Prisma Client. Simple CRUD ke liye. Isme `withTenantPrisma` helper hai jo har Prisma query se pehle tenant context set karta hai.
-- **`packages/db/src/tx.ts`**: `withTenantContext` helper. Native SQL ke liye. Ye ek transaction kholta hai aur `SET LOCAL app.tenant_id` karta hai, phir tumhari callback run karta hai.
-- **`packages/db/migrations/`**: Yahan SQL files hain jo tables banati hain aur **RLS policies** lagati hain. Prisma migrations nahi use kar rahe, kyunki humein RLS aur custom roles par pura control chahiye.
+### Modular Architecture Rules
+
+1. Naya feature hamesha `apps/api/src/modules/<feature>/` ke andar banega.
+2. Har module apna controller, service aur routes rakhega.
+3. **Controller:** HTTP request/response handle karega; business logic yahan nahi likhenge.
+4. **Service:** Business rules implement karega aur `packages/db` ke approved functions call karega.
+5. **Routes:** Endpoints, middleware, request validation aur Swagger/OpenAPI documentation define karenge.
+6. `routes.ts` central router mein naye module router ko mount karein. Naye feature ke liye `app.ts` ko baar-baar modify na karein.
+7. Common middleware/helpers `shared/` mein rahenge. Feature-specific logic ko bina zaroorat shared folder mein na daalein.
 
 ---
 
-## 6. Database Access Rules: Prisma vs Native SQL
+## 6. Database Layer & Access Rules (`packages/db`)
 
-Ye table yaad rakhna:
+Database access hamesha **DB Layer** ke through hoga. API module ke controllers/services mein direct Prisma Client ya `pg` Pool connection create/use nahi karna hai.
 
-| Kaam | Tool | Kaunsi File Use Karein |
-| :--- | :--- | :--- |
-| Users, Tenants, Customers, Products ki CRUD | **Prisma** | `prisma.ts` → `withTenantPrisma` |
-| Stock Movements, Deliveries, Invoices, Payments | **Native SQL** | `tx.ts` → `withTenantContext` |
-| Complex JOINs, Aggregations, `FOR UPDATE` locks | **Native SQL** | `pool.ts` → `withTenantContext` |
-| Simple Custom Reports | **Prisma Raw** | `prisma.ts` → `$queryRaw` (withTenantPrisma ke andar) |
+### Important DB files
 
-### ⚠️ Sabse Badi Security Rule:
-Kabhi bhi Prisma ke standard methods (`prisma.customer.findMany()`) ko direct call mat karo. Hamesha `withTenantPrisma` ke andar call karo, warna RLS (Row Level Security) apply nahi hoga aur data leak ho sakta hai.
+| File | Responsibility |
+|---|---|
+| `packages/db/src/prisma.ts` | Prisma Client, Prisma adapter aur `withTenantPrisma()` helper |
+| `packages/db/src/tx.ts` | `withTenantContext()` helper; tenant-scoped native SQL transaction |
+| `packages/db/src/pool.ts` | Native PostgreSQL `pg` Pool; runtime connection role |
+| `packages/db/src/migrate.ts` | SQL migration runner; executed migrations track karta hai |
+| `packages/db/prisma/schema.prisma` | Prisma models aur generated types |
+| `packages/db/prisma/migrations/*.sql` | Tables, indexes, constraints aur RLS policies |
+| `packages/db/package.json` | `@gasflow/db` package dependencies/scripts |
+| `packages/db/prisma.config.ts` | Prisma configuration (including environment loading) |
+| `scripts/guard-npm.mjs` | `npm`/`yarn` ko block karke `pnpm` enforce karta hai |
+| `turbo.json` | Monorepo build/task pipeline define karta hai |
+
+### Prisma vs Native SQL
+
+| Use case | Tool | Required access path |
+|---|---|---|
+| Users, Tenants, Customers, Staff, Products ka simple CRUD | Prisma | `prisma.ts` → `withTenantPrisma()` |
+| Stock movements, Trips, Deliveries, Invoices, Payments | Native SQL | `tx.ts` → `withTenantContext()` |
+| Complex JOINs, aggregations, `FOR UPDATE` locks | Native SQL | `pool.ts` through `withTenantContext()` |
+| Simple custom reports | Prisma Raw, where suitable | `$queryRaw` inside `withTenantPrisma()` |
+
+### RLS (Row Level Security) Rule
+
+Bina tenant context set kiye tenant-scoped query execute nahi honi chahiye. Har tenant-scoped DB operation se pehle `app.tenant_id` transaction/session context set hona zaroori hai.
+
+- Prisma queries ke liye `withTenantPrisma(tenantId, userId, callback)` use karein.
+- Native SQL ke liye `withTenantContext(...)` use karein.
+- Runtime application connection `gasflow_app` restricted role se chalegi.
+- `gasflow_owner` migrations/admin inspection ke liye hai; application runtime ke liye nahi.
+
+Example:
 
 ```typescript
-// ❌ GALAT (RLS bypass ho jayega)
+// ❌ WRONG: tenant context ke bina direct Prisma query
 const customers = await prisma.customer.findMany();
 
-// ✅ SAHI
-await withTenantPrisma(tenantId, userId, async (tx) => {
-  return await tx.customer.findMany();
+// ✅ RIGHT: approved tenant-scoped helper
+const customers = await withTenantPrisma(tenantId, userId, async (tx) => {
+  return tx.customer.findMany();
 });
 ```
 
+Native SQL ka example/helper signature project ke actual `withTenantContext()` implementation ke mutabik use karein; raw pool query ko tenant context ke bahar execute na karein.
+
 ---
 
-## 7. Daily Development Workflow
+## 7. Core Business Rules (Must Follow)
 
-Root folder se ye commands chalao:
+Ye rules backend/service layer par enforce hone chahiye. Frontend validation sirf user experience ke liye hai; security ya financial correctness ka source of truth backend rahega.
+
+### 7.1 Trip & Delivery Flow
+
+- Manager jab **Trip** create karega, toh assigned trip ke liye godown stock se cylinders issue/deduct honge.
+- Delivery Man ki har **Delivery** entry `Idempotency-Key` ke saath submit hogi, taaki retry/double-click/network retry se duplicate delivery record ya stock movement na bane.
+- **End Trip** par system reconciliation karega:
+
+  `Loaded - Delivered = Remaining`
+
+- Agar calculated remaining aur physically returned/recorded remaining match nahi karte, toh reconciliation mismatch record hoga aur Manager ko alert/exception dikhaya jayega.
+- Stock deduction, delivery posting aur trip reconciliation jaise critical operations atomic database transactions mein honge.
+
+### 7.2 Early Payment Discount (Full Payment Only)
+
+- Discount calculation **backend** par hoga; frontend se bheja gaya discount amount/percentage trusted nahi hoga.
+- Customer agar configured time window (default rule: 10 minutes) ke andar **full payable amount** pay karta hai, tabhi early-payment discount apply hoga.
+- Eligible payment Cash ya Online ho sakta hai.
+- Partial payment par early-payment discount **nahi** milega.
+- Manager VIP customers ke liye discount percentage aur time window override/configure kar sakta hai, subject to backend validation and authorization.
+- Payment, discount calculation aur invoice balance update ek consistent transaction mein process hon, taaki duplicate payment ya incorrect outstanding balance na bane.
+
+### 7.3 Staff Management & Owner Protection
+
+- **Manager** ko email + temporary password ke through add kiya jayega.
+- **Driver/Delivery Man** ko phone number + 4-digit PIN ke through add kiya jayega.
+- PIN/password ko plain text mein store nahi karna; secure hash aur appropriate authentication controls use hon.
+- **Owner** ko koi user delete, deactivate, ya downgrade nahi kar sakta. Ye restriction sirf UI par nahi, API/service authorization layer par enforce honi chahiye.
+- Staff create/update actions tenant boundary aur caller ke permissions ke against validate hon.
+
+---
+
+## 8. Daily Development Workflow
+
+Root folder se commands run karein:
 
 ```bash
 # 1. Dependencies install karna
 npx pnpm@9.12.0 install
 
-# 2. Prisma types generate karna (Jab schema.prisma change karo)
+# 2. Prisma types/client generate karna (schema.prisma change ke baad)
 npx pnpm@9.12.0 --filter @gasflow/db prisma:generate
 
-# 3. Native SQL Migrations chalana (Jab tables/policies change karo)
+# 3. Native SQL migrations chalana (tables/indexes/RLS change ke baad)
 npx pnpm@9.12.0 db:migrate
 
-# 4. Development Server start karna (Frontend + Backend dono)
+# 4. Frontend + Backend development servers start karna
 npx pnpm@9.12.0 dev
 
-# 5. Docker database start/stop
+# 5. Sirf backend start karna
+npx pnpm@9.12.0 --filter @gasflow/api dev
+
+# 6. Sirf frontend start karna
+npx pnpm@9.12.0 --filter @gasflow/web dev
+
+# 7. Docker database start/stop
 docker compose up -d
 docker compose down
 ```
 
----
-
-## 8. Important Rules (Security & Architecture)
-
-1. **`npm` ya `yarn` use mat karna:** Project strictly `pnpm` par chalta hai. Guard script block kar dega.
-2. **`.env` commit mat karna:** Isme saare real secrets hain.
-3. **Database Connection Roles:**
-   - **Migrations hamesha `gasflow_owner` se chalengi** (tables banane ke liye).
-   - **App (API) hamesha `gasflow_app` se connect karegi** (runtime queries ke liye).
-   - **Kabhi bhi `postgres` (root) se app connect mat karna.**
-4. **RLS (Row Level Security):** Koi bhi query (Prisma ya Native) chalane se pehle `app.tenant_id` set hona chahiye.
-5. **Financial Data:** Paise ka calculation hamesha Integer (BIGINT) mein hoga, float/double mein kabhi nahi.
-6. **Idempotency:** Delivery/Payment complete karne se pehle request key check karo, taaki duplicate entries na ho.
+Prisma schema change hone par client generate karein. Table, index, constraint ya RLS policy change hone par project ka native SQL migration workflow use karein.
 
 ---
 
-## 9. Troubleshooting
+## 9. Security & Coding Standards
 
-- **`pnpm: command not found`**: `npx pnpm@9.12.0 <command>` use karo.
-- **`psql: command not found` (Local setup)**: PostgreSQL ka `bin` folder System PATH mein add karo (`C:\Program Files\PostgreSQL\16\bin`).
-- **`password authentication failed` (Beekeeper)**: Check karo ki tum `gasflow_owner` use kar rahe ho aur `.env` se asli password daal rahe ho.
-- **`No such file or directory: 00-run-roles.sh` (Docker)**: `.sh` file LF format mein save karo (CRLF nahi), aur BOM (Byte Order Mark) remove karo.
-- **Migration fail ho gayi**: `.env` mein `DATABASE_URL_OWNER` check karo. Postgres service running honi chahiye.
+1. **Package manager:** `npm` ya `yarn` use mat karein. Project strictly `pnpm` use karta hai.
+2. **Secrets:** `.env` commit mat karein; secrets ko logs, API responses ya source control mein expose na karein.
+3. **DB roles:** Migrations `gasflow_owner` se; API runtime `gasflow_app` se connect kare.
+4. **RLS:** Har tenant-scoped query se pehle correct tenant context set hona chahiye.
+5. **DB isolation:** API modules direct Prisma/`pg` access na karein; `packages/db` layer use karein.
+6. **Financial values:** Money ko integer `BIGINT` minor units (India mein paise) mein store/calculate karein. `float`/`double` use na karein.
+7. **Idempotency:** Delivery, Payment aur Trip jaise critical write actions mein idempotency key/check enforce karein.
+8. **Validation:** API request inputs ko Zod schemas se validate karein. TypeScript mein `any` avoid karein; explicit types use karein.
+9. **Authorization:** Tenant isolation, role permissions aur Owner-protection rules backend par enforce karein.
+10. **Transactions:** Stock, delivery, invoice aur payment ke interdependent updates ko database transaction mein rakhein.
+11. **API documentation:** Har naye/modified endpoint ke Swagger/OpenAPI docs update karein.
+12. **Module boundaries:** Controller thin rakhein; business rules service layer mein rakhein; reusable cross-module code hi `shared/` mein rakhein.
 
 ---
 
-   ======= important file kis liye hai ============================
- > guard-npm.mjs	npm/yarn ko block karta hai, sirf pnpm allow karta hai 
- > turbo.json	Build pipeline manage karta hai (kaunsa kaam pehle)
- > package.json (db)	@gasflow/db package define karta hai, dependencies list karta hai
- > pool.ts	Database se connection banata hai (app + owner dono ke liye)
- > tx.ts	Transaction with tenant context - RLS ka base
- > migrate.ts	SQL files ko run karta hai, track karta hai kaunsi chali
- > 0001, 0002, 0003.sql	Tables banate hain aur RLS policies lagate hain
+## 10. Troubleshooting
+
+- **`pnpm: command not found`:** `npx pnpm@9.12.0 <command>` use karein.
+- **`psql: command not found` (Local setup):** PostgreSQL ka `bin` folder System PATH mein add karein (Windows example: `C:\Program Files\PostgreSQL\16\bin`).
+- **`password authentication failed` (Beekeeper):** Host, port, database, `gasflow_owner` username aur `.env` ka `GASFLOW_OWNER_PASSWORD` verify karein.
+- **`No such file or directory: 00-run-roles.sh` (Docker):** `.sh` file LF format mein save karein (CRLF nahi) aur BOM remove karein.
+- **Migration fail:** PostgreSQL service running hai ya nahi, `DATABASE_URL_OWNER` sahi hai ya nahi, aur migration SQL error check karein.
+- **RLS query empty/denied:** Confirm karein ki request ka tenant ID sahi hai aur query `withTenantPrisma()` ya `withTenantContext()` ke andar execute ho rahi hai.
+- **Duplicate delivery/payment:** Confirm karein ki idempotency key request ke saath aa rahi hai aur database mein uski uniqueness/deduplication enforce hai.
+
 ---
 
+## 11. Quick Reference: Important Files
 
+| File | Purpose |
+|---|---|
+| `scripts/guard-npm.mjs` | `npm`/`yarn` block karta hai; `pnpm` enforce karta hai |
+| `turbo.json` | Build/task pipeline manage karta hai |
+| `packages/db/package.json` | `@gasflow/db` package aur dependencies define karta hai |
+| `packages/db/src/pool.ts` | Native PostgreSQL connection pool |
+| `packages/db/src/prisma.ts` | Prisma Client aur `withTenantPrisma()` |
+| `packages/db/src/tx.ts` | Tenant context ke saath native SQL transaction helper |
+| `packages/db/src/migrate.ts` | SQL migrations run aur track karta hai |
+| `packages/db/prisma/migrations/*.sql` | Tables, indexes aur RLS policies define karti hain |
+| `apps/api/src/modules/*` | Feature-wise controllers, services aur routes |
+| `apps/api/src/routes.ts` | Feature routers ko central API router mein mount karta hai |
+| `apps/api/src/shared/` | Common middleware aur utilities |
+| `packages/shared/src/schemas/` | Shared Zod schemas |
+| `packages/shared/src/types/` | Shared TypeScript types |
 
+---
 
-
-
-
-
-
+**Development principle:** Har feature tenant-safe, transaction-safe, idempotent (jahan critical writes hain), validated aur documented hona chahiye. Business logic service layer mein aur database access `packages/db` ke through hi rahega.
