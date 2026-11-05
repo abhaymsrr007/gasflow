@@ -2,7 +2,9 @@
   "name": "@gasflow/db",
   "version": "0.0.1",
   "private": true,
-  "main": "src/index.ts",
+  "main": "src/prisma.ts",
+  "types": "src/prisma.ts",
+  "type": "module",
   "scripts": {
     "migrate": "tsx src/migrate.ts",
     "prisma:generate": "prisma generate",
@@ -11,15 +13,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^7.0.0",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "dotenv": "^16.4.5",
-    "pg": "^8.11.3"
+    "pg": "^8.23.1"
   },
   "devDependencies": {
     "@prisma/config": "^7.10.1",
     "@types/node": "^20.11.0",
     "@types/pg": "^8.10.9",
-    "prisma": "^7.0.0",
+    "prisma": "^7.10.1",
     "tsx": "^4.7.0",
     "typescript": "^5.6.3"
   },

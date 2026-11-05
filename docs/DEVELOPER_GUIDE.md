@@ -75,68 +75,91 @@ Reset karne ke liye: `docker compose down -v && docker compose up -d`.
 
 ```text
 gasflow/
-├── apps/
-│   ├── api/                      # Express Backend
-│   │   ├── src/
-│   │   │   ├── index.ts          # Entry point (server start)
-│   │   │   ├── app.ts            # Express app setup (middleware, routes)
-│   │   │   ├── middleware/       # Auth, Tenant Context, Error Handling
-│   │   │   ├── routes/           # API Routes (auth, customers, etc.)
-│   │   │   └── services/         # Business Logic (DB queries)
-│   │   ├── tsconfig.json
-│   │   └── package.json
-│   │
-│   └── web/                      # Next.js Frontend
-│       ├── app/                  # Next.js App Router (Pages)
-│       ├── components/           # Reusable UI Components
-│       ├── lib/                  # API Client & TanStack Query setup
-│       ├── tsconfig.json
-│       └── package.json
-│
-├── packages/
-│   ├── db/                       # Database Layer (Sabse Important)
-│   │   ├── prisma/
-│   │   │   └── schema.prisma     # Prisma Models (Users, Customers, etc.)
-│   │   ├── migrations/           # Native SQL Migrations (Tables + RLS)
-│   │   │   ├── 0001_extensions_and_indexes.sql
-│   │   │   ├── 0002_users_and_auth.sql
-│   │   │   └── 0003_tenants_and_core.sql
-│   │   ├── src/
-│   │   │   ├── pool.ts           # Native pg Pool (RLS & Complex Queries)
-│   │   │   ├── prisma.ts         # Prisma Client + withTenantPrisma helper
-│   │   │   ├── tx.ts             # withTenantContext helper (Native SQL)
-│   │   │   └── migrate.ts        # Migration Runner Script
-│   │   ├── tsconfig.json
-│   │   └── package.json
-│   │
-│   ├── shared/                   # Common Code (Frontend + Backend)
-│   │   ├── src/
-│   │   │   ├── schemas/          # Zod Validation Schemas
-│   │   │   ├── types/            # TypeScript Types & Interfaces
-│   │   │   └── constants/        # Enums, Roles, etc.
-│   │   └── package.json
-│   │
-│   └── config/                   # Shared TS/Lint Config
-│
-├── tests/                        # Integration & E2E Tests
-│
-├── docker/                       # Docker Init Scripts
-│   └── postgres/
-│       └── init/
-│           ├── 00-roles.sql.template
-│           └── 00-run-roles.sh
-│
-├── scripts/                      # Helper Scripts
-│   ├── guard-npm.mjs             # Blocks npm, enforces pnpm
-│   └── verify-db-roles.ps1       # Verifies DB security setup
-│
-├── .env                          # Real Secrets (Gitignored)
-├── .env.example                  # Template
-├── docker-compose.yml            # Docker Setup
-├── package.json                  # Root Workspace Scripts
-├── pnpm-workspace.yaml           # Monorepo Config
-├── turbo.json                    # Build Pipeline Config
-└── README.md                     # This File
+   │
+   ├── apps/
+   │   │
+   │   ├── api/                          # Express Backend (Modular Architecture)
+   │   │   ├── src/
+   │   │   │   ├── modules/              # Feature-based modules (Har feature ka apna folder)
+   │   │   │   │   ├── auth/
+   │   │   │   │   │   ├── auth.controller.ts   # HTTP Request/Response handling
+   │   │   │   │   │   ├── auth.service.ts      # Business Logic (DB layer se baat karega)
+   │   │   │   │   │   └── auth.routes.ts       # Endpoints (Swagger comments yahan honge)
+   │   │   │   │   ├── tenant/
+   │   │   │   │   │   ├── tenant.controller.ts
+   │   │   │   │   │   ├── tenant.service.ts
+   │   │   │   │   │   └── tenant.routes.ts
+   │   │   │   │   └── ... (future modules: customer, inventory, billing)
+   │   │   │   │
+   │   │   │   ├── shared/               # Global Utilities (Jo sab modules use karenge)
+   │   │   │   │   ├── middlewares/      # auth.middleware.ts, error.middleware.ts
+   │   │   │   │   └── utils/            # Helper functions (date formatting, etc.)
+   │   │   │   │
+   │   │   │   ├── routes.ts             # Central Router (Sirf modules ko link karega)
+   │   │   │   ├── app.ts                # Express App setup (Middleware, Swagger)
+   │   │   │   ├── index.ts              # Server Entry Point (Port listen)
+   │   │   │   └── swagger.ts            # Swagger/OpenAPI Configuration
+   │   │   │
+   │   │   ├── tsconfig.json
+   │   │   └── package.json
+   │   │
+   │   └── web/                          # Next.js Frontend
+   │       ├── app/                      # Next.js App Router (Pages & Layouts)
+   │       ├── components/               # Reusable UI Components (shadcn/ui)
+   │       ├── lib/                      # API Client & TanStack Query setup
+   │       ├── tsconfig.json
+   │       └── package.json
+   │
+   ├── packages/
+   │   │
+   │   ├── db/                           # Database Layer (Sabse Important & Strictly Isolated)
+   │   │   ├── prisma/
+   │   │   │   ├── schema.prisma         # Prisma Models (Users, Tenants, etc.)
+   │   │   │   └── migrations/           # Native SQL Migrations (Tables + RLS Policies)
+   │   │   │       ├── 0001_extensions_and_indexes.sql
+   │   │   │       ├── 0002_users_and_auth.sql
+   │   │   │       └── 0003_tenants_and_core.sql
+   │   │   │
+   │   │   ├── src/
+   │   │   │   ├── pool.ts               # Native pg Pool (For RLS & Complex Queries)
+   │   │   │   ├── prisma.ts             # Prisma Client + PrismaPg Adapter + withTenantPrisma
+   │   │   │   ├── tx.ts                 # withTenantContext helper (For Native SQL)
+   │   │   │   └── migrate.ts            # Custom Migration Runner Script
+   │   │   │
+   │   │   ├── prisma.config.ts          # Prisma 7 Configuration (Loads dotenv)
+   │   │   ├── tsconfig.json
+   │   │   └── package.json
+   │   │
+   │   ├── shared/                       # Common Code (Frontend + Backend dono use karenge)
+   │   │   ├── src/
+   │   │   │   ├── schemas/              # Zod Validation Schemas
+   │   │   │   ├── types/                # TypeScript Interfaces & Types
+   │   │   │   └── constants/            # Enums, Roles (owner, manager, etc.)
+   │   │   └── package.json
+   │   │
+   │   └── config/                       # Shared TypeScript & ESLint Configurations
+   │
+   ├── tests/                            # Integration & E2E Tests (Cross-cutting)
+   │
+   ├── docker/                           # Docker Init Scripts
+   │   └── postgres/
+   │       └── init/
+   │           ├── 00-roles.sql.template # Creates gasflow_owner & gasflow_app roles
+   │           └── 00-run-roles.sh       # Wrapper for psql execution
+   │
+   ├── scripts/                          # Helper Scripts
+   │   ├── guard-npm.mjs                 # Blocks npm, enforces pnpm
+   │   └── verify-db-roles.ps1           # Verifies DB security setup (Roles & RLS)
+   │
+   ├── .env                              # Real Secrets (Gitignored)
+   ├── .env.example                      # Template (Commit this)
+   ├── .gitignore
+   ├── .npmrc
+   ├── docker-compose.yml                # Docker Setup (Postgres for local/prod)
+   ├── package.json                      # Root Workspace Scripts & Turbo
+   ├── pnpm-workspace.yaml               # Monorepo Config
+   ├── turbo.json                        # Build Pipeline Config
+   └── README.md                         # Project Documentation
 ```
 
 ### Important Folders Samjhayein:
