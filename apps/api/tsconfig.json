@@ -1,11 +1,17 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
-      "@gasflow/db/*": ["../../packages/db/src/*"],
-      "@gasflow/db": ["../../packages/db/src/prisma.ts"]
+      "@gasflow/db/*": [
+        "../../packages/db/src/*"
+      ],
+      "@gasflow/db": [
+        "../../packages/db/src/prisma.ts"
+      ]
     },
     "noEmit": true,
     "composite": false,
@@ -13,6 +19,11 @@
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

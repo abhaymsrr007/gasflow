@@ -4,7 +4,10 @@ import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import type { Express } from 'express';
-import Router from './routes/index.js'; 
+import router from './routes';
+import { ApiError } from './shared/utils/apiError';
+import { logger } from './shared/utils/logger';
+import { requestLogger } from './shared/middlewares/requestLogger.middleware';
 
 
 const app: Express = express();
@@ -13,6 +16,8 @@ const app: Express = express();
 app.use(cors({ origin: process.env['WEB_ORIGIN'], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(requestLogger);
 
 // Swagger UI Route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -25,12 +30,11 @@ app.get('/health', (req, res) => {
 
 
 // Routes
-app.use('/api', Router);
+app.use('/api', router);
 
-// Error Handling (Baad mein detail mein karenge)
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
+  logger.error(`Error on ${req.method} ${req.originalUrl}`, err);
+  return ApiError.send(res, err);
 });
 
 export default app;

@@ -1,7 +1,13 @@
 import { ownerPool } from './pool';
 import fs from 'fs';
 import path from 'path';
+// import { __dirname } from './pathHelper';
 
+import { fileURLToPath } from 'url'; // 👈 Ye add karo
+
+// // ESM mein __dirname nikalne ka tarika
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const migrationsDir = path.join(__dirname, '../migrations');
 // ↑ "migrations" folder ka path. __dirname = src, ../migrations = packages/db/migrations.
 

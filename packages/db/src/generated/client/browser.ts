@@ -23,10 +23,30 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
  * Model Tenant
  * 
  */
 export type Tenant = Prisma.TenantModel
+/**
+ * Model Role
+ * 
+ */
+export type Role = Prisma.RoleModel
+/**
+ * Model Permission
+ * 
+ */
+export type Permission = Prisma.PermissionModel
+/**
+ * Model RolePermission
+ * 
+ */
+export type RolePermission = Prisma.RolePermissionModel
 /**
  * Model TenantMember
  * 
@@ -42,8 +62,3 @@ export type Customer = Prisma.CustomerModel
  * 
  */
 export type CylinderProduct = Prisma.CylinderProductModel
-/**
- * Model Session
- * 
- */
-export type Session = Prisma.SessionModel

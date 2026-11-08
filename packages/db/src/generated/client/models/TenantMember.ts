@@ -25,46 +25,52 @@ export type AggregateTenantMember = {
 }
 
 export type TenantMemberMinAggregateOutputType = {
+  id: string | null
   tenantId: string | null
   userId: string | null
-  role: string | null
+  roleId: string | null
   createdAt: Date | null
 }
 
 export type TenantMemberMaxAggregateOutputType = {
+  id: string | null
   tenantId: string | null
   userId: string | null
-  role: string | null
+  roleId: string | null
   createdAt: Date | null
 }
 
 export type TenantMemberCountAggregateOutputType = {
+  id: number
   tenantId: number
   userId: number
-  role: number
+  roleId: number
   createdAt: number
   _all: number
 }
 
 
 export type TenantMemberMinAggregateInputType = {
+  id?: true
   tenantId?: true
   userId?: true
-  role?: true
+  roleId?: true
   createdAt?: true
 }
 
 export type TenantMemberMaxAggregateInputType = {
+  id?: true
   tenantId?: true
   userId?: true
-  role?: true
+  roleId?: true
   createdAt?: true
 }
 
 export type TenantMemberCountAggregateInputType = {
+  id?: true
   tenantId?: true
   userId?: true
-  role?: true
+  roleId?: true
   createdAt?: true
   _all?: true
 }
@@ -142,9 +148,10 @@ export type TenantMemberGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type TenantMemberGroupByOutputType = {
+  id: string
   tenantId: string
   userId: string
-  role: string
+  roleId: string
   createdAt: Date
   _count: TenantMemberCountAggregateOutputType | null
   _min: TenantMemberMinAggregateOutputType | null
@@ -170,40 +177,47 @@ export type TenantMemberWhereInput = {
   AND?: Prisma.TenantMemberWhereInput | Prisma.TenantMemberWhereInput[]
   OR?: Prisma.TenantMemberWhereInput[]
   NOT?: Prisma.TenantMemberWhereInput | Prisma.TenantMemberWhereInput[]
+  id?: Prisma.UuidFilter<"TenantMember"> | string
   tenantId?: Prisma.UuidFilter<"TenantMember"> | string
   userId?: Prisma.UuidFilter<"TenantMember"> | string
-  role?: Prisma.StringFilter<"TenantMember"> | string
+  roleId?: Prisma.UuidFilter<"TenantMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TenantMember"> | Date | string
+  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TenantMemberOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  role?: Prisma.RoleOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TenantMemberWhereUniqueInput = Prisma.AtLeast<{
+  id?: string
   tenantId_userId?: Prisma.TenantMemberTenantIdUserIdCompoundUniqueInput
   AND?: Prisma.TenantMemberWhereInput | Prisma.TenantMemberWhereInput[]
   OR?: Prisma.TenantMemberWhereInput[]
   NOT?: Prisma.TenantMemberWhereInput | Prisma.TenantMemberWhereInput[]
   tenantId?: Prisma.UuidFilter<"TenantMember"> | string
   userId?: Prisma.UuidFilter<"TenantMember"> | string
-  role?: Prisma.StringFilter<"TenantMember"> | string
+  roleId?: Prisma.UuidFilter<"TenantMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TenantMember"> | Date | string
+  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "tenantId_userId">
+}, "id" | "tenantId_userId">
 
 export type TenantMemberOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.TenantMemberCountOrderByAggregateInput
   _max?: Prisma.TenantMemberMaxOrderByAggregateInput
@@ -214,56 +228,63 @@ export type TenantMemberScalarWhereWithAggregatesInput = {
   AND?: Prisma.TenantMemberScalarWhereWithAggregatesInput | Prisma.TenantMemberScalarWhereWithAggregatesInput[]
   OR?: Prisma.TenantMemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TenantMemberScalarWhereWithAggregatesInput | Prisma.TenantMemberScalarWhereWithAggregatesInput[]
+  id?: Prisma.UuidWithAggregatesFilter<"TenantMember"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"TenantMember"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TenantMember"> | string
-  role?: Prisma.StringWithAggregatesFilter<"TenantMember"> | string
+  roleId?: Prisma.UuidWithAggregatesFilter<"TenantMember"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TenantMember"> | Date | string
 }
 
 export type TenantMemberCreateInput = {
-  role: string
+  id?: string
   createdAt?: Date | string
+  role: Prisma.RoleCreateNestedOneWithoutMembersInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembersInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
 }
 
 export type TenantMemberUncheckedCreateInput = {
+  id?: string
   tenantId: string
   userId: string
-  role: string
+  roleId: string
   createdAt?: Date | string
 }
 
 export type TenantMemberUpdateInput = {
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.RoleUpdateOneRequiredWithoutMembersNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
 }
 
 export type TenantMemberUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantMemberCreateManyInput = {
+  id?: string
   tenantId: string
   userId: string
-  role: string
+  roleId: string
   createdAt?: Date | string
 }
 
 export type TenantMemberUpdateManyMutationInput = {
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantMemberUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -283,23 +304,26 @@ export type TenantMemberTenantIdUserIdCompoundUniqueInput = {
 }
 
 export type TenantMemberCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type TenantMemberMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type TenantMemberMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  role?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -387,15 +411,59 @@ export type TenantMemberUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TenantMemberScalarWhereInput | Prisma.TenantMemberScalarWhereInput[]
 }
 
+export type TenantMemberCreateNestedManyWithoutRoleInput = {
+  create?: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput> | Prisma.TenantMemberCreateWithoutRoleInput[] | Prisma.TenantMemberUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.TenantMemberCreateOrConnectWithoutRoleInput | Prisma.TenantMemberCreateOrConnectWithoutRoleInput[]
+  createMany?: Prisma.TenantMemberCreateManyRoleInputEnvelope
+  connect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+}
+
+export type TenantMemberUncheckedCreateNestedManyWithoutRoleInput = {
+  create?: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput> | Prisma.TenantMemberCreateWithoutRoleInput[] | Prisma.TenantMemberUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.TenantMemberCreateOrConnectWithoutRoleInput | Prisma.TenantMemberCreateOrConnectWithoutRoleInput[]
+  createMany?: Prisma.TenantMemberCreateManyRoleInputEnvelope
+  connect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+}
+
+export type TenantMemberUpdateManyWithoutRoleNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput> | Prisma.TenantMemberCreateWithoutRoleInput[] | Prisma.TenantMemberUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.TenantMemberCreateOrConnectWithoutRoleInput | Prisma.TenantMemberCreateOrConnectWithoutRoleInput[]
+  upsert?: Prisma.TenantMemberUpsertWithWhereUniqueWithoutRoleInput | Prisma.TenantMemberUpsertWithWhereUniqueWithoutRoleInput[]
+  createMany?: Prisma.TenantMemberCreateManyRoleInputEnvelope
+  set?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  disconnect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  delete?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  connect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  update?: Prisma.TenantMemberUpdateWithWhereUniqueWithoutRoleInput | Prisma.TenantMemberUpdateWithWhereUniqueWithoutRoleInput[]
+  updateMany?: Prisma.TenantMemberUpdateManyWithWhereWithoutRoleInput | Prisma.TenantMemberUpdateManyWithWhereWithoutRoleInput[]
+  deleteMany?: Prisma.TenantMemberScalarWhereInput | Prisma.TenantMemberScalarWhereInput[]
+}
+
+export type TenantMemberUncheckedUpdateManyWithoutRoleNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput> | Prisma.TenantMemberCreateWithoutRoleInput[] | Prisma.TenantMemberUncheckedCreateWithoutRoleInput[]
+  connectOrCreate?: Prisma.TenantMemberCreateOrConnectWithoutRoleInput | Prisma.TenantMemberCreateOrConnectWithoutRoleInput[]
+  upsert?: Prisma.TenantMemberUpsertWithWhereUniqueWithoutRoleInput | Prisma.TenantMemberUpsertWithWhereUniqueWithoutRoleInput[]
+  createMany?: Prisma.TenantMemberCreateManyRoleInputEnvelope
+  set?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  disconnect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  delete?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  connect?: Prisma.TenantMemberWhereUniqueInput | Prisma.TenantMemberWhereUniqueInput[]
+  update?: Prisma.TenantMemberUpdateWithWhereUniqueWithoutRoleInput | Prisma.TenantMemberUpdateWithWhereUniqueWithoutRoleInput[]
+  updateMany?: Prisma.TenantMemberUpdateManyWithWhereWithoutRoleInput | Prisma.TenantMemberUpdateManyWithWhereWithoutRoleInput[]
+  deleteMany?: Prisma.TenantMemberScalarWhereInput | Prisma.TenantMemberScalarWhereInput[]
+}
+
 export type TenantMemberCreateWithoutUserInput = {
-  role: string
+  id?: string
   createdAt?: Date | string
+  role: Prisma.RoleCreateNestedOneWithoutMembersInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembersInput
 }
 
 export type TenantMemberUncheckedCreateWithoutUserInput = {
+  id?: string
   tenantId: string
-  role: string
+  roleId: string
   createdAt?: Date | string
 }
 
@@ -429,21 +497,24 @@ export type TenantMemberScalarWhereInput = {
   AND?: Prisma.TenantMemberScalarWhereInput | Prisma.TenantMemberScalarWhereInput[]
   OR?: Prisma.TenantMemberScalarWhereInput[]
   NOT?: Prisma.TenantMemberScalarWhereInput | Prisma.TenantMemberScalarWhereInput[]
+  id?: Prisma.UuidFilter<"TenantMember"> | string
   tenantId?: Prisma.UuidFilter<"TenantMember"> | string
   userId?: Prisma.UuidFilter<"TenantMember"> | string
-  role?: Prisma.StringFilter<"TenantMember"> | string
+  roleId?: Prisma.UuidFilter<"TenantMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TenantMember"> | Date | string
 }
 
 export type TenantMemberCreateWithoutTenantInput = {
-  role: string
+  id?: string
   createdAt?: Date | string
+  role: Prisma.RoleCreateNestedOneWithoutMembersInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
 }
 
 export type TenantMemberUncheckedCreateWithoutTenantInput = {
+  id?: string
   userId: string
-  role: string
+  roleId: string
   createdAt?: Date | string
 }
 
@@ -473,100 +544,186 @@ export type TenantMemberUpdateManyWithWhereWithoutTenantInput = {
   data: Prisma.XOR<Prisma.TenantMemberUpdateManyMutationInput, Prisma.TenantMemberUncheckedUpdateManyWithoutTenantInput>
 }
 
-export type TenantMemberCreateManyUserInput = {
+export type TenantMemberCreateWithoutRoleInput = {
+  id?: string
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutMembersInput
+  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+}
+
+export type TenantMemberUncheckedCreateWithoutRoleInput = {
+  id?: string
   tenantId: string
-  role: string
+  userId: string
+  createdAt?: Date | string
+}
+
+export type TenantMemberCreateOrConnectWithoutRoleInput = {
+  where: Prisma.TenantMemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput>
+}
+
+export type TenantMemberCreateManyRoleInputEnvelope = {
+  data: Prisma.TenantMemberCreateManyRoleInput | Prisma.TenantMemberCreateManyRoleInput[]
+  skipDuplicates?: boolean
+}
+
+export type TenantMemberUpsertWithWhereUniqueWithoutRoleInput = {
+  where: Prisma.TenantMemberWhereUniqueInput
+  update: Prisma.XOR<Prisma.TenantMemberUpdateWithoutRoleInput, Prisma.TenantMemberUncheckedUpdateWithoutRoleInput>
+  create: Prisma.XOR<Prisma.TenantMemberCreateWithoutRoleInput, Prisma.TenantMemberUncheckedCreateWithoutRoleInput>
+}
+
+export type TenantMemberUpdateWithWhereUniqueWithoutRoleInput = {
+  where: Prisma.TenantMemberWhereUniqueInput
+  data: Prisma.XOR<Prisma.TenantMemberUpdateWithoutRoleInput, Prisma.TenantMemberUncheckedUpdateWithoutRoleInput>
+}
+
+export type TenantMemberUpdateManyWithWhereWithoutRoleInput = {
+  where: Prisma.TenantMemberScalarWhereInput
+  data: Prisma.XOR<Prisma.TenantMemberUpdateManyMutationInput, Prisma.TenantMemberUncheckedUpdateManyWithoutRoleInput>
+}
+
+export type TenantMemberCreateManyUserInput = {
+  id?: string
+  tenantId: string
+  roleId: string
   createdAt?: Date | string
 }
 
 export type TenantMemberUpdateWithoutUserInput = {
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.RoleUpdateOneRequiredWithoutMembersNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembersNestedInput
 }
 
 export type TenantMemberUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantMemberUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantMemberCreateManyTenantInput = {
+  id?: string
   userId: string
-  role: string
+  roleId: string
   createdAt?: Date | string
 }
 
 export type TenantMemberUpdateWithoutTenantInput = {
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.RoleUpdateOneRequiredWithoutMembersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
 }
 
 export type TenantMemberUncheckedUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantMemberUncheckedUpdateManyWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TenantMemberCreateManyRoleInput = {
+  id?: string
+  tenantId: string
+  userId: string
+  createdAt?: Date | string
+}
+
+export type TenantMemberUpdateWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembersNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+}
+
+export type TenantMemberUncheckedUpdateWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TenantMemberUncheckedUpdateManyWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type TenantMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   tenantId?: boolean
   userId?: boolean
-  role?: boolean
+  roleId?: boolean
   createdAt?: boolean
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMember"]>
 
 export type TenantMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   tenantId?: boolean
   userId?: boolean
-  role?: boolean
+  roleId?: boolean
   createdAt?: boolean
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMember"]>
 
 export type TenantMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   tenantId?: boolean
   userId?: boolean
-  role?: boolean
+  roleId?: boolean
   createdAt?: boolean
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMember"]>
 
 export type TenantMemberSelectScalar = {
+  id?: boolean
   tenantId?: boolean
   userId?: boolean
-  role?: boolean
+  roleId?: boolean
   createdAt?: boolean
 }
 
-export type TenantMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tenantId" | "userId" | "role" | "createdAt", ExtArgs["result"]["tenantMember"]>
+export type TenantMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "userId" | "roleId" | "createdAt", ExtArgs["result"]["tenantMember"]>
 export type TenantMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TenantMemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type TenantMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -574,13 +731,15 @@ export type TenantMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type $TenantMemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TenantMember"
   objects: {
+    role: Prisma.$RolePayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: string
     tenantId: string
     userId: string
-    role: string
+    roleId: string
     createdAt: Date
   }, ExtArgs["result"]["tenantMember"]>
   composites: {}
@@ -665,8 +824,8 @@ export interface TenantMemberDelegate<ExtArgs extends runtime.Types.Extensions.I
    * // Get first 10 TenantMembers
    * const tenantMembers = await prisma.tenantMember.findMany({ take: 10 })
    * 
-   * // Only select the `tenantId`
-   * const tenantMemberWithTenantIdOnly = await prisma.tenantMember.findMany({ select: { tenantId: true } })
+   * // Only select the `id`
+   * const tenantMemberWithIdOnly = await prisma.tenantMember.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends TenantMemberFindManyArgs>(args?: Prisma.SelectSubset<T, TenantMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -710,9 +869,9 @@ export interface TenantMemberDelegate<ExtArgs extends runtime.Types.Extensions.I
    *   ]
    * })
    * 
-   * // Create many TenantMembers and only return the `tenantId`
-   * const tenantMemberWithTenantIdOnly = await prisma.tenantMember.createManyAndReturn({
-   *   select: { tenantId: true },
+   * // Create many TenantMembers and only return the `id`
+   * const tenantMemberWithIdOnly = await prisma.tenantMember.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -801,9 +960,9 @@ export interface TenantMemberDelegate<ExtArgs extends runtime.Types.Extensions.I
    *   ]
    * })
    * 
-   * // Update zero or more TenantMembers and only return the `tenantId`
-   * const tenantMemberWithTenantIdOnly = await prisma.tenantMember.updateManyAndReturn({
-   *   select: { tenantId: true },
+   * // Update zero or more TenantMembers and only return the `id`
+   * const tenantMemberWithIdOnly = await prisma.tenantMember.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -976,6 +1135,7 @@ readonly fields: TenantMemberFieldRefs;
  */
 export interface Prisma__TenantMemberClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  role<T extends Prisma.RoleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoleDefaultArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1007,9 +1167,10 @@ export interface Prisma__TenantMemberClient<T, Null = never, ExtArgs extends run
  * Fields of the TenantMember model
  */
 export interface TenantMemberFieldRefs {
+  readonly id: Prisma.FieldRef<"TenantMember", 'String'>
   readonly tenantId: Prisma.FieldRef<"TenantMember", 'String'>
   readonly userId: Prisma.FieldRef<"TenantMember", 'String'>
-  readonly role: Prisma.FieldRef<"TenantMember", 'String'>
+  readonly roleId: Prisma.FieldRef<"TenantMember", 'String'>
   readonly createdAt: Prisma.FieldRef<"TenantMember", 'DateTime'>
 }
     
