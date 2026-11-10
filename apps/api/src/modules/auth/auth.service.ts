@@ -8,56 +8,6 @@ import { randomBytes, createHash } from 'crypto';
 
 export class AuthService {
   
-  // static async signup(data: SignupDTO): Promise<AuthResponseData> {
-  //   const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
-  //   if (existingUser) throw ApiError.conflict('Email already in use');
-
-  //   const passwordHash = await argon2.hash(data.password, {
-  //     type: argon2.argon2id,
-  //     memoryCost: 65536,
-  //     timeCost: 3,
-  //     parallelism: 1,
-  //   });
-
-  //   const result = await prisma.$transaction(async (tx) => {
-  //     // 1. User banao
-  //     const user = await tx.user.create({
-  //       data: { email: data.email, passwordHash, fullName: data.fullName },
-  //     });
-
-  //     // 2. Tenant banao (3 din ka trial)
-  //     const trialEndsAt = new Date();
-  //     trialEndsAt.setDate(trialEndsAt.getDate() + 3); // 3 din aage
-
-  //     const tenant = await tx.tenant.create({
-  //       data: {
-  //         name: data.agencyName,
-  //         trialEndsAt,
-  //         subscriptionStatus: 'trial',
-  //       },
-  //     });
-
-  //     // 3. Owner role dhoondo (jo seed kiya tha)
-  //     const ownerRole = await tx.role.findFirst({
-  //       where: { name: 'owner', isSystem: true },
-  //     });
-  //     if (!ownerRole) throw new Error('Owner role missing. Run seed script.');
-
-  //     // 4. User ko Tenant ka Owner banao
-  //     await tx.tenantMember.create({
-  //       data: {
-  //         tenantId: tenant.id,
-  //         userId: user.id,
-  //         roleId: ownerRole.id,
-  //       },
-  //     });
-
-  //     return { userId: user.id, tenantId: tenant.id };
-  //   });
-
-  //   return result;
-  // }
-
   static async signup(data: SignupDTO): Promise<AuthResponseData> {
   const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
   if (existingUser) throw ApiError.conflict('Email already in use');
@@ -151,4 +101,58 @@ export class AuthService {
     return { accessToken, refreshToken, expiresAt, payload };
   }
 
+
+  static async refreshSession(refreshToken: string) {
+    // 1. Token ka hash banao
+    const tokenHash = createHash('sha256').update(refreshToken).digest('hex');
+
+    // 2. Database mein check karo
+    const session = await prisma.session.findUnique({
+      where: { refreshTokenHash: tokenHash },
+      include: {
+        user: {
+          include: {
+            memberships: {
+              include: {
+                role: {
+                  include: {
+                    permissions: { include: { permission: true } }
+                  }
+                },
+                tenant: true
+              }
+            }
+          }
+        }
+      },
+    });
+
+    // 3. Agar session nahi mila ya expire ho gaya
+    if (!session || session.expiresAt < new Date()) {
+      throw ApiError.unauthorized('Invalid or expired refresh token');
+    }
+
+    // 4. User ki membership nikaalo (Assuming user ka ek hi tenant hai abhi)
+    const membership = session.user.memberships[0];
+    if (!membership) {
+      throw ApiError.forbidden('User is not part of any agency');
+    }
+
+    // 5. Permissions nikaalo
+    const permissions = (membership.role.isSystem && membership.role.name === 'owner')
+      ? ['*']
+      : membership.role.permissions.map(p => p.permission.code);
+
+    // 6. Naya Payload aur Access Token banao
+    const payload = {
+      userId: session.userId,
+      tenantId: membership.tenantId,
+      role: membership.role.name,
+      permissions,
+    };
+
+    const accessToken = jwt.sign(payload, env.JWT_SECRET, { expiresIn: '15m' });
+
+    return { accessToken, payload };
+  }
 }

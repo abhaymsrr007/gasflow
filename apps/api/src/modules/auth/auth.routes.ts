@@ -120,4 +120,22 @@ router.post('/signup', AuthController.signup);
  */
 router.post('/login', AuthController.login);
 
+/**
+ * @swagger
+ * /api/auth/refresh:
+ *   post:
+ *     summary: Get a new access token using refresh token
+ *     tags: [Auth]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken: { type: string }
+ *     responses:
+ *       200:
+ *         description: Token refreshed
+ */
+router.post('/refresh', AuthController.refresh);
 export default router;

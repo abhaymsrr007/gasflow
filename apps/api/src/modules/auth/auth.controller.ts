@@ -4,6 +4,7 @@ import { SignupSchema, LoginSchema } from './auth.dto';
 import { ApiResponse } from '../../shared/utils/apiResponse';
 import { asyncHandler } from '../../shared/utils/asyncHandler';
 import { env } from '../../env';
+import { ApiError } from 'src/shared/utils/apiError';
 
 export class AuthController {
   // 1. Signup
@@ -15,54 +16,20 @@ export class AuthController {
   });
 
   // 2. Login (JWT & Permissions ke saath)
-  //  static login = asyncHandler(async (req: Request, res: Response) => {
-  //   const validatedData = LoginSchema.parse(req.body);
-  //   const { accessToken, refreshToken, expiresAt, payload } = await AuthService.login(validatedData);
+ static login = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = LoginSchema.parse(req.body);
+  
+  const { accessToken, refreshToken, expiresAt, payload } = await AuthService.login(validatedData);
 
-  //   // Refresh Token ko HttpOnly Cookie mein bhejo (Secure)
-  //   res.cookie('gasflow_refresh', refreshToken, {
-  //     httpOnly: true,
-  //     secure: env.NODE_ENV === 'production',
-  //     sameSite: 'lax',
-  //     expires: expiresAt,
-  //   });
+  // Check karo ki request mobile app se aayi hai ya web browser se
+  const isMobileApp = req.headers['x-client-type'] === 'mobile';
 
-  //   // Access Token JSON mein bhejo
-  //   return ApiResponse.success(res, {
-  //     accessToken, // Frontend isko memory mein rakhega (localStorage mein nahi)
-  //     user: {
-  //       id: payload.userId,
-  //       role: payload.role,
-  //       tenantId: payload.tenantId,
-  //       permissions: payload.permissions,
-  //     },
-  //   }, 'Logged in successfully');
-  // });
-
-  static login = asyncHandler(async (req: Request, res: Response) => {
-    const validatedData = LoginSchema.parse(req.body);
-
-    // Service se accessToken aur refreshToken dono le rahe hain
-    const { accessToken, refreshToken, expiresAt, payload } = await AuthService.login(validatedData);
-
-    // 👇 Access Token ko 'gasflow_sid' cookie mein set karo (15 min ke liye)
-    res.cookie(env.SESSION_COOKIE_NAME, accessToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    // 👇 Refresh Token ko 'gasflow_refresh' cookie mein set karo (7 days ke liye)
-    res.cookie('gasflow_refresh', refreshToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      expires: expiresAt,
-    });
-
+  if (isMobileApp) {
+    // 📱 MOBILE APP KE LIYE: Dono tokens JSON mein bhejo
     return ApiResponse.success(res, {
-      accessToken, // Frontend/Mobile app ke liye response mein bhi bhej do
+      accessToken,
+      refreshToken, // Mobile isko Secure Store mein rakhkhega
+      expiresAt,
       user: {
         id: payload.userId,
         role: payload.role,
@@ -70,5 +37,59 @@ export class AuthController {
         permissions: payload.permissions,
       },
     }, 'Logged in successfully');
+  }
+
+  // 💻 WEB BROWSER KE LIYE: Cookies set karo, response mein refreshToken mat bhejo
+  res.cookie(env.SESSION_COOKIE_NAME, accessToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 15 * 60 * 1000, 
   });
+
+  res.cookie('gasflow_refresh', refreshToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires: expiresAt,
+  });
+
+  return ApiResponse.success(res, {
+    accessToken,
+    user: {
+      id: payload.userId,
+      role: payload.role,
+      tenantId: payload.tenantId,
+      permissions: payload.permissions,
+    },
+  }, 'Logged in successfully');
+});
+
+
+static refresh = asyncHandler(async (req: Request, res: Response) => {
+  const isMobileApp = req.headers['x-client-type'] === 'mobile';
+  
+  // Web ke liye cookie se, Mobile ke liye body se token uthao
+  const refreshToken = isMobileApp 
+    ? req.body.refreshToken 
+    : req.cookies['gasflow_refresh'];
+    
+  if (!refreshToken) {
+    throw ApiError.unauthorized('Refresh token missing');
+  }
+
+  const { accessToken, payload } = await AuthService.refreshSession(refreshToken);
+
+  // Naya Access Token set karo
+  if (!isMobileApp) {
+    res.cookie(env.SESSION_COOKIE_NAME, accessToken, {
+      httpOnly: true,
+      secure: env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000, 
+    });
+  }
+
+  return ApiResponse.success(res, { accessToken, user: payload }, 'Token refreshed');
+});
 }
