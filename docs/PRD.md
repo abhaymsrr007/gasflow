@@ -106,3 +106,63 @@ India mein commercial LPG agencies (jo restaurants, dhabas, hotels ko 19kg aur 4
 **Status Report:**
 *   **Documents Finalized:** PRD, FRS, NFRs, User Stories.
 *   **Next Task:** Ab tumhare paas complete blueprint hai. Tum ise agencies ko dikha sakte ho. Agar wo approve karte hain, toh hum **Code Implementation (Modular Architecture - Auth & Staff Management)** shuru karenge! 🚀
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+                    [ AUTH LAYER ]
+                    +---------------+
+                    |     User      | (Email, Password, isActive)
+                    +---------------+
+                        |
+                        | 1-to-Many (Ek user multiple agencies mein ho sakta hai)
+                        V
+                    +-----------------+
+                    | TenantMember    | (Role: Owner, Manager, etc.)
+                    +-----------------+
+                        |                     |
+                        | Many-to-1           | Many-to-1
+                        V                     V
+                    +-------------+       +---------------+
+                    |   Tenant    |<------|     Role      | (System ya Custom)
+                    | (Agency)    |       +---------------+
+                    +-------------+               |
+                        |                      | Many-to-Many
+                        |                      V
+                        |              +---------------+
+                        |              |  Permission   | (customer:view, delivery:create)
+                        |              +---------------+
+                        |
+                        | 1-to-Many (Agency ke paas kai customers hain)
+                        V
+        -------[ OPERATIONS LAYER ]--------
+                    +----------------+
+                    |    Customer    | (Dhaba/Hotel, Phone, Balance)
+                    +----------------+
+                        ^
+                        | 1-to-Many (Customer ke paas kai Trips/Deliveries jayengi)
+                        |
+                    +----------------+          +------------------+
+                    |     Trip       |--------->|   Delivery       |
+                    | (Vehicle, Load)| 1-to-Many| (Filled Out/In)  |
+                    +----------------+          +------------------+
+                        |                           |
+                        | 1-to-Many                 | 1-to-1 (Delivery se Invoice banta hai)
+                        V                           V
+                    +----------------+          +------------------+
+                    |    Staff       |          |     Invoice      | (Total Amount, GST)
+                    | (Driver/Deliv) |          +------------------+
+                    +----------------+                  |
+                                                        | 1-to-Many
+                                                        V
+                                                +------------------+
+                                                |     Payment      | (Cash/Online)
+                                                +------------------+

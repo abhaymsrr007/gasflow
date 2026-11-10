@@ -146,3 +146,158 @@ gasflow/
     │   └── pool-context-leak.test.ts
     └── e2e/
         └── smoke.spec.ts              Playwright
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+
+### 1. ERD (Entity Relationship Diagram)
+
+Humare paas 3 main layers hain: **Auth**, **Agency (Tenant)**, aur **Operations**.
+
+```text
+[ AUTH LAYER ]                                                                          ----------------
++---------------+
+|     User      | (Email, Password, isActive)
++---------------+
+       |
+       | 1-to-Many (Ek user multiple agencies mein ho sakta hai)
+       V
++-----------------+
+| TenantMember    | (Role: Owner, Manager, etc.)
++-----------------+
+       |                     |
+       | Many-to-1           | Many-to-1
+       V                     V
++-------------+       +---------------+
+|   Tenant    |<------|     Role      | (System ya Custom)                             ---------------------
+| (Agency)    |       +---------------+
++-------------+               |
+       |                      | Many-to-Many
+       |                      V
+       |              +---------------+
+       |              |  Permission   | (customer:view, delivery:create)
+       |              +---------------+
+       |
+       | 1-to-Many (Agency ke paas kai customers hain)
+       V
+[ OPERATIONS LAYER ]                                                                  ------------------------
++----------------+
+|    Customer    | (Dhaba/Hotel, Phone, Balance)
++----------------+
+       ^
+       | 1-to-Many (Customer ke paas kai Trips/Deliveries jayengi)
+       |
++----------------+          +------------------+
+|     Trip       |--------->|   Delivery       |
+| (Vehicle, Load)| 1-to-Many| (Filled Out/In)  |
++----------------+          +------------------+
+       |                           |
+       | 1-to-Many                 | 1-to-1 (Delivery se Invoice banta hai)
+       V                           V
++----------------+          +------------------+
+|    Staff       |          |     Invoice      | (Total Amount, GST)
+| (Driver/Deliv) |          +------------------+
++----------------+                  |
+                                    | 1-to-Many
+                                    V
+                            +------------------+
+                            |     Payment      | (Cash/Online)
+                            +------------------+
+```
+
+**Summary:**
+1.  Ek **User** kai **Tenants** (Agencies) se jud sakta hai (lekin ek time par ek hi active hota hai).
+2.  Har **Tenant** ke paas apne **Roles** aur **Customers** honge.
+3.  Ek **Trip** mein kai **Deliveries** hongi (ek gaadi ne 60 cylinder uthaye, 10 dhabo par baante).
+4.  Har **Delivery** ka ek **Invoice** banega, aur us invoice ka **Payment** record hoga.
+
+---
+
+### 2. Core Flow Diagram - Ek Trip (Gaadi) Kaise Chalega?
+
+Ye diagram tumhe batayega ki ek subah gaadi nikalne se lekar shaam ko wapas aane tak system mein kya hota hai.
+
+```text
+[MORNING: MANAGER]
+1. Manager naya Trip banata hai.
+   -> Vehicle No: MH-12-1234
+   -> Driver: Ramesh
+   -> Delivery Man: Suresh
+   -> Total Loaded: 60 Cylinders
+   |
+   v
+[SYSTEM]
+2. Trip Database mein 'active' save hota hai.
+   -> Godown Stock: 60 minus ho jate hain.
+   |
+   v
+[DAYTIME: DELIVERY MAN (Mobile App)]
+3. Delivery Man apni Trip kholta hai.
+   |
+   +---> Customer A (Sharma Hotel): 4 Filled diye, 3 Empty liye.
+   |     -> Payment: ₹4000 Cash diya.
+   |     -> System check karta hai: 10 min timer (Discount applicable).
+   |
+   +---> Customer B (New Dhaba): 2 Filled diye, 0 Empty liye.
+   |     -> (Quick Add Customer karke delivery ki).
+   |     -> Payment: Udhaar (Pending).
+   |
+   +---> Customer C (Patel Restaurant): 5 Filled diye, 5 Empty liye.
+         -> Online Payment link WhatsApp par bheja.
+   |
+   v
+[EVENING: DELIVERY MAN]
+4. Trip End karta hai.
+   -> Input: "Gaadi mein 12 Filled bache hain."
+   |
+   v
+[SYSTEM + MANAGER]
+5. System calculation:
+   -> Loaded (60) - Delivered (45) = 15 Expected.
+   -> Actual Remaining: 12.
+   -> ❌ Discrepancy Alert! (3 cylinders missing).
+   |
+   v
+6. Manager alert dekhta hai aur reconciliation karta hai.
+```
+
+---
+
+### 3. System Architecture Flow (Kaun Kisko Call Karega?)
+
+Jab tum code likhoge, toh API kaise kaam karegi, ye samajhna zaroori hai:
+
+```text
+[FRONTEND (Next.js / React)]
+       |
+       | (API Call via TanStack Query)
+       | Headers: { Authorization: Bearer <Token>, X-Tenant-Id: <Tenant> }
+       V
+[API GATEWAY (Express Routes)]
+       |
+       | (1. requireAuth Middleware -> JWT Verify)
+       | (2. authorize Middleware -> Check Permissions in DB)
+       V
+[CONTROLLER (HTTP Request/Response)]
+       |
+       | (Zod Validation - DTOs)
+       V
+[SERVICE LAYER (Business Logic)]
+       |
+       | (Custom rules, e.g., Early Payment Discount, Trip Reconcile)
+       V
+[DATABASE LAYER (packages/db)]
+       |
+       | (Prisma Client with Adapter + Native pg for Complex)
+       V
+[POSTGRESQL]
+       |
+       | (RLS Enforced: SET LOCAL app.tenant_id = '...')
+       V
+```
+
+---

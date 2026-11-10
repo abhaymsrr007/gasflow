@@ -86,7 +86,7 @@ export class AuthService {
     };
 
     // 1. Access Token (15 Minutes)
-    const accessToken = jwt.sign(payload, env.JWT_SECRET, { expiresIn: '15m' });
+    const accessToken = jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN });
 
     // 2. Refresh Token (7 Days) - Random string
     const refreshToken = randomBytes(40).toString('hex');
@@ -151,7 +151,7 @@ export class AuthService {
       permissions,
     };
 
-    const accessToken = jwt.sign(payload, env.JWT_SECRET, { expiresIn: '15m' });
+    const accessToken = jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN });
 
     return { accessToken, payload };
   }

@@ -32,7 +32,7 @@ const envSchema = z.object({
     .string()
     .min(32, "JWT_SECRET must be at least 32 characters"),
 
-  JWT_EXPIRES_IN: z.string().default("7d"),
+  JWT_EXPIRES_IN: z.enum(["15m", "30m", "1h", "2h", "6h", "12h", "1d", "7d"]).default("15m"),
 
   SESSION_COOKIE_NAME: z.string().default("gasflow_sid"),
 
