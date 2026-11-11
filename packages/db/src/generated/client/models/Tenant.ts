@@ -210,6 +210,7 @@ export type TenantWhereInput = {
   products?: Prisma.CylinderProductListRelationFilter
   roles?: Prisma.RoleListRelationFilter
   members?: Prisma.TenantMemberListRelationFilter
+  trips?: Prisma.TripListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -225,6 +226,7 @@ export type TenantOrderByWithRelationInput = {
   products?: Prisma.CylinderProductOrderByRelationAggregateInput
   roles?: Prisma.RoleOrderByRelationAggregateInput
   members?: Prisma.TenantMemberOrderByRelationAggregateInput
+  trips?: Prisma.TripOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -243,6 +245,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   products?: Prisma.CylinderProductListRelationFilter
   roles?: Prisma.RoleListRelationFilter
   members?: Prisma.TenantMemberListRelationFilter
+  trips?: Prisma.TripListRelationFilter
 }, "id">
 
 export type TenantOrderByWithAggregationInput = {
@@ -286,6 +289,7 @@ export type TenantCreateInput = {
   products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -301,6 +305,7 @@ export type TenantUncheckedCreateInput = {
   products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -316,6 +321,7 @@ export type TenantUpdateInput = {
   products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -331,6 +337,7 @@ export type TenantUncheckedUpdateInput = {
   products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -439,20 +446,6 @@ export type TenantUpdateOneRequiredWithoutMembersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutMembersInput, Prisma.TenantUpdateWithoutMembersInput>, Prisma.TenantUncheckedUpdateWithoutMembersInput>
 }
 
-export type TenantCreateNestedOneWithoutCustomersInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCustomersInput
-  connect?: Prisma.TenantWhereUniqueInput
-}
-
-export type TenantUpdateOneRequiredWithoutCustomersNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCustomersInput
-  upsert?: Prisma.TenantUpsertWithoutCustomersInput
-  connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutCustomersInput, Prisma.TenantUpdateWithoutCustomersInput>, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
-}
-
 export type TenantCreateNestedOneWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.TenantCreateWithoutProductsInput, Prisma.TenantUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.TenantCreateOrConnectWithoutProductsInput
@@ -467,6 +460,34 @@ export type TenantUpdateOneRequiredWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutProductsInput, Prisma.TenantUpdateWithoutProductsInput>, Prisma.TenantUncheckedUpdateWithoutProductsInput>
 }
 
+export type TenantCreateNestedOneWithoutCustomersInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCustomersInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutCustomersNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCustomersInput
+  upsert?: Prisma.TenantUpsertWithoutCustomersInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutCustomersInput, Prisma.TenantUpdateWithoutCustomersInput>, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
+}
+
+export type TenantCreateNestedOneWithoutTripsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTripsInput, Prisma.TenantUncheckedCreateWithoutTripsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTripsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTripsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTripsInput, Prisma.TenantUncheckedCreateWithoutTripsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTripsInput
+  upsert?: Prisma.TenantUpsertWithoutTripsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTripsInput, Prisma.TenantUpdateWithoutTripsInput>, Prisma.TenantUncheckedUpdateWithoutTripsInput>
+}
+
 export type TenantCreateWithoutRolesInput = {
   id?: string
   name: string
@@ -479,6 +500,7 @@ export type TenantCreateWithoutRolesInput = {
   customers?: Prisma.CustomerCreateNestedManyWithoutTenantInput
   products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutRolesInput = {
@@ -493,6 +515,7 @@ export type TenantUncheckedCreateWithoutRolesInput = {
   customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutTenantInput
   products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutRolesInput = {
@@ -523,6 +546,7 @@ export type TenantUpdateWithoutRolesInput = {
   customers?: Prisma.CustomerUpdateManyWithoutTenantNestedInput
   products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutRolesInput = {
@@ -537,6 +561,7 @@ export type TenantUncheckedUpdateWithoutRolesInput = {
   customers?: Prisma.CustomerUncheckedUpdateManyWithoutTenantNestedInput
   products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMembersInput = {
@@ -551,6 +576,7 @@ export type TenantCreateWithoutMembersInput = {
   customers?: Prisma.CustomerCreateNestedManyWithoutTenantInput
   products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMembersInput = {
@@ -565,6 +591,7 @@ export type TenantUncheckedCreateWithoutMembersInput = {
   customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutTenantInput
   products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMembersInput = {
@@ -595,6 +622,7 @@ export type TenantUpdateWithoutMembersInput = {
   customers?: Prisma.CustomerUpdateManyWithoutTenantNestedInput
   products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMembersInput = {
@@ -609,78 +637,7 @@ export type TenantUncheckedUpdateWithoutMembersInput = {
   customers?: Prisma.CustomerUncheckedUpdateManyWithoutTenantNestedInput
   products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantCreateWithoutCustomersInput = {
-  id?: string
-  name: string
-  isActive?: boolean
-  trialEndsAt?: Date | string | null
-  subscriptionStatus?: string
-  subscriptionEndsAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
-  roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
-  members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
-}
-
-export type TenantUncheckedCreateWithoutCustomersInput = {
-  id?: string
-  name: string
-  isActive?: boolean
-  trialEndsAt?: Date | string | null
-  subscriptionStatus?: string
-  subscriptionEndsAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
-  members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
-}
-
-export type TenantCreateOrConnectWithoutCustomersInput = {
-  where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
-}
-
-export type TenantUpsertWithoutCustomersInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutCustomersInput, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
-  where?: Prisma.TenantWhereInput
-}
-
-export type TenantUpdateToOneWithWhereWithoutCustomersInput = {
-  where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutCustomersInput, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
-}
-
-export type TenantUpdateWithoutCustomersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
-  roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
-  members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantUncheckedUpdateWithoutCustomersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
-  members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProductsInput = {
@@ -695,6 +652,7 @@ export type TenantCreateWithoutProductsInput = {
   customers?: Prisma.CustomerCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProductsInput = {
@@ -709,6 +667,7 @@ export type TenantUncheckedCreateWithoutProductsInput = {
   customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutTenantInput
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
   members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProductsInput = {
@@ -739,6 +698,7 @@ export type TenantUpdateWithoutProductsInput = {
   customers?: Prisma.CustomerUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProductsInput = {
@@ -753,6 +713,159 @@ export type TenantUncheckedUpdateWithoutProductsInput = {
   customers?: Prisma.CustomerUncheckedUpdateManyWithoutTenantNestedInput
   roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
   members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutCustomersInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  trialEndsAt?: Date | string | null
+  subscriptionStatus?: string
+  subscriptionEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
+  roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
+  members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutCustomersInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  trialEndsAt?: Date | string | null
+  subscriptionStatus?: string
+  subscriptionEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
+  members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
+  trips?: Prisma.TripUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutCustomersInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
+}
+
+export type TenantUpsertWithoutCustomersInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutCustomersInput, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutCustomersInput, Prisma.TenantUncheckedCreateWithoutCustomersInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutCustomersInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutCustomersInput, Prisma.TenantUncheckedUpdateWithoutCustomersInput>
+}
+
+export type TenantUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
+  members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
+  members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
+  trips?: Prisma.TripUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTripsInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  trialEndsAt?: Date | string | null
+  subscriptionStatus?: string
+  subscriptionEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  customers?: Prisma.CustomerCreateNestedManyWithoutTenantInput
+  products?: Prisma.CylinderProductCreateNestedManyWithoutTenantInput
+  roles?: Prisma.RoleCreateNestedManyWithoutTenantInput
+  members?: Prisma.TenantMemberCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTripsInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  trialEndsAt?: Date | string | null
+  subscriptionStatus?: string
+  subscriptionEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutTenantInput
+  products?: Prisma.CylinderProductUncheckedCreateNestedManyWithoutTenantInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutTenantInput
+  members?: Prisma.TenantMemberUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTripsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTripsInput, Prisma.TenantUncheckedCreateWithoutTripsInput>
+}
+
+export type TenantUpsertWithoutTripsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTripsInput, Prisma.TenantUncheckedUpdateWithoutTripsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTripsInput, Prisma.TenantUncheckedCreateWithoutTripsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTripsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTripsInput, Prisma.TenantUncheckedUpdateWithoutTripsInput>
+}
+
+export type TenantUpdateWithoutTripsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customers?: Prisma.CustomerUpdateManyWithoutTenantNestedInput
+  products?: Prisma.CylinderProductUpdateManyWithoutTenantNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutTenantNestedInput
+  members?: Prisma.TenantMemberUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTripsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  subscriptionEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutTenantNestedInput
+  products?: Prisma.CylinderProductUncheckedUpdateManyWithoutTenantNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutTenantNestedInput
+  members?: Prisma.TenantMemberUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -765,6 +878,7 @@ export type TenantCountOutputType = {
   products: number
   roles: number
   members: number
+  trips: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -772,6 +886,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   products?: boolean | TenantCountOutputTypeCountProductsArgs
   roles?: boolean | TenantCountOutputTypeCountRolesArgs
   members?: boolean | TenantCountOutputTypeCountMembersArgs
+  trips?: boolean | TenantCountOutputTypeCountTripsArgs
 }
 
 /**
@@ -812,6 +927,13 @@ export type TenantCountOutputTypeCountMembersArgs<ExtArgs extends runtime.Types.
   where?: Prisma.TenantMemberWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTripsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TripWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -826,6 +948,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   products?: boolean | Prisma.Tenant$productsArgs<ExtArgs>
   roles?: boolean | Prisma.Tenant$rolesArgs<ExtArgs>
   members?: boolean | Prisma.Tenant$membersArgs<ExtArgs>
+  trips?: boolean | Prisma.Tenant$tripsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -868,6 +991,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   products?: boolean | Prisma.Tenant$productsArgs<ExtArgs>
   roles?: boolean | Prisma.Tenant$rolesArgs<ExtArgs>
   members?: boolean | Prisma.Tenant$membersArgs<ExtArgs>
+  trips?: boolean | Prisma.Tenant$tripsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -880,6 +1004,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     products: Prisma.$CylinderProductPayload<ExtArgs>[]
     roles: Prisma.$RolePayload<ExtArgs>[]
     members: Prisma.$TenantMemberPayload<ExtArgs>[]
+    trips: Prisma.$TripPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1288,6 +1413,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   products<T extends Prisma.Tenant$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CylinderProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   roles<T extends Prisma.Tenant$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   members<T extends Prisma.Tenant$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trips<T extends Prisma.Tenant$tripsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tripsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1811,6 +1937,30 @@ export type Tenant$membersArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.TenantMemberScalarFieldEnum | Prisma.TenantMemberScalarFieldEnum[]
+}
+
+/**
+ * Tenant.trips
+ */
+export type Tenant$tripsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Trip
+   */
+  select?: Prisma.TripSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Trip
+   */
+  omit?: Prisma.TripOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TripInclude<ExtArgs> | null
+  where?: Prisma.TripWhereInput
+  orderBy?: Prisma.TripOrderByWithRelationInput | Prisma.TripOrderByWithRelationInput[]
+  cursor?: Prisma.TripWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TripScalarFieldEnum | Prisma.TripScalarFieldEnum[]
 }
 
 /**

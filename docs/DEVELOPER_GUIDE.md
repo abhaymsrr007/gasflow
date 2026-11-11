@@ -103,94 +103,90 @@ docker compose up -d
 
 Project **Turborepo + pnpm monorepo** hai. Backend mein feature-based **Modular Architecture** follow hoti hai. Har feature ka apna module folder hoga, jisme controller, service aur routes rahenge.
 
-```text
-gasflow/
+```textgasflow/
+│
 ├── apps/
-│   ├── api/                          # Express + TypeScript backend
-│   │   ├── src/
-│   │   │   ├── modules/               # Feature-based API modules
-│   │   │   │   ├── auth/
-│   │   │   │   │   ├── auth.controller.ts
-│   │   │   │   │   ├── auth.service.ts
-│   │   │   │   │   └── auth.routes.ts
-│   │   │   │   ├── staff/
-│   │   │   │   │   ├── staff.controller.ts
-│   │   │   │   │   ├── staff.service.ts
-│   │   │   │   │   └── staff.routes.ts
-│   │   │   │   ├── trips/
-│   │   │   │   │   ├── trips.controller.ts
-│   │   │   │   │   ├── trips.service.ts
-│   │   │   │   │   └── trips.routes.ts
-│   │   │   │   ├── deliveries/
-│   │   │   │   │   ├── deliveries.controller.ts
-│   │   │   │   │   ├── deliveries.service.ts
-│   │   │   │   │   └── deliveries.routes.ts
-│   │   │   │   ├── customers/
-│   │   │   │   │   ├── customers.controller.ts
-│   │   │   │   │   ├── customers.service.ts
-│   │   │   │   │   └── customers.routes.ts
-│   │   │   │   ├── billing/
-│   │   │   │   │   ├── billing.controller.ts
-│   │   │   │   │   ├── billing.service.ts
-│   │   │   │   │   └── billing.routes.ts
-│   │   │   │   └── ...                # Other/future feature modules
-│   │   │   ├── shared/
-│   │   │   │   ├── middlewares/       # auth, tenant, error, etc.
-│   │   │   │   └── utils/             # Shared helpers (WhatsApp, PDF, etc.)
-│   │   │   ├── routes.ts              # Central router: mounts module routers
-│   │   │   ├── app.ts                 # Express app, middleware, Swagger
-│   │   │   ├── index.ts               # Server entry point
-│   │   │   └── swagger.ts             # Swagger/OpenAPI configuration
+│   │
+│   ├── api/                          # Express + TypeScript Backend
+│   │   └── src/
+│   │       ├── modules/
+│   │       │   ├── auth/
+│   │       │   ├── staff/
+│   │       │   ├── trips/
+│   │       │   ├── deliveries/
+│   │       │   ├── customers/
+│   │       │   └── billing/
+│   │       ├── shared/
+│   │       │   ├── middlewares/
+│   │       │   └── utils/
+│   │       ├── routes.ts
+│   │       ├── app.ts
+│   │       ├── index.ts
+│   │       └── swagger.ts
+│   │
+│   ├── web/                          # Next.js Web Application
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── lib/
 │   │   ├── tsconfig.json
 │   │   └── package.json
 │   │
-│   └── web/                           # Next.js frontend
-│       ├── app/                       # Next.js App Router
-│       ├── components/                # Reusable UI (shadcn/ui etc.)
-│       ├── lib/                       # API client and TanStack Query setup
+│   └── mobile/                       # React Native + Expo
+│       ├── app/                      # Expo Router
+│       │   ├── (auth)/
+│       │   │   └── login.tsx
+│       │   ├── (tabs)/
+│       │   │   ├── index.tsx         # Home Dashboard
+│       │   │   ├── trips.tsx         # My Trips
+│       │   │   └── profile.tsx       # Profile
+│       │   ├── trip/
+│       │   │   └── [tripId].tsx
+│       │   ├── delivery/
+│       │   │   └── [customerId].tsx
+│       │   ├── _layout.tsx
+│       │   └── +not-found.tsx
+│       │
+│       ├── components/
+│       │   ├── ui/
+│       │   ├── trip/
+│       │   ├── delivery/
+│       │   └── common/
+│       │
+│       ├── services/
+│       │   ├── api/
+│       │   │   ├── client.ts
+│       │   │   ├── auth.api.ts
+│       │   │   ├── trips.api.ts
+│       │   │   └── deliveries.api.ts
+│       │   └── storage/
+│       │       └── secure-storage.ts
+│       │
+│       ├── hooks/
+│       ├── stores/
+│       ├── types/
+│       ├── constants/
+│       ├── assets/
+│       ├── app.json
 │       ├── tsconfig.json
 │       └── package.json
 │
 ├── packages/
-│   ├── db/                            # Isolated database access layer
-│   │   ├── prisma/
-│   │   │   ├── schema.prisma           # Prisma models
-│   │   │   └── migrations/             # Native SQL migrations + RLS policies
-│   │   ├── src/
-│   │   │   ├── pool.ts                 # Native pg Pool
-│   │   │   ├── prisma.ts               # Prisma Client + withTenantPrisma
-│   │   │   ├── tx.ts                   # withTenantContext helper
-│   │   │   └── migrate.ts              # Custom SQL migration runner
-│   │   ├── prisma.config.ts
-│   │   ├── tsconfig.json
-│   │   └── package.json
-│   │
-│   ├── shared/                        # Frontend + backend shared code
-│   │   ├── src/
-│   │   │   ├── schemas/                # Zod validation schemas
-│   │   │   ├── types/                  # Shared TypeScript types
-│   │   │   └── constants/              # Shared constants/enums
-│   │   └── package.json
-│   │
-│   └── config/                        # Shared TS/ESLint configuration
+│   ├── db/                           # Prisma + PostgreSQL
+│   ├── shared/                       # Shared Zod + TypeScript
+│   └── config/                       # Shared configurations
 │
-├── tests/                             # Integration and E2E tests
+├── tests/
 ├── docker/
-│   └── postgres/
-│       └── init/
-│           ├── 00-roles.sql.template
-│           └── 00-run-roles.sh
 ├── scripts/
-│   ├── guard-npm.mjs                  # Blocks npm/yarn; enforces pnpm
-│   └── verify-db-roles.ps1            # Verifies DB roles and security setup
-├── .env                               # Real secrets (Gitignored)
-├── .env.example                       # Safe environment template
+│
+├── .env
+├── .env.example
 ├── .gitignore
 ├── .npmrc
 ├── docker-compose.yml
-├── package.json                       # Root workspace scripts + Turbo
+├── package.json
 ├── pnpm-workspace.yaml
-├── turbo.json                         # Build pipeline
+├── turbo.json
 └── README.md
 ```
 

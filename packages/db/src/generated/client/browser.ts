@@ -53,12 +53,17 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type TenantMember = Prisma.TenantMemberModel
 /**
+ * Model CylinderProduct
+ * 
+ */
+export type CylinderProduct = Prisma.CylinderProductModel
+/**
  * Model Customer
  * 
  */
 export type Customer = Prisma.CustomerModel
 /**
- * Model CylinderProduct
+ * Model Trip
  * 
  */
-export type CylinderProduct = Prisma.CylinderProductModel
+export type Trip = Prisma.TripModel

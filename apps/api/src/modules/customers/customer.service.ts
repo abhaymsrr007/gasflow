@@ -64,55 +64,10 @@ export class CustomerService {
         });
     }
 
-    // 2. List Customers (Paginated & Searchable)
-    // static async listCustomers(tenantId: string, query: CustomerQueryDTO) {
-    //     const { page, limit, search } = query;
-    //     const skip = (page - 1) * limit;
-
-    //     // Search filter
-    //     const whereClause: any = { tenantId, isActive: true };
-    //     if (search) {
-    //         whereClause.OR = [
-    //             { businessName: { contains: search, mode: 'insensitive' } },
-    //             { phone: { contains: search } },
-    //             { contactPerson: { contains: search, mode: 'insensitive' } },
-    //         ];
-    //     }
-
-    //     const [customers, total] = await prisma.$transaction([
-    //         prisma.customer.findMany({
-    //             where: whereClause,
-    //             skip,
-    //             take: limit,
-    //             orderBy: { createdAt: 'desc' },
-    //         }),
-    //         prisma.customer.count({ where: whereClause }),
-    //     ]);
-
-    //     // Format BigInts
-    //     const formattedData = customers.map((c) => ({
-    //         ...c,
-    //         creditLimitPaise: c.creditLimitPaise.toString(),
-    //         openingBalancePaise: c.openingBalancePaise.toString(),
-    //     }));
-
-    //     return {
-    //         data: formattedData,
-    //         meta: {
-    //             total,
-    //             page,
-    //             limit,
-    //             totalPages: Math.ceil(total / limit),
-    //         },
-    //     };
-    // }
-
-
     static async listCustomers(tenantId: string, userId: string, query: CustomerQueryDTO) {
         const { page, limit, search } = query;
         const skip = (page - 1) * limit;
 
-        // 👇 Ab hum withTenantPrisma use karenge
         return withTenantPrisma(tenantId, userId, async (tx) => {
 
             // Search filter (tenantId ki zaroorat nahi, RLS khud handle karega)
@@ -186,35 +141,45 @@ export class CustomerService {
 
     // 4. Update Customer
     static async updateCustomer(tenantId: string, userId: string, customerId: string, data: UpdateCustomerDTO) {
-        // Check existence
-        await this.getCustomerById(tenantId, userId, customerId);
+        return withTenantPrisma(tenantId, userId, async (tx) => {
 
-        const updateData: any = {};
-        if (data.businessName !== undefined) updateData.businessName = data.businessName;
-        if (data.contactPerson !== undefined) updateData.contactPerson = data.contactPerson;
-        if (data.phone !== undefined) updateData.phone = data.phone;
-        if (data.category !== undefined) updateData.category = data.category;
-        if (data.creditLimitPaise !== undefined) updateData.creditLimitPaise = BigInt(data.creditLimitPaise);
+            // 1. Pehle check karo (RLS khud batayega ki ye usi tenant ka hai ya nahi)
+            const existing = await tx.customer.findFirst({
+                where: { id: customerId },
+            });
+            if (!existing) throw ApiError.notFound('Customer not found');
 
-        const updated = await prisma.customer.update({
-            where: { id: customerId },
-            data: updateData,
+            // 2. Update data object banao
+            const updateData: any = {};
+            if (data.businessName !== undefined) updateData.businessName = data.businessName;
+            if (data.contactPerson !== undefined) updateData.contactPerson = data.contactPerson;
+            if (data.phone !== undefined) updateData.phone = data.phone;
+            if (data.category !== undefined) updateData.category = data.category;
+            if (data.creditLimitPaise !== undefined) updateData.creditLimitPaise = BigInt(data.creditLimitPaise);
+
+            // 3. Update karo (yahan bhi tenantId ki zaroorat nahi, kyunki RLS pehle hi check kar chuka hai)
+            const updated = await tx.customer.update({
+                where: { id: customerId },
+                data: updateData,
+            });
+
+            return {
+                ...updated,
+                creditLimitPaise: updated.creditLimitPaise.toString(),
+                openingBalancePaise: updated.openingBalancePaise.toString(),
+            };
         });
-
-        return {
-            ...updated,
-            creditLimitPaise: updated.creditLimitPaise.toString(),
-            openingBalancePaise: updated.openingBalancePaise.toString(),
-        };
     }
 
     // 5. Soft Delete Customer (Deactivate)
     static async deactivateCustomer(tenantId: string, userId: string, customerId: string) {
         await this.getCustomerById(tenantId, userId, customerId);
 
-        await prisma.customer.update({
-            where: { id: customerId },
-            data: { isActive: false },
+        await withTenantPrisma(tenantId, userId, async (tx) => {
+            await tx.customer.update({
+                where: { id: customerId },
+                data: { isActive: false },
+            });
         });
 
         return { message: 'Customer deactivated successfully' };
