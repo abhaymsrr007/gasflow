@@ -404,8 +404,9 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   TenantMember: 'TenantMember',
+  CylinderProduct: 'CylinderProduct',
   Customer: 'Customer',
-  CylinderProduct: 'CylinderProduct'
+  Trip: 'Trip'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "tenant" | "role" | "permission" | "rolePermission" | "tenantMember" | "customer" | "cylinderProduct"
+    modelProps: "user" | "session" | "tenant" | "role" | "permission" | "rolePermission" | "tenantMember" | "cylinderProduct" | "customer" | "trip"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -943,6 +944,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CylinderProduct: {
+      payload: Prisma.$CylinderProductPayload<ExtArgs>
+      fields: Prisma.CylinderProductFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CylinderProductFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CylinderProductFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        findFirst: {
+          args: Prisma.CylinderProductFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CylinderProductFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        findMany: {
+          args: Prisma.CylinderProductFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+        }
+        create: {
+          args: Prisma.CylinderProductCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        createMany: {
+          args: Prisma.CylinderProductCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CylinderProductCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+        }
+        delete: {
+          args: Prisma.CylinderProductDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        update: {
+          args: Prisma.CylinderProductUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        deleteMany: {
+          args: Prisma.CylinderProductDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CylinderProductUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CylinderProductUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+        }
+        upsert: {
+          args: Prisma.CylinderProductUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+        }
+        aggregate: {
+          args: Prisma.CylinderProductAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCylinderProduct>
+        }
+        groupBy: {
+          args: Prisma.CylinderProductGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CylinderProductGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CylinderProductCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CylinderProductCountAggregateOutputType> | number
+        }
+      }
+    }
     Customer: {
       payload: Prisma.$CustomerPayload<ExtArgs>
       fields: Prisma.CustomerFieldRefs
@@ -1017,77 +1092,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    CylinderProduct: {
-      payload: Prisma.$CylinderProductPayload<ExtArgs>
-      fields: Prisma.CylinderProductFieldRefs
+    Trip: {
+      payload: Prisma.$TripPayload<ExtArgs>
+      fields: Prisma.TripFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.CylinderProductFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload> | null
+          args: Prisma.TripFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.CylinderProductFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         findFirst: {
-          args: Prisma.CylinderProductFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload> | null
+          args: Prisma.TripFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.CylinderProductFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         findMany: {
-          args: Prisma.CylinderProductFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+          args: Prisma.TripFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>[]
         }
         create: {
-          args: Prisma.CylinderProductCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         createMany: {
-          args: Prisma.CylinderProductCreateManyArgs<ExtArgs>
+          args: Prisma.TripCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.CylinderProductCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+          args: Prisma.TripCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>[]
         }
         delete: {
-          args: Prisma.CylinderProductDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         update: {
-          args: Prisma.CylinderProductUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         deleteMany: {
-          args: Prisma.CylinderProductDeleteManyArgs<ExtArgs>
+          args: Prisma.TripDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.CylinderProductUpdateManyArgs<ExtArgs>
+          args: Prisma.TripUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.CylinderProductUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>[]
+          args: Prisma.TripUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>[]
         }
         upsert: {
-          args: Prisma.CylinderProductUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CylinderProductPayload>
+          args: Prisma.TripUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TripPayload>
         }
         aggregate: {
-          args: Prisma.CylinderProductAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCylinderProduct>
+          args: Prisma.TripAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrip>
         }
         groupBy: {
-          args: Prisma.CylinderProductGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CylinderProductGroupByOutputType>[]
+          args: Prisma.TripGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TripGroupByOutputType>[]
         }
         count: {
-          args: Prisma.CylinderProductCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CylinderProductCountAggregateOutputType> | number
+          args: Prisma.TripCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TripCountAggregateOutputType> | number
         }
       }
     }
@@ -1210,6 +1285,19 @@ export const TenantMemberScalarFieldEnum = {
 export type TenantMemberScalarFieldEnum = (typeof TenantMemberScalarFieldEnum)[keyof typeof TenantMemberScalarFieldEnum]
 
 
+export const CylinderProductScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  sizeKg: 'sizeKg',
+  defaultPricePaise: 'defaultPricePaise',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
+
+
 export const CustomerScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1227,17 +1315,19 @@ export const CustomerScalarFieldEnum = {
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
 
 
-export const CylinderProductScalarFieldEnum = {
+export const TripScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  name: 'name',
-  sizeKg: 'sizeKg',
-  defaultPricePaise: 'defaultPricePaise',
-  isActive: 'isActive',
-  createdAt: 'createdAt'
+  vehicleNumber: 'vehicleNumber',
+  driverId: 'driverId',
+  deliveryManId: 'deliveryManId',
+  totalLoaded: 'totalLoaded',
+  status: 'status',
+  createdAt: 'createdAt',
+  endedAt: 'endedAt'
 } as const
 
-export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
+export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1306,20 +1396,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -1330,6 +1406,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -1518,8 +1608,9 @@ export type GlobalOmitConfig = {
   permission?: Prisma.PermissionOmit
   rolePermission?: Prisma.RolePermissionOmit
   tenantMember?: Prisma.TenantMemberOmit
-  customer?: Prisma.CustomerOmit
   cylinderProduct?: Prisma.CylinderProductOmit
+  customer?: Prisma.CustomerOmit
+  trip?: Prisma.TripOmit
 }
 
 /* Types for Logging */
