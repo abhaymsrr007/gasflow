@@ -49,7 +49,8 @@ model Tenant {
   products           CylinderProduct[]
   roles              Role[]
   members            TenantMember[]
-
+  trips              Trip[]
+  
   @@map("tenants")
 }
 
@@ -100,6 +101,22 @@ model TenantMember {
   @@map("tenant_members")
 }
 
+
+
+model CylinderProduct {
+  id                String   @id @default(uuid()) @db.Uuid
+  tenantId          String   @map("tenant_id") @db.Uuid
+  name              String
+  sizeKg            Decimal  @map("size_kg") @db.Decimal(10, 2)
+  defaultPricePaise BigInt   @map("default_price_paise")
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  tenant            Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@map("cylinder_products")
+}
+
 model Customer {
   id                  String   @id @default(uuid()) @db.Uuid
   tenantId            String   @map("tenant_id") @db.Uuid
@@ -118,37 +135,18 @@ model Customer {
   @@map("customers")
 }
 
-model CylinderProduct {
-  id                String   @id @default(uuid()) @db.Uuid
-  tenantId          String   @map("tenant_id") @db.Uuid
-  name              String
-  sizeKg            Decimal  @map("size_kg") @db.Decimal(10, 2)
-  defaultPricePaise BigInt   @map("default_price_paise")
-  isActive          Boolean  @default(true) @map("is_active")
-  createdAt         DateTime @default(now()) @map("created_at")
-  tenant            Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+model Trip {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  vehicleNumber String   @map("vehicle_number")
+  driverId      String   @map("driver_id") @db.Uuid
+  deliveryManId String   @map("delivery_man_id") @db.Uuid
+  totalLoaded   Int      @map("total_loaded")
+  status        String   @default("active") // active, completed
+  createdAt     DateTime @default(now()) @map("created_at")
+  endedAt       DateTime? @map("ended_at")
 
-  @@index([tenantId])
-  @@map("cylinder_products")
-}
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-
-
-model Customer {
-  id                  String   @id @default(uuid()) @db.Uuid
-  tenantId            String   @map("tenant_id") @db.Uuid
-  businessName        String   @map("business_name")
-  contactPerson       String?  @map("contact_person")
-  phone               String
-  category            String   // restaurant, hotel, dhaba
-  creditLimitPaise    BigInt   @default(0) @map("credit_limit_paise")
-  openingBalancePaise BigInt   @default(0) @map("opening_balance_paise")
-  isActive            Boolean  @default(true) @map("is_active")
-  createdAt           DateTime @default(now()) @map("created_at")
-  updatedAt           DateTime @updatedAt @map("updated_at")
-
-  tenant              Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([tenantId])
-  @@map("customers")
+  @@map("trips")
 }

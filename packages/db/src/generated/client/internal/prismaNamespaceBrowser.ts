@@ -58,8 +58,9 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   TenantMember: 'TenantMember',
+  CylinderProduct: 'CylinderProduct',
   Customer: 'Customer',
-  CylinderProduct: 'CylinderProduct'
+  Trip: 'Trip'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -158,6 +159,19 @@ export const TenantMemberScalarFieldEnum = {
 export type TenantMemberScalarFieldEnum = (typeof TenantMemberScalarFieldEnum)[keyof typeof TenantMemberScalarFieldEnum]
 
 
+export const CylinderProductScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  sizeKg: 'sizeKg',
+  defaultPricePaise: 'defaultPricePaise',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
+
+
 export const CustomerScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -175,17 +189,19 @@ export const CustomerScalarFieldEnum = {
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
 
 
-export const CylinderProductScalarFieldEnum = {
+export const TripScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  name: 'name',
-  sizeKg: 'sizeKg',
-  defaultPricePaise: 'defaultPricePaise',
-  isActive: 'isActive',
-  createdAt: 'createdAt'
+  vehicleNumber: 'vehicleNumber',
+  driverId: 'driverId',
+  deliveryManId: 'deliveryManId',
+  totalLoaded: 'totalLoaded',
+  status: 'status',
+  createdAt: 'createdAt',
+  endedAt: 'endedAt'
 } as const
 
-export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
+export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
 
 
 export const SortOrder = {
