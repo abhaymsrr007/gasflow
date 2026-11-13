@@ -1,14 +1,28 @@
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
+
+import { AppButton } from "@/components/ui/AppButton";
+import { theme } from "@/constants/theme";
 
 export default function HomeScreen() {
+  const handlePress = () => {
+    Alert.alert("GASFlow", "AppButton is working successfully!");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>GASFlow</Text>
 
       <Text style={styles.subtitle}>
-        Welcome to GASFlow Mobile App
+        Our reusable component is ready.
       </Text>
+
+      <View style={styles.buttonContainer}>
+        <AppButton
+          title="Test AppButton"
+          onPress={handlePress}
+        />
+      </View>
     </View>
   );
 }
@@ -18,18 +32,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F8FAFC",
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.background,
   },
 
   title: {
-    fontSize: 32,
+    fontSize: theme.typography.heading,
     fontWeight: "bold",
-    color: "#000000",
+    color: theme.colors.primary,
   },
 
   subtitle: {
-    fontSize: 16,
-    color: "#64748B",
-    marginTop: 12,
+    fontSize: theme.typography.body,
+    color: theme.colors.textSecondary,
+    marginTop: theme.spacing.sm,
+  },
+
+  buttonContainer: {
+    width: "100%",
+    marginTop: theme.spacing.xl,
   },
 });
