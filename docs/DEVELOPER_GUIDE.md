@@ -294,12 +294,16 @@ Ye rules backend/service layer par enforce hone chahiye. Frontend validation sir
 Root folder se commands run karein:
 
 ```bash
-# 1. Dependencies install karna
+
+1. Dependencies Install
 npx pnpm@9.12.0 install
+(Jab bhi package.json mein nayi library add ho, root folder se chalao)
 
-# 2. Prisma types/client generate karna (schema.prisma change ke baad)
+2. Prisma Client Generate
 npx pnpm@9.12.0 --filter @gasflow/db prisma:generate
+(Schema.prisma mein naya model/field add karne ke baad, root folder se chalao)
 
+<<<<<<< HEAD
 # 3. Native SQL migrations chalana (tables/indexes/RLS change ke baad)
 npx pnpm@9.12.0 db:migrate    
 
@@ -308,12 +312,25 @@ npx pnpm@9.12.0 --filter @gasflow/db seed
 
 # Frontend + Backend development servers start karna
 npx pnpm@9.12.0 dev
+=======
+3. Database Migrations Run
+npx pnpm@9.12.0 db:migrate
+(Jab bhi migrations folder mein nayi .sql file banao, root folder se chalao)
 
-# 5. Sirf backend start karna
+4. Database Seed
+npx pnpm@9.12.0 --filter @gasflow/db seed
+(Jab database fresh reset ho ya naye permissions add karo, root folder se chalao)
+>>>>>>> f702f165ae74f53186b6375c147e2f0dd7b0a056
+
+5. API Server Start
 npx pnpm@9.12.0 --filter @gasflow/api dev
+(Backend API ko local par run karne ke liye, root folder se chalao)
 
-# 6. Sirf frontend start karna
-npx pnpm@9.12.0 --filter @gasflow/web dev
+
+GRANT CONNECT ON DATABASE gasflow TO gasflow_app;
+GRANT USAGE ON SCHEMA public TO gasflow_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO gasflow_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO gasflow_app;
 
 # 7. Docker database start/stop
 docker compose up -d

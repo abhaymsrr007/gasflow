@@ -6,6 +6,7 @@ import { ApiError } from '../../shared/utils/apiError';
 export class StaffService {
   // 1. Create Staff (Pichhla wala)
   static async createStaff(tenantId: string, data: CreateStaffDTO) {
+    // 1. Role dhoondo
     const role = await prisma.role.findFirst({
       where: { name: data.roleName, OR: [{ tenantId }, { isSystem: true }] },
     });
@@ -14,10 +15,13 @@ export class StaffService {
     const isSystemUser = ['manager', 'accountant'].includes(data.roleName);
 
     if (isSystemUser) {
+      // --- System Users (Manager / Accountant) ---
       if (!data.email || !data.password) throw ApiError.badRequest('Email and password required');
 
       const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
       if (existingUser) throw ApiError.conflict('Email already registered');
+
+      if (data.password.length < 4) throw ApiError.badRequest('Password must be at least 4 characters');
 
       const passwordHash = await argon2.hash(data.password, {
         type: argon2.argon2id, memoryCost: 65536, timeCost: 3, parallelism: 1,
@@ -32,12 +36,26 @@ export class StaffService {
         });
       });
     } else {
+      // --- Field Staff (Driver / Delivery Man) ---
       if (!data.phone) throw ApiError.badRequest('Phone required for field staff');
       const tempEmail = `${data.phone}@staff.local`;
 
+      // 👇 Yahan default PIN set karo (agar frontend se password aaya hai toh wo, warna '1234')
+      const defaultPin = data.password || '1234';
+
+      // 👇 Ab hum 'NOT_LOGGABLE' ki jagah asli hash bana rahe hain
+      const passwordHash = await argon2.hash(defaultPin, {
+        type: argon2.argon2id, memoryCost: 65536, timeCost: 3, parallelism: 1,
+      });
+
       return prisma.$transaction(async (tx) => {
         const user = await tx.user.create({
-          data: { email: tempEmail, passwordHash: 'NOT_LOGGABLE', fullName: data.fullName, phone: data.phone || null },
+          data: {
+            email: tempEmail,
+            passwordHash, // 👈 Asli hash save hoga
+            fullName: data.fullName,
+            phone: data.phone || null
+          },
         });
         return tx.tenantMember.create({
           data: { tenantId, userId: user.id, roleId: role.id },
