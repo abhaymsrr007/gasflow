@@ -301,9 +301,12 @@ npx pnpm@9.12.0 install
 npx pnpm@9.12.0 --filter @gasflow/db prisma:generate
 
 # 3. Native SQL migrations chalana (tables/indexes/RLS change ke baad)
-npx pnpm@9.12.0 db:migrate
+npx pnpm@9.12.0 db:migrate    
 
-# 4. Frontend + Backend development servers start karna
+# 4. run seed for system roles and permissions
+npx pnpm@9.12.0 --filter @gasflow/db seed
+
+# Frontend + Backend development servers start karna
 npx pnpm@9.12.0 dev
 
 # 5. Sirf backend start karna
