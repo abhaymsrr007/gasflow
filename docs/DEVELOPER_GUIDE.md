@@ -320,7 +320,6 @@ npx pnpm@9.12.0 db:migrate
 4. Database Seed
 npx pnpm@9.12.0 --filter @gasflow/db seed
 (Jab database fresh reset ho ya naye permissions add karo, root folder se chalao)
->>>>>>> f702f165ae74f53186b6375c147e2f0dd7b0a056
 
 5. API Server Start
 npx pnpm@9.12.0 --filter @gasflow/api dev
