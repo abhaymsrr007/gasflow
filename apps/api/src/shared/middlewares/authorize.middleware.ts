@@ -19,7 +19,7 @@ export function authorize(requiredPermission: string) {
 
     // Owner ke paas sab kuch hota hai
     if (member.role.name === 'owner') return next();
-
+    console.log('🔍 Member role:',JSON.stringify(member.role.permissions));
     // Check specific permission
     const hasPermission = member.role.permissions.some(
       (rp) => rp.permission.code === requiredPermission

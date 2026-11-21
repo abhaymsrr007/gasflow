@@ -60,7 +60,8 @@ export const ModelName = {
   TenantMember: 'TenantMember',
   CylinderProduct: 'CylinderProduct',
   Customer: 'Customer',
-  Trip: 'Trip'
+  Trip: 'Trip',
+  Delivery: 'Delivery'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -202,6 +203,24 @@ export const TripScalarFieldEnum = {
 } as const
 
 export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
+
+
+export const DeliveryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  tripId: 'tripId',
+  customerId: 'customerId',
+  filledOut: 'filledOut',
+  emptyIn: 'emptyIn',
+  paymentStatus: 'paymentStatus',
+  totalAmountPaise: 'totalAmountPaise',
+  discountPaise: 'discountPaise',
+  finalAmountPaise: 'finalAmountPaise',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
 
 
 export const SortOrder = {

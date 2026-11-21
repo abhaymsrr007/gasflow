@@ -120,7 +120,7 @@ const systemRoles = [
   },
   {
     name: 'delivery_man',
-    permissions: ['delivery:view', 'delivery:create'],
+    permissions: ['delivery:view', 'delivery:create','customer:view'],
   },
 ];
 
