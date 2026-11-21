@@ -303,6 +303,16 @@ npx pnpm@9.12.0 install
 npx pnpm@9.12.0 --filter @gasflow/db prisma:generate
 (Schema.prisma mein naya model/field add karne ke baad, root folder se chalao)
 
+<<<<<<< HEAD
+# 3. Native SQL migrations chalana (tables/indexes/RLS change ke baad)
+npx pnpm@9.12.0 db:migrate    
+
+# 4. run seed for system roles and permissions
+npx pnpm@9.12.0 --filter @gasflow/db seed
+
+# Frontend + Backend development servers start karna
+npx pnpm@9.12.0 dev
+=======
 3. Database Migrations Run
 npx pnpm@9.12.0 db:migrate
 (Jab bhi migrations folder mein nayi .sql file banao, root folder se chalao)
