@@ -361,16 +361,6 @@ export type CylinderProductUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CylinderProductListRelationFilter = {
-  every?: Prisma.CylinderProductWhereInput
-  some?: Prisma.CylinderProductWhereInput
-  none?: Prisma.CylinderProductWhereInput
-}
-
-export type CylinderProductOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type CylinderProductCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
@@ -409,6 +399,24 @@ export type CylinderProductMinOrderByAggregateInput = {
 export type CylinderProductSumOrderByAggregateInput = {
   sizeKg?: Prisma.SortOrder
   defaultPricePaise?: Prisma.SortOrder
+}
+
+export type CylinderProductListRelationFilter = {
+  every?: Prisma.CylinderProductWhereInput
+  some?: Prisma.CylinderProductWhereInput
+  none?: Prisma.CylinderProductWhereInput
+}
+
+export type CylinderProductOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type CylinderProductCreateNestedManyWithoutTenantInput = {
@@ -451,22 +459,6 @@ export type CylinderProductUncheckedUpdateManyWithoutTenantNestedInput = {
   update?: Prisma.CylinderProductUpdateWithWhereUniqueWithoutTenantInput | Prisma.CylinderProductUpdateWithWhereUniqueWithoutTenantInput[]
   updateMany?: Prisma.CylinderProductUpdateManyWithWhereWithoutTenantInput | Prisma.CylinderProductUpdateManyWithWhereWithoutTenantInput[]
   deleteMany?: Prisma.CylinderProductScalarWhereInput | Prisma.CylinderProductScalarWhereInput[]
-}
-
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
 }
 
 export type CylinderProductCreateWithoutTenantInput = {

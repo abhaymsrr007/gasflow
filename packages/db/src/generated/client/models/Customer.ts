@@ -444,16 +444,6 @@ export type CustomerUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CustomerListRelationFilter = {
-  every?: Prisma.CustomerWhereInput
-  some?: Prisma.CustomerWhereInput
-  none?: Prisma.CustomerWhereInput
-}
-
-export type CustomerOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type CustomerCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
@@ -511,6 +501,38 @@ export type CustomerScalarRelationFilter = {
   isNot?: Prisma.CustomerWhereInput
 }
 
+export type CustomerListRelationFilter = {
+  every?: Prisma.CustomerWhereInput
+  some?: Prisma.CustomerWhereInput
+  none?: Prisma.CustomerWhereInput
+}
+
+export type CustomerOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type BigIntFieldUpdateOperationsInput = {
+  set?: bigint | number
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
+export type CustomerCreateNestedOneWithoutDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutDeliveriesInput, Prisma.CustomerUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutDeliveriesInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutDeliveriesInput, Prisma.CustomerUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutDeliveriesInput
+  upsert?: Prisma.CustomerUpsertWithoutDeliveriesInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.CustomerUpdateWithoutDeliveriesInput>, Prisma.CustomerUncheckedUpdateWithoutDeliveriesInput>
+}
+
 export type CustomerCreateNestedManyWithoutTenantInput = {
   create?: Prisma.XOR<Prisma.CustomerCreateWithoutTenantInput, Prisma.CustomerUncheckedCreateWithoutTenantInput> | Prisma.CustomerCreateWithoutTenantInput[] | Prisma.CustomerUncheckedCreateWithoutTenantInput[]
   connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutTenantInput | Prisma.CustomerCreateOrConnectWithoutTenantInput[]
@@ -551,91 +573,6 @@ export type CustomerUncheckedUpdateManyWithoutTenantNestedInput = {
   update?: Prisma.CustomerUpdateWithWhereUniqueWithoutTenantInput | Prisma.CustomerUpdateWithWhereUniqueWithoutTenantInput[]
   updateMany?: Prisma.CustomerUpdateManyWithWhereWithoutTenantInput | Prisma.CustomerUpdateManyWithWhereWithoutTenantInput[]
   deleteMany?: Prisma.CustomerScalarWhereInput | Prisma.CustomerScalarWhereInput[]
-}
-
-export type CustomerCreateNestedOneWithoutDeliveriesInput = {
-  create?: Prisma.XOR<Prisma.CustomerCreateWithoutDeliveriesInput, Prisma.CustomerUncheckedCreateWithoutDeliveriesInput>
-  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutDeliveriesInput
-  connect?: Prisma.CustomerWhereUniqueInput
-}
-
-export type CustomerUpdateOneRequiredWithoutDeliveriesNestedInput = {
-  create?: Prisma.XOR<Prisma.CustomerCreateWithoutDeliveriesInput, Prisma.CustomerUncheckedCreateWithoutDeliveriesInput>
-  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutDeliveriesInput
-  upsert?: Prisma.CustomerUpsertWithoutDeliveriesInput
-  connect?: Prisma.CustomerWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.CustomerUpdateWithoutDeliveriesInput>, Prisma.CustomerUncheckedUpdateWithoutDeliveriesInput>
-}
-
-export type CustomerCreateWithoutTenantInput = {
-  id?: string
-  businessName: string
-  contactPerson?: string | null
-  phone: string
-  category: string
-  creditLimitPaise?: bigint | number
-  openingBalancePaise?: bigint | number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  deliveries?: Prisma.DeliveryCreateNestedManyWithoutCustomerInput
-}
-
-export type CustomerUncheckedCreateWithoutTenantInput = {
-  id?: string
-  businessName: string
-  contactPerson?: string | null
-  phone: string
-  category: string
-  creditLimitPaise?: bigint | number
-  openingBalancePaise?: bigint | number
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutCustomerInput
-}
-
-export type CustomerCreateOrConnectWithoutTenantInput = {
-  where: Prisma.CustomerWhereUniqueInput
-  create: Prisma.XOR<Prisma.CustomerCreateWithoutTenantInput, Prisma.CustomerUncheckedCreateWithoutTenantInput>
-}
-
-export type CustomerCreateManyTenantInputEnvelope = {
-  data: Prisma.CustomerCreateManyTenantInput | Prisma.CustomerCreateManyTenantInput[]
-  skipDuplicates?: boolean
-}
-
-export type CustomerUpsertWithWhereUniqueWithoutTenantInput = {
-  where: Prisma.CustomerWhereUniqueInput
-  update: Prisma.XOR<Prisma.CustomerUpdateWithoutTenantInput, Prisma.CustomerUncheckedUpdateWithoutTenantInput>
-  create: Prisma.XOR<Prisma.CustomerCreateWithoutTenantInput, Prisma.CustomerUncheckedCreateWithoutTenantInput>
-}
-
-export type CustomerUpdateWithWhereUniqueWithoutTenantInput = {
-  where: Prisma.CustomerWhereUniqueInput
-  data: Prisma.XOR<Prisma.CustomerUpdateWithoutTenantInput, Prisma.CustomerUncheckedUpdateWithoutTenantInput>
-}
-
-export type CustomerUpdateManyWithWhereWithoutTenantInput = {
-  where: Prisma.CustomerScalarWhereInput
-  data: Prisma.XOR<Prisma.CustomerUpdateManyMutationInput, Prisma.CustomerUncheckedUpdateManyWithoutTenantInput>
-}
-
-export type CustomerScalarWhereInput = {
-  AND?: Prisma.CustomerScalarWhereInput | Prisma.CustomerScalarWhereInput[]
-  OR?: Prisma.CustomerScalarWhereInput[]
-  NOT?: Prisma.CustomerScalarWhereInput | Prisma.CustomerScalarWhereInput[]
-  id?: Prisma.UuidFilter<"Customer"> | string
-  tenantId?: Prisma.UuidFilter<"Customer"> | string
-  businessName?: Prisma.StringFilter<"Customer"> | string
-  contactPerson?: Prisma.StringNullableFilter<"Customer"> | string | null
-  phone?: Prisma.StringFilter<"Customer"> | string
-  category?: Prisma.StringFilter<"Customer"> | string
-  creditLimitPaise?: Prisma.BigIntFilter<"Customer"> | bigint | number
-  openingBalancePaise?: Prisma.BigIntFilter<"Customer"> | bigint | number
-  isActive?: Prisma.BoolFilter<"Customer"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
 }
 
 export type CustomerCreateWithoutDeliveriesInput = {
@@ -708,6 +645,77 @@ export type CustomerUncheckedUpdateWithoutDeliveriesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CustomerCreateWithoutTenantInput = {
+  id?: string
+  businessName: string
+  contactPerson?: string | null
+  phone: string
+  category: string
+  creditLimitPaise?: bigint | number
+  openingBalancePaise?: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutTenantInput = {
+  id?: string
+  businessName: string
+  contactPerson?: string | null
+  phone: string
+  category: string
+  creditLimitPaise?: bigint | number
+  openingBalancePaise?: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutTenantInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutTenantInput, Prisma.CustomerUncheckedCreateWithoutTenantInput>
+}
+
+export type CustomerCreateManyTenantInputEnvelope = {
+  data: Prisma.CustomerCreateManyTenantInput | Prisma.CustomerCreateManyTenantInput[]
+  skipDuplicates?: boolean
+}
+
+export type CustomerUpsertWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutTenantInput, Prisma.CustomerUncheckedUpdateWithoutTenantInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutTenantInput, Prisma.CustomerUncheckedCreateWithoutTenantInput>
+}
+
+export type CustomerUpdateWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutTenantInput, Prisma.CustomerUncheckedUpdateWithoutTenantInput>
+}
+
+export type CustomerUpdateManyWithWhereWithoutTenantInput = {
+  where: Prisma.CustomerScalarWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateManyMutationInput, Prisma.CustomerUncheckedUpdateManyWithoutTenantInput>
+}
+
+export type CustomerScalarWhereInput = {
+  AND?: Prisma.CustomerScalarWhereInput | Prisma.CustomerScalarWhereInput[]
+  OR?: Prisma.CustomerScalarWhereInput[]
+  NOT?: Prisma.CustomerScalarWhereInput | Prisma.CustomerScalarWhereInput[]
+  id?: Prisma.UuidFilter<"Customer"> | string
+  tenantId?: Prisma.UuidFilter<"Customer"> | string
+  businessName?: Prisma.StringFilter<"Customer"> | string
+  contactPerson?: Prisma.StringNullableFilter<"Customer"> | string | null
+  phone?: Prisma.StringFilter<"Customer"> | string
+  category?: Prisma.StringFilter<"Customer"> | string
+  creditLimitPaise?: Prisma.BigIntFilter<"Customer"> | bigint | number
+  openingBalancePaise?: Prisma.BigIntFilter<"Customer"> | bigint | number
+  isActive?: Prisma.BoolFilter<"Customer"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
 }
 
 export type CustomerCreateManyTenantInput = {

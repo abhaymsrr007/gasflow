@@ -51,17 +51,17 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
-  Session: 'Session',
-  Tenant: 'Tenant',
   Role: 'Role',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   TenantMember: 'TenantMember',
-  CylinderProduct: 'CylinderProduct',
   Customer: 'Customer',
+  Delivery: 'Delivery',
+  CylinderProduct: 'CylinderProduct',
+  Session: 'Session',
+  Tenant: 'Tenant',
   Trip: 'Trip',
-  Delivery: 'Delivery'
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -78,47 +78,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-export const UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  fullName: 'fullName',
-  phone: 'phone',
-  isActive: 'isActive',
-  isPlatformAdmin: 'isPlatformAdmin',
-  emailVerifiedAt: 'emailVerifiedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const SessionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  refreshTokenHash: 'refreshTokenHash',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
-} as const
-
-export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
-
-
-export const TenantScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  isActive: 'isActive',
-  trialEndsAt: 'trialEndsAt',
-  subscriptionStatus: 'subscriptionStatus',
-  subscriptionEndsAt: 'subscriptionEndsAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {
@@ -160,19 +119,6 @@ export const TenantMemberScalarFieldEnum = {
 export type TenantMemberScalarFieldEnum = (typeof TenantMemberScalarFieldEnum)[keyof typeof TenantMemberScalarFieldEnum]
 
 
-export const CylinderProductScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  name: 'name',
-  sizeKg: 'sizeKg',
-  defaultPricePaise: 'defaultPricePaise',
-  isActive: 'isActive',
-  createdAt: 'createdAt'
-} as const
-
-export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
-
-
 export const CustomerScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -188,21 +134,6 @@ export const CustomerScalarFieldEnum = {
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
-
-
-export const TripScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  vehicleNumber: 'vehicleNumber',
-  driverId: 'driverId',
-  deliveryManId: 'deliveryManId',
-  totalLoaded: 'totalLoaded',
-  status: 'status',
-  createdAt: 'createdAt',
-  endedAt: 'endedAt'
-} as const
-
-export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
 
 
 export const DeliveryScalarFieldEnum = {
@@ -221,6 +152,75 @@ export const DeliveryScalarFieldEnum = {
 } as const
 
 export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
+
+
+export const CylinderProductScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  sizeKg: 'sizeKg',
+  defaultPricePaise: 'defaultPricePaise',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type CylinderProductScalarFieldEnum = (typeof CylinderProductScalarFieldEnum)[keyof typeof CylinderProductScalarFieldEnum]
+
+
+export const SessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  refreshTokenHash: 'refreshTokenHash',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const TenantScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  isActive: 'isActive',
+  trialEndsAt: 'trialEndsAt',
+  subscriptionStatus: 'subscriptionStatus',
+  subscriptionEndsAt: 'subscriptionEndsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
+
+
+export const TripScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  vehicleNumber: 'vehicleNumber',
+  driverId: 'driverId',
+  deliveryManId: 'deliveryManId',
+  totalLoaded: 'totalLoaded',
+  status: 'status',
+  createdAt: 'createdAt',
+  endedAt: 'endedAt'
+} as const
+
+export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  fullName: 'fullName',
+  phone: 'phone',
+  isActive: 'isActive',
+  isPlatformAdmin: 'isPlatformAdmin',
+  emailVerifiedAt: 'emailVerifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const SortOrder = {

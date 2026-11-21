@@ -1,0 +1,25 @@
+model Delivery {
+  id         String @id @default(uuid()) @db.Uuid
+  tenantId   String @map("tenant_id") @db.Uuid
+  tripId     String @map("trip_id") @db.Uuid
+  customerId String @map("customer_id") @db.Uuid
+
+  filledOut Int @map("filled_out")
+  emptyIn   Int @map("empty_in")
+
+  // Payment fields
+  paymentStatus    String @default("pending") @map("payment_status") // pending, paid_cash, paid_online
+  totalAmountPaise BigInt @map("total_amount_paise")
+  discountPaise    BigInt @default(0) @map("discount_paise")
+  finalAmountPaise BigInt @map("final_amount_paise")
+
+  status    String   @default("completed") // delivery status 
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  tenant   Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  trip     Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("deliveries")
+}

@@ -543,48 +543,6 @@ export type DeliverySumOrderByAggregateInput = {
   finalAmountPaise?: Prisma.SortOrder
 }
 
-export type DeliveryCreateNestedManyWithoutTenantInput = {
-  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
-  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
-  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
-  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-}
-
-export type DeliveryUncheckedCreateNestedManyWithoutTenantInput = {
-  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
-  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
-  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
-  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-}
-
-export type DeliveryUpdateManyWithoutTenantNestedInput = {
-  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
-  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
-  upsert?: Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput[]
-  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
-  set?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  disconnect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  delete?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput[]
-  updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput | Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput[]
-  deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
-}
-
-export type DeliveryUncheckedUpdateManyWithoutTenantNestedInput = {
-  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
-  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
-  upsert?: Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput[]
-  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
-  set?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  disconnect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  delete?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
-  update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput[]
-  updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput | Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput[]
-  deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
-}
-
 export type DeliveryCreateNestedManyWithoutCustomerInput = {
   create?: Prisma.XOR<Prisma.DeliveryCreateWithoutCustomerInput, Prisma.DeliveryUncheckedCreateWithoutCustomerInput> | Prisma.DeliveryCreateWithoutCustomerInput[] | Prisma.DeliveryUncheckedCreateWithoutCustomerInput[]
   connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutCustomerInput | Prisma.DeliveryCreateOrConnectWithoutCustomerInput[]
@@ -624,6 +582,56 @@ export type DeliveryUncheckedUpdateManyWithoutCustomerNestedInput = {
   connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
   update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutCustomerInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutCustomerInput[]
   updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutCustomerInput | Prisma.DeliveryUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type DeliveryCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
+  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+}
+
+export type DeliveryUncheckedCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
+  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+}
+
+export type DeliveryUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
+  set?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  disconnect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  delete?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput | Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
+}
+
+export type DeliveryUncheckedUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput> | Prisma.DeliveryCreateWithoutTenantInput[] | Prisma.DeliveryUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutTenantInput | Prisma.DeliveryCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.DeliveryCreateManyTenantInputEnvelope
+  set?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  disconnect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  delete?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  connect?: Prisma.DeliveryWhereUniqueInput | Prisma.DeliveryWhereUniqueInput[]
+  update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput | Prisma.DeliveryUpdateManyWithWhereWithoutTenantInput[]
   deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
 }
 
@@ -667,78 +675,6 @@ export type DeliveryUncheckedUpdateManyWithoutTripNestedInput = {
   update?: Prisma.DeliveryUpdateWithWhereUniqueWithoutTripInput | Prisma.DeliveryUpdateWithWhereUniqueWithoutTripInput[]
   updateMany?: Prisma.DeliveryUpdateManyWithWhereWithoutTripInput | Prisma.DeliveryUpdateManyWithWhereWithoutTripInput[]
   deleteMany?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
-}
-
-export type DeliveryCreateWithoutTenantInput = {
-  id?: string
-  filledOut: number
-  emptyIn: number
-  paymentStatus?: string
-  totalAmountPaise: bigint | number
-  discountPaise?: bigint | number
-  finalAmountPaise: bigint | number
-  status?: string
-  createdAt?: Date | string
-  trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
-  customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
-}
-
-export type DeliveryUncheckedCreateWithoutTenantInput = {
-  id?: string
-  tripId: string
-  customerId: string
-  filledOut: number
-  emptyIn: number
-  paymentStatus?: string
-  totalAmountPaise: bigint | number
-  discountPaise?: bigint | number
-  finalAmountPaise: bigint | number
-  status?: string
-  createdAt?: Date | string
-}
-
-export type DeliveryCreateOrConnectWithoutTenantInput = {
-  where: Prisma.DeliveryWhereUniqueInput
-  create: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput>
-}
-
-export type DeliveryCreateManyTenantInputEnvelope = {
-  data: Prisma.DeliveryCreateManyTenantInput | Prisma.DeliveryCreateManyTenantInput[]
-  skipDuplicates?: boolean
-}
-
-export type DeliveryUpsertWithWhereUniqueWithoutTenantInput = {
-  where: Prisma.DeliveryWhereUniqueInput
-  update: Prisma.XOR<Prisma.DeliveryUpdateWithoutTenantInput, Prisma.DeliveryUncheckedUpdateWithoutTenantInput>
-  create: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput>
-}
-
-export type DeliveryUpdateWithWhereUniqueWithoutTenantInput = {
-  where: Prisma.DeliveryWhereUniqueInput
-  data: Prisma.XOR<Prisma.DeliveryUpdateWithoutTenantInput, Prisma.DeliveryUncheckedUpdateWithoutTenantInput>
-}
-
-export type DeliveryUpdateManyWithWhereWithoutTenantInput = {
-  where: Prisma.DeliveryScalarWhereInput
-  data: Prisma.XOR<Prisma.DeliveryUpdateManyMutationInput, Prisma.DeliveryUncheckedUpdateManyWithoutTenantInput>
-}
-
-export type DeliveryScalarWhereInput = {
-  AND?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
-  OR?: Prisma.DeliveryScalarWhereInput[]
-  NOT?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
-  id?: Prisma.UuidFilter<"Delivery"> | string
-  tenantId?: Prisma.UuidFilter<"Delivery"> | string
-  tripId?: Prisma.UuidFilter<"Delivery"> | string
-  customerId?: Prisma.UuidFilter<"Delivery"> | string
-  filledOut?: Prisma.IntFilter<"Delivery"> | number
-  emptyIn?: Prisma.IntFilter<"Delivery"> | number
-  paymentStatus?: Prisma.StringFilter<"Delivery"> | string
-  totalAmountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
-  discountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
-  finalAmountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
-  status?: Prisma.StringFilter<"Delivery"> | string
-  createdAt?: Prisma.DateTimeFilter<"Delivery"> | Date | string
 }
 
 export type DeliveryCreateWithoutCustomerInput = {
@@ -795,6 +731,78 @@ export type DeliveryUpdateManyWithWhereWithoutCustomerInput = {
   data: Prisma.XOR<Prisma.DeliveryUpdateManyMutationInput, Prisma.DeliveryUncheckedUpdateManyWithoutCustomerInput>
 }
 
+export type DeliveryScalarWhereInput = {
+  AND?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
+  OR?: Prisma.DeliveryScalarWhereInput[]
+  NOT?: Prisma.DeliveryScalarWhereInput | Prisma.DeliveryScalarWhereInput[]
+  id?: Prisma.UuidFilter<"Delivery"> | string
+  tenantId?: Prisma.UuidFilter<"Delivery"> | string
+  tripId?: Prisma.UuidFilter<"Delivery"> | string
+  customerId?: Prisma.UuidFilter<"Delivery"> | string
+  filledOut?: Prisma.IntFilter<"Delivery"> | number
+  emptyIn?: Prisma.IntFilter<"Delivery"> | number
+  paymentStatus?: Prisma.StringFilter<"Delivery"> | string
+  totalAmountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
+  discountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
+  finalAmountPaise?: Prisma.BigIntFilter<"Delivery"> | bigint | number
+  status?: Prisma.StringFilter<"Delivery"> | string
+  createdAt?: Prisma.DateTimeFilter<"Delivery"> | Date | string
+}
+
+export type DeliveryCreateWithoutTenantInput = {
+  id?: string
+  filledOut: number
+  emptyIn: number
+  paymentStatus?: string
+  totalAmountPaise: bigint | number
+  discountPaise?: bigint | number
+  finalAmountPaise: bigint | number
+  status?: string
+  createdAt?: Date | string
+  trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
+  customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
+}
+
+export type DeliveryUncheckedCreateWithoutTenantInput = {
+  id?: string
+  tripId: string
+  customerId: string
+  filledOut: number
+  emptyIn: number
+  paymentStatus?: string
+  totalAmountPaise: bigint | number
+  discountPaise?: bigint | number
+  finalAmountPaise: bigint | number
+  status?: string
+  createdAt?: Date | string
+}
+
+export type DeliveryCreateOrConnectWithoutTenantInput = {
+  where: Prisma.DeliveryWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput>
+}
+
+export type DeliveryCreateManyTenantInputEnvelope = {
+  data: Prisma.DeliveryCreateManyTenantInput | Prisma.DeliveryCreateManyTenantInput[]
+  skipDuplicates?: boolean
+}
+
+export type DeliveryUpsertWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.DeliveryWhereUniqueInput
+  update: Prisma.XOR<Prisma.DeliveryUpdateWithoutTenantInput, Prisma.DeliveryUncheckedUpdateWithoutTenantInput>
+  create: Prisma.XOR<Prisma.DeliveryCreateWithoutTenantInput, Prisma.DeliveryUncheckedCreateWithoutTenantInput>
+}
+
+export type DeliveryUpdateWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.DeliveryWhereUniqueInput
+  data: Prisma.XOR<Prisma.DeliveryUpdateWithoutTenantInput, Prisma.DeliveryUncheckedUpdateWithoutTenantInput>
+}
+
+export type DeliveryUpdateManyWithWhereWithoutTenantInput = {
+  where: Prisma.DeliveryScalarWhereInput
+  data: Prisma.XOR<Prisma.DeliveryUpdateManyMutationInput, Prisma.DeliveryUncheckedUpdateManyWithoutTenantInput>
+}
+
 export type DeliveryCreateWithoutTripInput = {
   id?: string
   filledOut: number
@@ -849,62 +857,6 @@ export type DeliveryUpdateManyWithWhereWithoutTripInput = {
   data: Prisma.XOR<Prisma.DeliveryUpdateManyMutationInput, Prisma.DeliveryUncheckedUpdateManyWithoutTripInput>
 }
 
-export type DeliveryCreateManyTenantInput = {
-  id?: string
-  tripId: string
-  customerId: string
-  filledOut: number
-  emptyIn: number
-  paymentStatus?: string
-  totalAmountPaise: bigint | number
-  discountPaise?: bigint | number
-  finalAmountPaise: bigint | number
-  status?: string
-  createdAt?: Date | string
-}
-
-export type DeliveryUpdateWithoutTenantInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
-  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
-  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
-  customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
-}
-
-export type DeliveryUncheckedUpdateWithoutTenantInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tripId?: Prisma.StringFieldUpdateOperationsInput | string
-  customerId?: Prisma.StringFieldUpdateOperationsInput | string
-  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
-  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
-  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type DeliveryUncheckedUpdateManyWithoutTenantInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tripId?: Prisma.StringFieldUpdateOperationsInput | string
-  customerId?: Prisma.StringFieldUpdateOperationsInput | string
-  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
-  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
-  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
-  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 export type DeliveryCreateManyCustomerInput = {
   id?: string
   tenantId: string
@@ -951,6 +903,62 @@ export type DeliveryUncheckedUpdateManyWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   tripId?: Prisma.StringFieldUpdateOperationsInput | string
+  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
+  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DeliveryCreateManyTenantInput = {
+  id?: string
+  tripId: string
+  customerId: string
+  filledOut: number
+  emptyIn: number
+  paymentStatus?: string
+  totalAmountPaise: bigint | number
+  discountPaise?: bigint | number
+  finalAmountPaise: bigint | number
+  status?: string
+  createdAt?: Date | string
+}
+
+export type DeliveryUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
+  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
+}
+
+export type DeliveryUncheckedUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tripId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
+  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DeliveryUncheckedUpdateManyWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tripId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   filledOut?: Prisma.IntFieldUpdateOperationsInput | number
   emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
   paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string

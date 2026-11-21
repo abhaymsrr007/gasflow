@@ -1,0 +1,16 @@
+model Trip {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  vehicleNumber String    @map("vehicle_number")
+  driverId      String    @map("driver_id") @db.Uuid
+  deliveryManId String    @map("delivery_man_id") @db.Uuid
+  totalLoaded   Int       @map("total_loaded")
+  status        String    @default("active") // active, completed
+  createdAt     DateTime  @default(now()) @map("created_at")
+  endedAt       DateTime? @map("ended_at")
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  deliveries Delivery[]
+
+  @@map("trips")
+}

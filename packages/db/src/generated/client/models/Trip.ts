@@ -402,6 +402,11 @@ export type TripUncheckedUpdateManyInput = {
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type TripScalarRelationFilter = {
+  is?: Prisma.TripWhereInput
+  isNot?: Prisma.TripWhereInput
+}
+
 export type TripListRelationFilter = {
   every?: Prisma.TripWhereInput
   some?: Prisma.TripWhereInput
@@ -456,9 +461,18 @@ export type TripSumOrderByAggregateInput = {
   totalLoaded?: Prisma.SortOrder
 }
 
-export type TripScalarRelationFilter = {
-  is?: Prisma.TripWhereInput
-  isNot?: Prisma.TripWhereInput
+export type TripCreateNestedOneWithoutDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
+  connect?: Prisma.TripWhereUniqueInput
+}
+
+export type TripUpdateOneRequiredWithoutDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
+  upsert?: Prisma.TripUpsertWithoutDeliveriesInput
+  connect?: Prisma.TripWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.TripUpdateWithoutDeliveriesInput>, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
 }
 
 export type TripCreateNestedManyWithoutTenantInput = {
@@ -503,26 +517,68 @@ export type TripUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TripScalarWhereInput | Prisma.TripScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type TripCreateWithoutDeliveriesInput = {
+  id?: string
+  vehicleNumber: string
+  driverId: string
+  deliveryManId: string
+  totalLoaded: number
+  status?: string
+  createdAt?: Date | string
+  endedAt?: Date | string | null
+  tenant: Prisma.TenantCreateNestedOneWithoutTripsInput
 }
 
-export type TripCreateNestedOneWithoutDeliveriesInput = {
-  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
-  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
-  connect?: Prisma.TripWhereUniqueInput
+export type TripUncheckedCreateWithoutDeliveriesInput = {
+  id?: string
+  tenantId: string
+  vehicleNumber: string
+  driverId: string
+  deliveryManId: string
+  totalLoaded: number
+  status?: string
+  createdAt?: Date | string
+  endedAt?: Date | string | null
 }
 
-export type TripUpdateOneRequiredWithoutDeliveriesNestedInput = {
-  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
-  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
-  upsert?: Prisma.TripUpsertWithoutDeliveriesInput
-  connect?: Prisma.TripWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.TripUpdateWithoutDeliveriesInput>, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+export type TripCreateOrConnectWithoutDeliveriesInput = {
+  where: Prisma.TripWhereUniqueInput
+  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+}
+
+export type TripUpsertWithoutDeliveriesInput = {
+  update: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  where?: Prisma.TripWhereInput
+}
+
+export type TripUpdateToOneWithWhereWithoutDeliveriesInput = {
+  where?: Prisma.TripWhereInput
+  data: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+}
+
+export type TripUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  driverId?: Prisma.StringFieldUpdateOperationsInput | string
+  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTripsNestedInput
+}
+
+export type TripUncheckedUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  driverId?: Prisma.StringFieldUpdateOperationsInput | string
+  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TripCreateWithoutTenantInput = {
@@ -588,70 +644,6 @@ export type TripScalarWhereInput = {
   status?: Prisma.StringFilter<"Trip"> | string
   createdAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"Trip"> | Date | string | null
-}
-
-export type TripCreateWithoutDeliveriesInput = {
-  id?: string
-  vehicleNumber: string
-  driverId: string
-  deliveryManId: string
-  totalLoaded: number
-  status?: string
-  createdAt?: Date | string
-  endedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutTripsInput
-}
-
-export type TripUncheckedCreateWithoutDeliveriesInput = {
-  id?: string
-  tenantId: string
-  vehicleNumber: string
-  driverId: string
-  deliveryManId: string
-  totalLoaded: number
-  status?: string
-  createdAt?: Date | string
-  endedAt?: Date | string | null
-}
-
-export type TripCreateOrConnectWithoutDeliveriesInput = {
-  where: Prisma.TripWhereUniqueInput
-  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
-}
-
-export type TripUpsertWithoutDeliveriesInput = {
-  update: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
-  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
-  where?: Prisma.TripWhereInput
-}
-
-export type TripUpdateToOneWithWhereWithoutDeliveriesInput = {
-  where?: Prisma.TripWhereInput
-  data: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
-}
-
-export type TripUpdateWithoutDeliveriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  driverId?: Prisma.StringFieldUpdateOperationsInput | string
-  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
-  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTripsNestedInput
-}
-
-export type TripUncheckedUpdateWithoutDeliveriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  driverId?: Prisma.StringFieldUpdateOperationsInput | string
-  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
-  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TripCreateManyTenantInput = {
