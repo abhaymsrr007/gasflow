@@ -1,4 +1,3 @@
-
 model Session {
   id               String   @id @default(uuid()) @db.Uuid
   userId           String   @map("user_id") @db.Uuid

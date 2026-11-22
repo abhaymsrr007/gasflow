@@ -59,6 +59,8 @@ export const ModelName = {
   Delivery: 'Delivery',
   CylinderProduct: 'CylinderProduct',
   Session: 'Session',
+  StockBalance: 'StockBalance',
+  StockMovement: 'StockMovement',
   Tenant: 'Tenant',
   Trip: 'Trip',
   User: 'User'
@@ -176,6 +178,37 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const StockBalanceScalarFieldEnum = {
+  tenantId: 'tenantId',
+  productId: 'productId',
+  warehouseId: 'warehouseId',
+  filledQuantity: 'filledQuantity',
+  emptyQuantity: 'emptyQuantity',
+  damagedQuantity: 'damagedQuantity',
+  missingQuantity: 'missingQuantity',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StockBalanceScalarFieldEnum = (typeof StockBalanceScalarFieldEnum)[keyof typeof StockBalanceScalarFieldEnum]
+
+
+export const StockMovementScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  productId: 'productId',
+  warehouseId: 'warehouseId',
+  movementType: 'movementType',
+  quantity: 'quantity',
+  referenceId: 'referenceId',
+  referenceType: 'referenceType',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  createdBy: 'createdBy'
+} as const
+
+export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
 
 
 export const TenantScalarFieldEnum = {

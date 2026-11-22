@@ -36,7 +36,7 @@ type TransactionClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0
 export async function withTenantPrisma<T>(
   tenantId: string,
   userId: string,
-  callback: (tx: any) => Promise<T>
+  callback: (tx: TransactionClient) => Promise<T>
 ): Promise<T> {
   return prisma.$transaction(async (tx) => {
     await tx.$executeRaw`SELECT set_config('app.tenant_id', ${tenantId}, true)`;

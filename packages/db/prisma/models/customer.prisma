@@ -1,11 +1,10 @@
-
 model Customer {
   id                  String   @id @default(uuid()) @db.Uuid
   tenantId            String   @map("tenant_id") @db.Uuid
   businessName        String   @map("business_name")
   contactPerson       String?  @map("contact_person")
   phone               String
-  category             String
+  category            String
   creditLimitPaise    BigInt   @default(0) @map("credit_limit_paise")
   openingBalancePaise BigInt   @default(0) @map("opening_balance_paise")
   isActive            Boolean  @default(true) @map("is_active")

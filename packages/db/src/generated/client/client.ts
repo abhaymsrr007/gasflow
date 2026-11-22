@@ -82,6 +82,16 @@ export type CylinderProduct = Prisma.CylinderProductModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model StockBalance
+ * 
+ */
+export type StockBalance = Prisma.StockBalanceModel
+/**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel
+/**
  * Model Tenant
  * 
  */

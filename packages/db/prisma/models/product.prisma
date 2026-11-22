@@ -1,4 +1,3 @@
-
 model CylinderProduct {
   id                String   @id @default(uuid()) @db.Uuid
   tenantId          String   @map("tenant_id") @db.Uuid
@@ -8,7 +7,9 @@ model CylinderProduct {
   isActive          Boolean  @default(true) @map("is_active")
   createdAt         DateTime @default(now()) @map("created_at")
 
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stockBalances  StockBalance[]
+  stockMovements StockMovement[]
 
   @@index([tenantId])
   @@map("cylinder_products")

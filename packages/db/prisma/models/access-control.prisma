@@ -1,4 +1,3 @@
-
 model Role {
   id        String   @id @default(uuid()) @db.Uuid
   tenantId  String?  @map("tenant_id") @db.Uuid
@@ -7,8 +6,8 @@ model Role {
   createdAt DateTime @default(now()) @map("created_at")
 
   permissions RolePermission[]
-  tenant     Tenant?          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  members    TenantMember[]
+  tenant      Tenant?          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  members     TenantMember[]
 
   @@unique([tenantId, name])
   @@map("roles")
