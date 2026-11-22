@@ -7,16 +7,18 @@ import customerRoutes from './modules/customers/customer.routes';
 import tripRoutes from './modules/trips/trip.routes';
 import deliveryRoutes from './modules/deliveries/delivery.routes';
 import stockRoutes from './modules/stock/stock.routes';
+import productRoutes from './modules/products/product.routes';
 
 const router: Router = Router();
 
 router.use('/auth', authRoutes);
-router.use('/roles', requireAuth, roleRoutes);
-router.use('/staff', requireAuth, staffRoutes);
-router.use('/customers', requireAuth, customerRoutes);
-router.use('/trips', requireAuth, tripRoutes);
-router.use('/deliveries', requireAuth, deliveryRoutes);
-router.use('/stock', requireAuth, stockRoutes);
+router.use('/roles', roleRoutes);
+router.use('/staff', staffRoutes);
+router.use('/customers', customerRoutes);
+router.use('/trips', tripRoutes);
+router.use('/deliveries', deliveryRoutes);
+router.use('/stock', stockRoutes);
+router.use('/products', productRoutes);
 
 
 export default router;

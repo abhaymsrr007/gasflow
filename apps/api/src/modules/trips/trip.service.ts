@@ -140,7 +140,18 @@ export class TripService {
         const defaultWarehouseId = '00000000-0000-0000-0000-000000000000';
 
         // Stock balance update karo
-        await tx.stockBalance.update({
+        // await tx.stockBalance.update({
+        //   where: {
+        //     tenantId_productId_warehouseId: {
+        //       tenantId,
+        //       productId: product.id,
+        //       warehouseId: defaultWarehouseId,
+        //     },
+        //   },
+        //   data: { filledQuantity: { increment: actualRemaining } },
+        // });
+
+        await tx.stockBalance.upsert({
           where: {
             tenantId_productId_warehouseId: {
               tenantId,
@@ -148,7 +159,18 @@ export class TripService {
               warehouseId: defaultWarehouseId,
             },
           },
-          data: { filledQuantity: { increment: actualRemaining } },
+          update: {
+            filledQuantity: { increment: actualRemaining },
+          },
+          create: {
+            tenantId,
+            productId: product.id,
+            warehouseId: defaultWarehouseId,
+            filledQuantity: actualRemaining,
+            emptyQuantity: 0,
+            damagedQuantity: 0,
+            missingQuantity: 0,
+          },
         });
 
         // Movement ledger mein entry karo
