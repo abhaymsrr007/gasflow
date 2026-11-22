@@ -8,3 +8,11 @@ export const CreateTripSchema = z.object({
 });
 
 export type CreateTripDTO = z.infer<typeof CreateTripSchema>;
+
+
+
+
+
+export const EndTripSchema = z.object({
+  actualRemaining: z.number().int().nonnegative(),
+});
