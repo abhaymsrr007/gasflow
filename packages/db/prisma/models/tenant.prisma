@@ -16,6 +16,7 @@ model Tenant {
   deliveries     Delivery[]
   stockBalances  StockBalance[]
   stockMovements StockMovement[]
+  invoices       Invoice[]
 
   @@map("tenants")
 }

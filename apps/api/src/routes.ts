@@ -8,6 +8,7 @@ import tripRoutes from './modules/trips/trip.routes';
 import deliveryRoutes from './modules/deliveries/delivery.routes';
 import stockRoutes from './modules/stock/stock.routes';
 import productRoutes from './modules/products/product.routes';
+import invoiceRoutes from './modules/invoices/invoice.routes';
 
 const router: Router = Router();
 
@@ -19,6 +20,7 @@ router.use('/trips', tripRoutes);
 router.use('/deliveries', deliveryRoutes);
 router.use('/stock', stockRoutes);
 router.use('/products', productRoutes);
+router.use('/invoices', invoiceRoutes);
 
 
 export default router;

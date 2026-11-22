@@ -15,4 +15,14 @@ export class DeliveryController {
 
     return ApiResponse.created(res, delivery, 'Delivery completed successfully');
   });
+
+  static myDeliveries = asyncHandler(async (req: Request, res: Response) => {
+  const user = (req as any).user;
+  
+  // Query param se date le sakte hain (optional)
+  const date = req.query['date'] as string | undefined;
+
+  const deliveries = await DeliveryService.getMyDeliveries(user.tenantId, user.userId, date);
+  return ApiResponse.success(res, deliveries, 'Your deliveries fetched successfully');
+});
 }

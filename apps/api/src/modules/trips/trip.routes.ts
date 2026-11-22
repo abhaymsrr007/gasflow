@@ -44,7 +44,7 @@ router.post('/', authorize('delivery:create'), TripController.create);
  *       200:
  *         description: List of active trips
  */
-router.get('/',authorize('delivery:view'), TripController.listActive);
+router.get('/', authorize('delivery:view'), TripController.listActive);
 
 /**
  * @swagger
@@ -76,4 +76,18 @@ router.get('/',authorize('delivery:view'), TripController.listActive);
  */
 router.post('/:id/end', authorize('delivery:create'), TripController.end);
 
+
+/**
+ * @swagger
+ * /api/trips/completed:
+ *   get:
+ *     summary: Get all completed trips
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: List of completed trips
+ */
+router.get('/completed', authorize('delivery:view'), TripController.listCompleted);
 export default router;

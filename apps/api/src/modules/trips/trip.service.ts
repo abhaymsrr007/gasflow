@@ -200,4 +200,13 @@ export class TripService {
       };
     });
   }
+
+  static async listCompletedTrips(tenantId: string, userId: string) {
+  return withTenantPrisma(tenantId, userId, async (tx) => {
+    return tx.trip.findMany({
+      where: { status: 'completed' },  
+      orderBy: { endedAt: 'desc' },    
+    });
+  });
+}
 }

@@ -48,6 +48,16 @@ export type Customer = Prisma.CustomerModel
  */
 export type Delivery = Prisma.DeliveryModel
 /**
+ * Model Invoice
+ * 
+ */
+export type Invoice = Prisma.InvoiceModel
+/**
+ * Model InvoiceItem
+ * 
+ */
+export type InvoiceItem = Prisma.InvoiceItemModel
+/**
  * Model CylinderProduct
  * 
  */

@@ -23,16 +23,21 @@ export class TripController {
     return ApiResponse.success(res, trips, 'Active trips fetched');
   });
 
+  static end = asyncHandler(async (req: Request, res: Response) => {
+    const user = (req as any).user;
+    const tripId = req.params['id'];
+    if (!tripId) throw ApiError.badRequest('Trip ID is required');
 
-  
-static end = asyncHandler(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const tripId = req.params['id'];
-  if (!tripId) throw ApiError.badRequest('Trip ID is required');
+    const { actualRemaining } = EndTripSchema.parse(req.body);
+    const result = await TripService.endTrip(user.tenantId, user.userId, tripId, actualRemaining);
 
-  const { actualRemaining } = EndTripSchema.parse(req.body);
-  const result = await TripService.endTrip(user.tenantId, user.userId, tripId, actualRemaining);
+    return ApiResponse.success(res, result, 'Trip ended successfully');
+  });
 
-  return ApiResponse.success(res, result, 'Trip ended successfully');
-});
+  static listCompleted = asyncHandler(async (req: Request, res: Response) => {
+    const user = (req as any).user;
+    const trips = await TripService.listCompletedTrips(user.tenantId, user.userId);
+    return ApiResponse.success(res, trips, 'Completed trips fetched successfully');
+  });
+
 }
