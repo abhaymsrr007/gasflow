@@ -1,0 +1,45 @@
+// packages/db/prisma/models/stock.prisma
+
+model StockBalance {
+  tenantId    String @map("tenant_id") @db.Uuid
+  productId   String @map("product_id") @db.Uuid
+  warehouseId String @map("warehouse_id") @db.Uuid // Abhi ke liye ek default warehouse use karenge
+
+  filledQuantity  Int @default(0) @map("filled_quantity")
+  emptyQuantity   Int @default(0) @map("empty_quantity")
+  damagedQuantity Int @default(0) @map("damaged_quantity")
+  missingQuantity Int @default(0) @map("missing_quantity")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  tenant  Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  product CylinderProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([tenantId, productId, warehouseId])
+  @@map("stock_balances")
+}
+
+model StockMovement {
+  id          String @id @default(uuid()) @db.Uuid
+  tenantId    String @map("tenant_id") @db.Uuid
+  productId   String @map("product_id") @db.Uuid
+  warehouseId String @map("warehouse_id") @db.Uuid
+
+  movementType String @map("movement_type") // 'receipt', 'trip_load', 'delivery', 'return', 'damage', 'adjustment'
+  quantity     Int    @map("quantity") // Positive for IN, Negative for OUT
+
+  // Source Reference (Kahan se aaya)
+  referenceId   String? @map("reference_id") @db.Uuid // Trip ID, Delivery ID, etc.
+  referenceType String? @map("reference_type") // 'trip', 'delivery', 'adjustment'
+
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  createdBy String   @map("created_by") @db.Uuid // User ID
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  product CylinderProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, productId])
+  @@map("stock_movements")
+}

@@ -249,6 +249,7 @@ export type TripWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"Trip"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  deliveries?: Prisma.DeliveryListRelationFilter
 }
 
 export type TripOrderByWithRelationInput = {
@@ -262,6 +263,7 @@ export type TripOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  deliveries?: Prisma.DeliveryOrderByRelationAggregateInput
 }
 
 export type TripWhereUniqueInput = Prisma.AtLeast<{
@@ -278,6 +280,7 @@ export type TripWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Trip"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"Trip"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  deliveries?: Prisma.DeliveryListRelationFilter
 }, "id">
 
 export type TripOrderByWithAggregationInput = {
@@ -322,6 +325,7 @@ export type TripCreateInput = {
   createdAt?: Date | string
   endedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutTripsInput
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateInput = {
@@ -334,6 +338,7 @@ export type TripUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   endedAt?: Date | string | null
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripUpdateInput = {
@@ -346,6 +351,7 @@ export type TripUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutTripsNestedInput
+  deliveries?: Prisma.DeliveryUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateInput = {
@@ -358,6 +364,7 @@ export type TripUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutTripNestedInput
 }
 
 export type TripCreateManyInput = {
@@ -393,6 +400,11 @@ export type TripUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TripScalarRelationFilter = {
+  is?: Prisma.TripWhereInput
+  isNot?: Prisma.TripWhereInput
 }
 
 export type TripListRelationFilter = {
@@ -449,6 +461,20 @@ export type TripSumOrderByAggregateInput = {
   totalLoaded?: Prisma.SortOrder
 }
 
+export type TripCreateNestedOneWithoutDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
+  connect?: Prisma.TripWhereUniqueInput
+}
+
+export type TripUpdateOneRequiredWithoutDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  connectOrCreate?: Prisma.TripCreateOrConnectWithoutDeliveriesInput
+  upsert?: Prisma.TripUpsertWithoutDeliveriesInput
+  connect?: Prisma.TripWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TripUpdateToOneWithWhereWithoutDeliveriesInput, Prisma.TripUpdateWithoutDeliveriesInput>, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+}
+
 export type TripCreateNestedManyWithoutTenantInput = {
   create?: Prisma.XOR<Prisma.TripCreateWithoutTenantInput, Prisma.TripUncheckedCreateWithoutTenantInput> | Prisma.TripCreateWithoutTenantInput[] | Prisma.TripUncheckedCreateWithoutTenantInput[]
   connectOrCreate?: Prisma.TripCreateOrConnectWithoutTenantInput | Prisma.TripCreateOrConnectWithoutTenantInput[]
@@ -491,12 +517,68 @@ export type TripUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TripScalarWhereInput | Prisma.TripScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type TripCreateWithoutDeliveriesInput = {
+  id?: string
+  vehicleNumber: string
+  driverId: string
+  deliveryManId: string
+  totalLoaded: number
+  status?: string
+  createdAt?: Date | string
+  endedAt?: Date | string | null
+  tenant: Prisma.TenantCreateNestedOneWithoutTripsInput
+}
+
+export type TripUncheckedCreateWithoutDeliveriesInput = {
+  id?: string
+  tenantId: string
+  vehicleNumber: string
+  driverId: string
+  deliveryManId: string
+  totalLoaded: number
+  status?: string
+  createdAt?: Date | string
+  endedAt?: Date | string | null
+}
+
+export type TripCreateOrConnectWithoutDeliveriesInput = {
+  where: Prisma.TripWhereUniqueInput
+  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+}
+
+export type TripUpsertWithoutDeliveriesInput = {
+  update: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+  create: Prisma.XOR<Prisma.TripCreateWithoutDeliveriesInput, Prisma.TripUncheckedCreateWithoutDeliveriesInput>
+  where?: Prisma.TripWhereInput
+}
+
+export type TripUpdateToOneWithWhereWithoutDeliveriesInput = {
+  where?: Prisma.TripWhereInput
+  data: Prisma.XOR<Prisma.TripUpdateWithoutDeliveriesInput, Prisma.TripUncheckedUpdateWithoutDeliveriesInput>
+}
+
+export type TripUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  driverId?: Prisma.StringFieldUpdateOperationsInput | string
+  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTripsNestedInput
+}
+
+export type TripUncheckedUpdateWithoutDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  driverId?: Prisma.StringFieldUpdateOperationsInput | string
+  deliveryManId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalLoaded?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TripCreateWithoutTenantInput = {
@@ -508,6 +590,7 @@ export type TripCreateWithoutTenantInput = {
   status?: string
   createdAt?: Date | string
   endedAt?: Date | string | null
+  deliveries?: Prisma.DeliveryCreateNestedManyWithoutTripInput
 }
 
 export type TripUncheckedCreateWithoutTenantInput = {
@@ -519,6 +602,7 @@ export type TripUncheckedCreateWithoutTenantInput = {
   status?: string
   createdAt?: Date | string
   endedAt?: Date | string | null
+  deliveries?: Prisma.DeliveryUncheckedCreateNestedManyWithoutTripInput
 }
 
 export type TripCreateOrConnectWithoutTenantInput = {
@@ -582,6 +666,7 @@ export type TripUpdateWithoutTenantInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveries?: Prisma.DeliveryUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateWithoutTenantInput = {
@@ -593,6 +678,7 @@ export type TripUncheckedUpdateWithoutTenantInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveries?: Prisma.DeliveryUncheckedUpdateManyWithoutTripNestedInput
 }
 
 export type TripUncheckedUpdateManyWithoutTenantInput = {
@@ -607,6 +693,35 @@ export type TripUncheckedUpdateManyWithoutTenantInput = {
 }
 
 
+/**
+ * Count Type TripCountOutputType
+ */
+
+export type TripCountOutputType = {
+  deliveries: number
+}
+
+export type TripCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  deliveries?: boolean | TripCountOutputTypeCountDeliveriesArgs
+}
+
+/**
+ * TripCountOutputType without action
+ */
+export type TripCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TripCountOutputType
+   */
+  select?: Prisma.TripCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TripCountOutputType without action
+ */
+export type TripCountOutputTypeCountDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeliveryWhereInput
+}
+
 
 export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -619,6 +734,8 @@ export type TripSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   endedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  deliveries?: boolean | Prisma.Trip$deliveriesArgs<ExtArgs>
+  _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trip"]>
 
 export type TripSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -662,6 +779,8 @@ export type TripSelectScalar = {
 export type TripOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "vehicleNumber" | "driverId" | "deliveryManId" | "totalLoaded" | "status" | "createdAt" | "endedAt", ExtArgs["result"]["trip"]>
 export type TripInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  deliveries?: boolean | Prisma.Trip$deliveriesArgs<ExtArgs>
+  _count?: boolean | Prisma.TripCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TripIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -674,6 +793,7 @@ export type $TripPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Trip"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    deliveries: Prisma.$DeliveryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1080,6 +1200,7 @@ readonly fields: TripFieldRefs;
 export interface Prisma__TripClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  deliveries<T extends Prisma.Trip$deliveriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trip$deliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1516,6 +1637,30 @@ export type TripDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Trips to delete.
    */
   limit?: number
+}
+
+/**
+ * Trip.deliveries
+ */
+export type Trip$deliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Delivery
+   */
+  select?: Prisma.DeliverySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Delivery
+   */
+  omit?: Prisma.DeliveryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeliveryInclude<ExtArgs> | null
+  where?: Prisma.DeliveryWhereInput
+  orderBy?: Prisma.DeliveryOrderByWithRelationInput | Prisma.DeliveryOrderByWithRelationInput[]
+  cursor?: Prisma.DeliveryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeliveryScalarFieldEnum | Prisma.DeliveryScalarFieldEnum[]
 }
 
 /**

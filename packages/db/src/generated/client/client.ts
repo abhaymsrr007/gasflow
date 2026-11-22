@@ -31,8 +31,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Roles
+ * const roles = await prisma.role.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -41,21 +41,6 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-/**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
-/**
- * Model Session
- * 
- */
-export type Session = Prisma.SessionModel
-/**
- * Model Tenant
- * 
- */
-export type Tenant = Prisma.TenantModel
 /**
  * Model Role
  * 
@@ -77,17 +62,47 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type TenantMember = Prisma.TenantMemberModel
 /**
- * Model CylinderProduct
- * 
- */
-export type CylinderProduct = Prisma.CylinderProductModel
-/**
  * Model Customer
  * 
  */
 export type Customer = Prisma.CustomerModel
 /**
+ * Model Delivery
+ * 
+ */
+export type Delivery = Prisma.DeliveryModel
+/**
+ * Model CylinderProduct
+ * 
+ */
+export type CylinderProduct = Prisma.CylinderProductModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model StockBalance
+ * 
+ */
+export type StockBalance = Prisma.StockBalanceModel
+/**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel
+/**
+ * Model Tenant
+ * 
+ */
+export type Tenant = Prisma.TenantModel
+/**
  * Model Trip
  * 
  */
 export type Trip = Prisma.TripModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

@@ -1,0 +1,21 @@
+model Tenant {
+  id                 String    @id @default(uuid()) @db.Uuid
+  name               String
+  isActive           Boolean   @default(true) @map("is_active")
+  trialEndsAt        DateTime? @map("trial_ends_at")
+  subscriptionStatus String    @default("trial") @map("subscription_status")
+  subscriptionEndsAt DateTime? @map("subscription_ends_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  customers      Customer[]
+  products       CylinderProduct[]
+  roles          Role[]
+  members        TenantMember[]
+  trips          Trip[]
+  deliveries     Delivery[]
+  stockBalances  StockBalance[]
+  stockMovements StockMovement[]
+
+  @@map("tenants")
+}

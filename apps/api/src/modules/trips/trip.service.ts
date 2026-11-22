@@ -5,7 +5,7 @@ import { ApiError } from '../../shared/utils/apiError';
 export class TripService {
   static async createTrip(tenantId: string, userId: string, data: CreateTripDTO) {
     return withTenantPrisma(tenantId, userId, async (tx) => {
-      // 1. Check karo ki Driver aur Delivery Man exist karte hain aur isi tenant ke hain
+      // 1. Check Driver
       const driver = await tx.tenantMember.findFirst({
         where: { id: data.driverId, tenantId },
         include: { role: true },
@@ -14,6 +14,7 @@ export class TripService {
         throw ApiError.badRequest('Invalid driver selected');
       }
 
+      // 2. Check Delivery Man
       const deliveryMan = await tx.tenantMember.findFirst({
         where: { id: data.deliveryManId, tenantId },
         include: { role: true },
@@ -22,7 +23,28 @@ export class TripService {
         throw ApiError.badRequest('Invalid delivery man selected');
       }
 
-      // 2. Trip banao
+      // 3. Stock Check (Filled Cylinders in Godown)
+      // Hum maan rahe hain ki ek default product/warehouse hai. Future mein ye dynamic hoga.
+      const product = await tx.cylinderProduct.findFirst({ where: { tenantId } });
+      if (!product) throw ApiError.badRequest('No cylinder product found. Please add a product first.');
+
+      const defaultWarehouseId = '00000000-0000-0000-0000-000000000000'; // Temporary default
+
+      const stock = await tx.stockBalance.findUnique({
+        where: {
+          tenantId_productId_warehouseId: {
+            tenantId,
+            productId: product.id,
+            warehouseId: defaultWarehouseId,
+          },
+        },
+      });
+
+      if (!stock || stock.filledQuantity < data.totalLoaded) {
+        throw ApiError.badRequest(`Insufficient stock! Only ${stock?.filledQuantity || 0} filled cylinders available.`);
+      }
+
+      // 4. Trip banao
       const trip = await tx.trip.create({
         data: {
           tenantId,
@@ -34,8 +56,34 @@ export class TripService {
         },
       });
 
-      // 3. Godown se stock minus karo (Note: Abhi humne stock_balances table use nahi kiya hai, ye future ka kaam hai)
-      // Filhal hum log sirf Trip create kar rahe hain.
+      // 5. Godown se stock minus karo
+      await tx.stockBalance.update({
+        where: {
+          tenantId_productId_warehouseId: {
+            tenantId,
+            productId: product.id,
+            warehouseId: defaultWarehouseId,
+          },
+        },
+        data: {
+          filledQuantity: { decrement: data.totalLoaded },
+        },
+      });
+
+      // 6. Ledger (stock_movements) mein entry karo
+      await tx.stockMovement.create({
+        data: {
+          tenantId,
+          productId: product.id,
+          warehouseId: defaultWarehouseId,
+          movementType: 'trip_load',
+          quantity: -data.totalLoaded, // Negative kyunki stock minus ho raha hai
+          referenceId: trip.id,
+          referenceType: 'trip',
+          createdBy: userId,
+          notes: `Loaded ${data.totalLoaded} cylinders into Trip ${trip.id}`,
+        },
+      });
 
       return trip;
     });

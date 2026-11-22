@@ -18,21 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
-/**
- * Model Session
- * 
- */
-export type Session = Prisma.SessionModel
-/**
- * Model Tenant
- * 
- */
-export type Tenant = Prisma.TenantModel
-/**
  * Model Role
  * 
  */
@@ -53,17 +38,47 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type TenantMember = Prisma.TenantMemberModel
 /**
- * Model CylinderProduct
- * 
- */
-export type CylinderProduct = Prisma.CylinderProductModel
-/**
  * Model Customer
  * 
  */
 export type Customer = Prisma.CustomerModel
 /**
+ * Model Delivery
+ * 
+ */
+export type Delivery = Prisma.DeliveryModel
+/**
+ * Model CylinderProduct
+ * 
+ */
+export type CylinderProduct = Prisma.CylinderProductModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model StockBalance
+ * 
+ */
+export type StockBalance = Prisma.StockBalanceModel
+/**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel
+/**
+ * Model Tenant
+ * 
+ */
+export type Tenant = Prisma.TenantModel
+/**
  * Model Trip
  * 
  */
 export type Trip = Prisma.TripModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

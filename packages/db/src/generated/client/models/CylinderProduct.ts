@@ -237,6 +237,8 @@ export type CylinderProductWhereInput = {
   isActive?: Prisma.BoolFilter<"CylinderProduct"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CylinderProduct"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  stockBalances?: Prisma.StockBalanceListRelationFilter
+  stockMovements?: Prisma.StockMovementListRelationFilter
 }
 
 export type CylinderProductOrderByWithRelationInput = {
@@ -248,6 +250,8 @@ export type CylinderProductOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  stockBalances?: Prisma.StockBalanceOrderByRelationAggregateInput
+  stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput
 }
 
 export type CylinderProductWhereUniqueInput = Prisma.AtLeast<{
@@ -262,6 +266,8 @@ export type CylinderProductWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"CylinderProduct"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CylinderProduct"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  stockBalances?: Prisma.StockBalanceListRelationFilter
+  stockMovements?: Prisma.StockMovementListRelationFilter
 }, "id">
 
 export type CylinderProductOrderByWithAggregationInput = {
@@ -300,6 +306,8 @@ export type CylinderProductCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutProductsInput
+  stockBalances?: Prisma.StockBalanceCreateNestedManyWithoutProductInput
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutProductInput
 }
 
 export type CylinderProductUncheckedCreateInput = {
@@ -310,6 +318,8 @@ export type CylinderProductUncheckedCreateInput = {
   defaultPricePaise: bigint | number
   isActive?: boolean
   createdAt?: Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedCreateNestedManyWithoutProductInput
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type CylinderProductUpdateInput = {
@@ -320,6 +330,8 @@ export type CylinderProductUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutProductsNestedInput
+  stockBalances?: Prisma.StockBalanceUpdateManyWithoutProductNestedInput
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
 }
 
 export type CylinderProductUncheckedUpdateInput = {
@@ -330,6 +342,8 @@ export type CylinderProductUncheckedUpdateInput = {
   defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedUpdateManyWithoutProductNestedInput
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type CylinderProductCreateManyInput = {
@@ -359,16 +373,6 @@ export type CylinderProductUncheckedUpdateManyInput = {
   defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type CylinderProductListRelationFilter = {
-  every?: Prisma.CylinderProductWhereInput
-  some?: Prisma.CylinderProductWhereInput
-  none?: Prisma.CylinderProductWhereInput
-}
-
-export type CylinderProductOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type CylinderProductCountOrderByAggregateInput = {
@@ -409,6 +413,57 @@ export type CylinderProductMinOrderByAggregateInput = {
 export type CylinderProductSumOrderByAggregateInput = {
   sizeKg?: Prisma.SortOrder
   defaultPricePaise?: Prisma.SortOrder
+}
+
+export type CylinderProductScalarRelationFilter = {
+  is?: Prisma.CylinderProductWhereInput
+  isNot?: Prisma.CylinderProductWhereInput
+}
+
+export type CylinderProductListRelationFilter = {
+  every?: Prisma.CylinderProductWhereInput
+  some?: Prisma.CylinderProductWhereInput
+  none?: Prisma.CylinderProductWhereInput
+}
+
+export type CylinderProductOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type CylinderProductCreateNestedOneWithoutStockBalancesInput = {
+  create?: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedCreateWithoutStockBalancesInput>
+  connectOrCreate?: Prisma.CylinderProductCreateOrConnectWithoutStockBalancesInput
+  connect?: Prisma.CylinderProductWhereUniqueInput
+}
+
+export type CylinderProductUpdateOneRequiredWithoutStockBalancesNestedInput = {
+  create?: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedCreateWithoutStockBalancesInput>
+  connectOrCreate?: Prisma.CylinderProductCreateOrConnectWithoutStockBalancesInput
+  upsert?: Prisma.CylinderProductUpsertWithoutStockBalancesInput
+  connect?: Prisma.CylinderProductWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CylinderProductUpdateToOneWithWhereWithoutStockBalancesInput, Prisma.CylinderProductUpdateWithoutStockBalancesInput>, Prisma.CylinderProductUncheckedUpdateWithoutStockBalancesInput>
+}
+
+export type CylinderProductCreateNestedOneWithoutStockMovementsInput = {
+  create?: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedCreateWithoutStockMovementsInput>
+  connectOrCreate?: Prisma.CylinderProductCreateOrConnectWithoutStockMovementsInput
+  connect?: Prisma.CylinderProductWhereUniqueInput
+}
+
+export type CylinderProductUpdateOneRequiredWithoutStockMovementsNestedInput = {
+  create?: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedCreateWithoutStockMovementsInput>
+  connectOrCreate?: Prisma.CylinderProductCreateOrConnectWithoutStockMovementsInput
+  upsert?: Prisma.CylinderProductUpsertWithoutStockMovementsInput
+  connect?: Prisma.CylinderProductWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CylinderProductUpdateToOneWithWhereWithoutStockMovementsInput, Prisma.CylinderProductUpdateWithoutStockMovementsInput>, Prisma.CylinderProductUncheckedUpdateWithoutStockMovementsInput>
 }
 
 export type CylinderProductCreateNestedManyWithoutTenantInput = {
@@ -453,20 +508,124 @@ export type CylinderProductUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.CylinderProductScalarWhereInput | Prisma.CylinderProductScalarWhereInput[]
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type CylinderProductCreateWithoutStockBalancesInput = {
+  id?: string
+  name: string
+  sizeKg: runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutProductsInput
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutProductInput
 }
 
-export type BigIntFieldUpdateOperationsInput = {
-  set?: bigint | number
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
+export type CylinderProductUncheckedCreateWithoutStockBalancesInput = {
+  id?: string
+  tenantId: string
+  name: string
+  sizeKg: runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type CylinderProductCreateOrConnectWithoutStockBalancesInput = {
+  where: Prisma.CylinderProductWhereUniqueInput
+  create: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedCreateWithoutStockBalancesInput>
+}
+
+export type CylinderProductUpsertWithoutStockBalancesInput = {
+  update: Prisma.XOR<Prisma.CylinderProductUpdateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedUpdateWithoutStockBalancesInput>
+  create: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedCreateWithoutStockBalancesInput>
+  where?: Prisma.CylinderProductWhereInput
+}
+
+export type CylinderProductUpdateToOneWithWhereWithoutStockBalancesInput = {
+  where?: Prisma.CylinderProductWhereInput
+  data: Prisma.XOR<Prisma.CylinderProductUpdateWithoutStockBalancesInput, Prisma.CylinderProductUncheckedUpdateWithoutStockBalancesInput>
+}
+
+export type CylinderProductUpdateWithoutStockBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeKg?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductsNestedInput
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
+}
+
+export type CylinderProductUncheckedUpdateWithoutStockBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeKg?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type CylinderProductCreateWithoutStockMovementsInput = {
+  id?: string
+  name: string
+  sizeKg: runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutProductsInput
+  stockBalances?: Prisma.StockBalanceCreateNestedManyWithoutProductInput
+}
+
+export type CylinderProductUncheckedCreateWithoutStockMovementsInput = {
+  id?: string
+  tenantId: string
+  name: string
+  sizeKg: runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise: bigint | number
+  isActive?: boolean
+  createdAt?: Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type CylinderProductCreateOrConnectWithoutStockMovementsInput = {
+  where: Prisma.CylinderProductWhereUniqueInput
+  create: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedCreateWithoutStockMovementsInput>
+}
+
+export type CylinderProductUpsertWithoutStockMovementsInput = {
+  update: Prisma.XOR<Prisma.CylinderProductUpdateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedUpdateWithoutStockMovementsInput>
+  create: Prisma.XOR<Prisma.CylinderProductCreateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedCreateWithoutStockMovementsInput>
+  where?: Prisma.CylinderProductWhereInput
+}
+
+export type CylinderProductUpdateToOneWithWhereWithoutStockMovementsInput = {
+  where?: Prisma.CylinderProductWhereInput
+  data: Prisma.XOR<Prisma.CylinderProductUpdateWithoutStockMovementsInput, Prisma.CylinderProductUncheckedUpdateWithoutStockMovementsInput>
+}
+
+export type CylinderProductUpdateWithoutStockMovementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeKg?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductsNestedInput
+  stockBalances?: Prisma.StockBalanceUpdateManyWithoutProductNestedInput
+}
+
+export type CylinderProductUncheckedUpdateWithoutStockMovementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeKg?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type CylinderProductCreateWithoutTenantInput = {
@@ -476,6 +635,8 @@ export type CylinderProductCreateWithoutTenantInput = {
   defaultPricePaise: bigint | number
   isActive?: boolean
   createdAt?: Date | string
+  stockBalances?: Prisma.StockBalanceCreateNestedManyWithoutProductInput
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutProductInput
 }
 
 export type CylinderProductUncheckedCreateWithoutTenantInput = {
@@ -485,6 +646,8 @@ export type CylinderProductUncheckedCreateWithoutTenantInput = {
   defaultPricePaise: bigint | number
   isActive?: boolean
   createdAt?: Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedCreateNestedManyWithoutProductInput
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type CylinderProductCreateOrConnectWithoutTenantInput = {
@@ -542,6 +705,8 @@ export type CylinderProductUpdateWithoutTenantInput = {
   defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockBalances?: Prisma.StockBalanceUpdateManyWithoutProductNestedInput
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutProductNestedInput
 }
 
 export type CylinderProductUncheckedUpdateWithoutTenantInput = {
@@ -551,6 +716,8 @@ export type CylinderProductUncheckedUpdateWithoutTenantInput = {
   defaultPricePaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockBalances?: Prisma.StockBalanceUncheckedUpdateManyWithoutProductNestedInput
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type CylinderProductUncheckedUpdateManyWithoutTenantInput = {
@@ -563,6 +730,44 @@ export type CylinderProductUncheckedUpdateManyWithoutTenantInput = {
 }
 
 
+/**
+ * Count Type CylinderProductCountOutputType
+ */
+
+export type CylinderProductCountOutputType = {
+  stockBalances: number
+  stockMovements: number
+}
+
+export type CylinderProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stockBalances?: boolean | CylinderProductCountOutputTypeCountStockBalancesArgs
+  stockMovements?: boolean | CylinderProductCountOutputTypeCountStockMovementsArgs
+}
+
+/**
+ * CylinderProductCountOutputType without action
+ */
+export type CylinderProductCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CylinderProductCountOutputType
+   */
+  select?: Prisma.CylinderProductCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CylinderProductCountOutputType without action
+ */
+export type CylinderProductCountOutputTypeCountStockBalancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StockBalanceWhereInput
+}
+
+/**
+ * CylinderProductCountOutputType without action
+ */
+export type CylinderProductCountOutputTypeCountStockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StockMovementWhereInput
+}
+
 
 export type CylinderProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -573,6 +778,9 @@ export type CylinderProductSelect<ExtArgs extends runtime.Types.Extensions.Inter
   isActive?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  stockBalances?: boolean | Prisma.CylinderProduct$stockBalancesArgs<ExtArgs>
+  stockMovements?: boolean | Prisma.CylinderProduct$stockMovementsArgs<ExtArgs>
+  _count?: boolean | Prisma.CylinderProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cylinderProduct"]>
 
 export type CylinderProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -610,6 +818,9 @@ export type CylinderProductSelectScalar = {
 export type CylinderProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "sizeKg" | "defaultPricePaise" | "isActive" | "createdAt", ExtArgs["result"]["cylinderProduct"]>
 export type CylinderProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  stockBalances?: boolean | Prisma.CylinderProduct$stockBalancesArgs<ExtArgs>
+  stockMovements?: boolean | Prisma.CylinderProduct$stockMovementsArgs<ExtArgs>
+  _count?: boolean | Prisma.CylinderProductCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CylinderProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -622,6 +833,8 @@ export type $CylinderProductPayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "CylinderProduct"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    stockBalances: Prisma.$StockBalancePayload<ExtArgs>[]
+    stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1026,6 +1239,8 @@ readonly fields: CylinderProductFieldRefs;
 export interface Prisma__CylinderProductClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  stockBalances<T extends Prisma.CylinderProduct$stockBalancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CylinderProduct$stockBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stockMovements<T extends Prisma.CylinderProduct$stockMovementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CylinderProduct$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1460,6 +1675,54 @@ export type CylinderProductDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many CylinderProducts to delete.
    */
   limit?: number
+}
+
+/**
+ * CylinderProduct.stockBalances
+ */
+export type CylinderProduct$stockBalancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StockBalance
+   */
+  select?: Prisma.StockBalanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StockBalance
+   */
+  omit?: Prisma.StockBalanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockBalanceInclude<ExtArgs> | null
+  where?: Prisma.StockBalanceWhereInput
+  orderBy?: Prisma.StockBalanceOrderByWithRelationInput | Prisma.StockBalanceOrderByWithRelationInput[]
+  cursor?: Prisma.StockBalanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StockBalanceScalarFieldEnum | Prisma.StockBalanceScalarFieldEnum[]
+}
+
+/**
+ * CylinderProduct.stockMovements
+ */
+export type CylinderProduct$stockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StockMovement
+   */
+  select?: Prisma.StockMovementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StockMovement
+   */
+  omit?: Prisma.StockMovementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockMovementInclude<ExtArgs> | null
+  where?: Prisma.StockMovementWhereInput
+  orderBy?: Prisma.StockMovementOrderByWithRelationInput | Prisma.StockMovementOrderByWithRelationInput[]
+  cursor?: Prisma.StockMovementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StockMovementScalarFieldEnum | Prisma.StockMovementScalarFieldEnum[]
 }
 
 /**
