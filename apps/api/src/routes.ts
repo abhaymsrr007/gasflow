@@ -9,7 +9,7 @@ import deliveryRoutes from './modules/deliveries/delivery.routes';
 import stockRoutes from './modules/stock/stock.routes';
 import productRoutes from './modules/products/product.routes';
 import invoiceRoutes from './modules/invoices/invoice.routes';
-
+import reportRoutes from './modules/reports/report.routes';
 const router: Router = Router();
 
 router.use('/auth', authRoutes);
@@ -21,6 +21,7 @@ router.use('/deliveries', deliveryRoutes);
 router.use('/stock', stockRoutes);
 router.use('/products', productRoutes);
 router.use('/invoices', invoiceRoutes);
+router.use('/reports', reportRoutes);
 
 
 export default router;
