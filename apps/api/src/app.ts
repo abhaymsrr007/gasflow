@@ -13,7 +13,12 @@ import { requestLogger } from './shared/middlewares/requestLogger.middleware';
 const app: Express = express();
 
 // Middleware
-app.use(cors({ origin: process.env['WEB_ORIGIN'], credentials: true }));
+app.use(cors({
+  origin: process.env['WEB_ORIGIN'], // Frontend ka exact URL
+  credentials: true, // 👈 Cookies allow karne ke liye ye sabse zaroori hai
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use(cookieParser());
 
