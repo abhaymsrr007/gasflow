@@ -12,24 +12,41 @@ export default function CustomersPage() {
   const { data, isLoading } = useCustomers(page, search);
   const createMutation = useCreateCustomer();
 
-  // Form State
+  // Form State (Swagger ke hisaab se)
   const [businessName, setBusinessName] = useState('');
+  const [contactPerson, setContactPerson] = useState('');
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('dhaba');
+  const [creditLimit, setCreditLimit] = useState('0'); // Rupees mein input lenge
+  const [openingBalance, setOpeningBalance] = useState('0'); // Rupees mein input lenge
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    
+    // Frontend mein Rupees, Backend mein Paise
+    const creditLimitPaise = Math.round(parseFloat(creditLimit) * 100);
+    const openingBalancePaise = Math.round(parseFloat(openingBalance) * 100);
+
     createMutation.mutate({
       businessName,
+      contactPerson: contactPerson || undefined,
       phone,
       category,
-      creditLimitPaise: 0,
-      openingBalancePaise: 0,
+      creditLimitPaise: isNaN(creditLimitPaise) ? 0 : creditLimitPaise,
+      openingBalancePaise: isNaN(openingBalancePaise) ? 0 : openingBalancePaise,
     }, {
       onSuccess: () => {
         setIsModalOpen(false);
+        // Form reset karo
         setBusinessName('');
+        setContactPerson('');
         setPhone('');
+        setCategory('dhaba');
+        setCreditLimit('0');
+        setOpeningBalance('0');
+      },
+      onError: (error: any) => {
+        alert(error.message || 'Failed to add customer');
       }
     });
   };
@@ -121,64 +138,104 @@ export default function CustomersPage() {
         </div>
       </div>
 
-      {/* Simple Modal (Add Customer) */}
+      {/* Add Customer Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">Add New Customer</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Business Name</label>
-                <input 
-                  type="text" 
-                  value={businessName}
-                  onChange={(e) => setBusinessName(e.target.value)}
-                  className="w-full border p-2 rounded-lg" 
-                  placeholder="e.g. Sharma Bhojnalaya"
-                  required
-                />
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-1">Business Name *</label>
+                  <input 
+                    type="text" 
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
+                    placeholder="e.g. Sharma Bhojnalaya"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Contact Person</label>
+                  <input 
+                    type="text" 
+                    value={contactPerson}
+                    onChange={(e) => setContactPerson(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
+                    placeholder="e.g. Ramesh Sharma"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Phone Number *</label>
+                  <input 
+                    type="text" 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
+                    placeholder="10 digit number"
+                    required
+                    maxLength={10}
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-1">Category *</label>
+                  <select 
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  >
+                    <option value="dhaba">Dhaba</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="caterer">Caterer</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Credit Limit (₹)</label>
+                  <input 
+                    type="number" 
+                    value={creditLimit}
+                    onChange={(e) => setCreditLimit(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
+                    placeholder="e.g. 5000"
+                    min="0"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">Opening Balance (₹)</label>
+                  <input 
+                    type="number" 
+                    value={openingBalance}
+                    onChange={(e) => setOpeningBalance(e.target.value)}
+                    className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" 
+                    placeholder="e.g. 0"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Phone Number</label>
-                <input 
-                  type="text" 
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full border p-2 rounded-lg" 
-                  placeholder="10 digit mobile number"
-                  required
-                  maxLength={10}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Category</label>
-                <select 
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full border p-2 rounded-lg"
-                >
-                  <option value="dhaba">Dhaba</option>
-                  <option value="restaurant">Restaurant</option>
-                  <option value="hotel">Hotel</option>
-                  <option value="cafe">Cafe</option>
-                  <option value="caterer">Caterer</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div className="flex justify-end gap-3 mt-6">
+
+              <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
                 <button 
                   type="button" 
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border rounded-lg hover:bg-slate-50"
+                  className="px-4 py-2 border rounded-lg hover:bg-slate-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
                   disabled={createMutation.isPending}
                 >
-                  {createMutation.isPending ? 'Saving...' : 'Save'}
+                  {createMutation.isPending ? 'Saving...' : 'Save Customer'}
                 </button>
               </div>
             </form>

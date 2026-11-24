@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 interface User {
   id: string;
+  fullName: string;  
+  email: string;    
   role: string;
   tenantId: string;
   permissions: string[];
