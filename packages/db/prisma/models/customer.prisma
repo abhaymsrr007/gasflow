@@ -13,6 +13,7 @@ model Customer {
 
   tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   deliveries Delivery[]
+  invoices   Invoice[]
 
   @@index([tenantId])
   @@map("customers")

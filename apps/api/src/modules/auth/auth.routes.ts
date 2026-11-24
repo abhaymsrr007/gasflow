@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AuthController } from './auth.controller';
+import { requireAuth } from 'src/shared/middlewares/auth.middleware';
 
 const router: Router = Router();
 
@@ -138,4 +139,53 @@ router.post('/login', AuthController.login);
  *         description: Token refreshed
  */
 router.post('/refresh', AuthController.refresh);
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get currently authenticated user details
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User details fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: boolean, example: true }
+ *                 message: { type: string, example: "User fetched" }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id: { type: string }
+ *                     fullName: { type: string }
+ *                     email: { type: string }
+ *                     role: { type: string }
+ *                     tenantId: { type: string }
+ *                     permissions: 
+ *                       type: array
+ *                       items: { type: string }
+ *       401:
+ *         description: Not authenticated
+ */
+router.get('/me', requireAuth, AuthController.me);
+
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Logout user and clear cookies
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
+router.post('/logout', AuthController.logout);
 export default router;

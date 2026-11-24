@@ -5,6 +5,8 @@ import { authorize } from '../../shared/middlewares/authorize.middleware';
 
 const router = Router();
 
+router.use(requireAuth);
+
 /**
  * @swagger
  * /api/staff:
@@ -32,7 +34,7 @@ const router = Router();
  *       403:
  *         description: Forbidden (Insufficient permissions)
  */
-router.post('/', requireAuth, authorize('staff:manage'), StaffController.create);
+router.post('/',authorize('staff:manage'), StaffController.create);
 /**
  * @swagger
  * /api/staff:
@@ -95,7 +97,7 @@ router.get('/', authorize('staff:view'), StaffController.list);
  *       404:
  *         description: Staff not found
  */
-router.put('/:id', requireAuth, authorize('staff:manage'), StaffController.update);
+router.put('/:id',authorize('staff:manage'), StaffController.update);
 
 /**
  * @swagger
@@ -117,6 +119,6 @@ router.put('/:id', requireAuth, authorize('staff:manage'), StaffController.updat
  *       403:
  *         description: Only Owner can deactivate staff
  */
-router.delete('/:id', requireAuth, authorize('staff:manage'), StaffController.deactivate);
+router.delete('/:id',authorize('staff:manage'), StaffController.deactivate);
 
 export default router;

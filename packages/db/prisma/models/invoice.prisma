@@ -1,0 +1,41 @@
+model Invoice {
+  id            String  @id @default(uuid()) @db.Uuid
+  tenantId      String  @map("tenant_id") @db.Uuid
+  invoiceNumber String  @unique @map("invoice_number")
+  customerId    String  @map("customer_id") @db.Uuid
+  deliveryId    String? @unique @map("delivery_id") @db.Uuid
+
+  // Financials (All in paise)
+  subTotalPaise BigInt @map("sub_total_paise")
+  taxPaise      BigInt @default(0) @map("tax_paise")
+  discountPaise BigInt @default(0) @map("discount_paise")
+  totalPaise    BigInt @map("total_paise")
+
+  // Status
+  status    String    @default("draft") // draft, posted, paid, cancelled
+  createdAt DateTime  @default(now()) @map("created_at")
+  postedAt  DateTime? @map("posted_at")
+
+  // Relations
+  tenant   Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customer Customer      @relation(fields: [customerId], references: [id])
+  delivery Delivery?     @relation(fields: [deliveryId], references: [id])
+  items    InvoiceItem[]
+
+  @@index([tenantId, customerId])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id             String @id @default(uuid()) @db.Uuid
+  invoiceId      String @map("invoice_id") @db.Uuid
+  productId      String @map("product_id") @db.Uuid
+  quantity       Int
+  unitPricePaise BigInt @map("unit_price_paise")
+  totalPaise     BigInt @map("total_paise")
+
+  invoice Invoice         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  product CylinderProduct @relation(fields: [productId], references: [id])
+
+  @@map("invoice_items")
+}

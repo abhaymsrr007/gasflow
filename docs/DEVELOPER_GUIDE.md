@@ -325,6 +325,9 @@ npx pnpm@9.12.0 --filter @gasflow/db seed
 npx pnpm@9.12.0 --filter @gasflow/api dev
 (Backend API ko local par run karne ke liye, root folder se chalao)
 
+6.  For mobile application start 
+pnpm --filter mobile start -- --clear 
+
 
 GRANT CONNECT ON DATABASE gasflow TO gasflow_app;
 GRANT USAGE ON SCHEMA public TO gasflow_app;

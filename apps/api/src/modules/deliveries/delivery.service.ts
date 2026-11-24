@@ -67,4 +67,58 @@ export class DeliveryService {
       };
     });
   }
+
+
+  static async getMyDeliveries(tenantId: string, userId: string, date?: string) {
+  return withTenantPrisma(tenantId, userId, async (tx) => {
+    // Agar date di gayi hai, toh us date ki deliveries, warna aaj ki
+    // console.log('Fetching deliveries for user:', userId, 'on date:', date || 'today');
+    const targetDate = date ? new Date(date) : new Date();
+    const startOfDay = new Date(targetDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // 1. User ki saari trips nikalo (jo usne delivery man ke roop mein ki hain)
+    const trips = await tx.trip.findMany({
+      where: {
+        deliveryManId: userId,
+        // Sirf aaj ki trips (ya jo date di gayi hai)
+        createdAt: { gte: startOfDay, lte: endOfDay },
+      },
+      select: { id: true },
+    });
+
+    const tripIds = trips.map(t => t.id);
+    if (tripIds.length === 0) return [];
+
+    // 2. Un trips mein jo deliveries hui hain, unki list nikalo
+    const deliveries = await tx.delivery.findMany({
+      where: {
+        tripId: { in: tripIds },
+        status: 'completed',
+      },
+      include: {
+        customer: { select: { businessName: true, phone: true } },
+        trip: { select: { vehicleNumber: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // 3. Format karo
+    return deliveries.map(d => ({
+      id: d.id,
+      customerName: d.customer.businessName,
+      customerPhone: d.customer.phone,
+      filledOut: d.filledOut,
+      emptyIn: d.emptyIn,
+      totalAmountPaise: d.totalAmountPaise.toString(),
+      finalAmountPaise: d.finalAmountPaise.toString(),
+      paymentStatus: d.paymentStatus,
+      status: d.status,
+      createdAt: d.createdAt,
+      vehicleNumber: d.trip.vehicleNumber,
+    }));
+  });
+}
 }

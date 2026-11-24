@@ -10,6 +10,7 @@ model CylinderProduct {
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   stockBalances  StockBalance[]
   stockMovements StockMovement[]
+  invoiceItems   InvoiceItem[]
 
   @@index([tenantId])
   @@map("cylinder_products")

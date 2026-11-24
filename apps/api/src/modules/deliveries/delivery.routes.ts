@@ -34,4 +34,23 @@ router.use(requireAuth);
  */
 router.post('/', authorize('delivery:create'), DeliveryController.create);
 
+/**
+ * @swagger
+ * /api/deliveries/my:
+ *   get:
+ *     summary: Get deliveries for the logged-in Delivery Man
+ *     tags: [Deliveries]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: date
+ *         schema: { type: string, format: date }
+ *         description: Date (YYYY-MM-DD). Default is today.
+ *     responses:
+ *       200:
+ *         description: List of deliveries
+ */
+router.get('/my', authorize('delivery:view'), DeliveryController.myDeliveries);
+
 export default router;

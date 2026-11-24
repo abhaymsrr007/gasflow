@@ -57,6 +57,8 @@ export const ModelName = {
   TenantMember: 'TenantMember',
   Customer: 'Customer',
   Delivery: 'Delivery',
+  Invoice: 'Invoice',
+  InvoiceItem: 'InvoiceItem',
   CylinderProduct: 'CylinderProduct',
   Session: 'Session',
   StockBalance: 'StockBalance',
@@ -154,6 +156,36 @@ export const DeliveryScalarFieldEnum = {
 } as const
 
 export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
+
+
+export const InvoiceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  invoiceNumber: 'invoiceNumber',
+  customerId: 'customerId',
+  deliveryId: 'deliveryId',
+  subTotalPaise: 'subTotalPaise',
+  taxPaise: 'taxPaise',
+  discountPaise: 'discountPaise',
+  totalPaise: 'totalPaise',
+  status: 'status',
+  createdAt: 'createdAt',
+  postedAt: 'postedAt'
+} as const
+
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+export const InvoiceItemScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  productId: 'productId',
+  quantity: 'quantity',
+  unitPricePaise: 'unitPricePaise',
+  totalPaise: 'totalPaise'
+} as const
+
+export type InvoiceItemScalarFieldEnum = (typeof InvoiceItemScalarFieldEnum)[keyof typeof InvoiceItemScalarFieldEnum]
 
 
 export const CylinderProductScalarFieldEnum = {

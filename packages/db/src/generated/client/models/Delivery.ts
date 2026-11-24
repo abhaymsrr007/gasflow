@@ -291,6 +291,7 @@ export type DeliveryWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   trip?: Prisma.XOR<Prisma.TripScalarRelationFilter, Prisma.TripWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }
 
 export type DeliveryOrderByWithRelationInput = {
@@ -309,6 +310,7 @@ export type DeliveryOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   trip?: Prisma.TripOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
+  invoice?: Prisma.InvoiceOrderByWithRelationInput
 }
 
 export type DeliveryWhereUniqueInput = Prisma.AtLeast<{
@@ -330,6 +332,7 @@ export type DeliveryWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   trip?: Prisma.XOR<Prisma.TripScalarRelationFilter, Prisma.TripWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }, "id">
 
 export type DeliveryOrderByWithAggregationInput = {
@@ -383,6 +386,7 @@ export type DeliveryCreateInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutDeliveriesInput
   trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
   customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryUncheckedCreateInput = {
@@ -398,6 +402,7 @@ export type DeliveryUncheckedCreateInput = {
   finalAmountPaise: bigint | number
   status?: string
   createdAt?: Date | string
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryUpdateInput = {
@@ -413,6 +418,7 @@ export type DeliveryUpdateInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDeliveriesNestedInput
   trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateInput = {
@@ -428,6 +434,7 @@ export type DeliveryUncheckedUpdateInput = {
   finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryCreateManyInput = {
@@ -543,6 +550,11 @@ export type DeliverySumOrderByAggregateInput = {
   finalAmountPaise?: Prisma.SortOrder
 }
 
+export type DeliveryNullableScalarRelationFilter = {
+  is?: Prisma.DeliveryWhereInput | null
+  isNot?: Prisma.DeliveryWhereInput | null
+}
+
 export type DeliveryCreateNestedManyWithoutCustomerInput = {
   create?: Prisma.XOR<Prisma.DeliveryCreateWithoutCustomerInput, Prisma.DeliveryUncheckedCreateWithoutCustomerInput> | Prisma.DeliveryCreateWithoutCustomerInput[] | Prisma.DeliveryUncheckedCreateWithoutCustomerInput[]
   connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutCustomerInput | Prisma.DeliveryCreateOrConnectWithoutCustomerInput[]
@@ -591,6 +603,22 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DeliveryCreateNestedOneWithoutInvoiceInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutInvoiceInput, Prisma.DeliveryUncheckedCreateWithoutInvoiceInput>
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutInvoiceInput
+  connect?: Prisma.DeliveryWhereUniqueInput
+}
+
+export type DeliveryUpdateOneWithoutInvoiceNestedInput = {
+  create?: Prisma.XOR<Prisma.DeliveryCreateWithoutInvoiceInput, Prisma.DeliveryUncheckedCreateWithoutInvoiceInput>
+  connectOrCreate?: Prisma.DeliveryCreateOrConnectWithoutInvoiceInput
+  upsert?: Prisma.DeliveryUpsertWithoutInvoiceInput
+  disconnect?: Prisma.DeliveryWhereInput | boolean
+  delete?: Prisma.DeliveryWhereInput | boolean
+  connect?: Prisma.DeliveryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeliveryUpdateToOneWithWhereWithoutInvoiceInput, Prisma.DeliveryUpdateWithoutInvoiceInput>, Prisma.DeliveryUncheckedUpdateWithoutInvoiceInput>
 }
 
 export type DeliveryCreateNestedManyWithoutTenantInput = {
@@ -689,6 +717,7 @@ export type DeliveryCreateWithoutCustomerInput = {
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutDeliveriesInput
   trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryUncheckedCreateWithoutCustomerInput = {
@@ -703,6 +732,7 @@ export type DeliveryUncheckedCreateWithoutCustomerInput = {
   finalAmountPaise: bigint | number
   status?: string
   createdAt?: Date | string
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryCreateOrConnectWithoutCustomerInput = {
@@ -749,6 +779,82 @@ export type DeliveryScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Delivery"> | Date | string
 }
 
+export type DeliveryCreateWithoutInvoiceInput = {
+  id?: string
+  filledOut: number
+  emptyIn: number
+  paymentStatus?: string
+  totalAmountPaise: bigint | number
+  discountPaise?: bigint | number
+  finalAmountPaise: bigint | number
+  status?: string
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutDeliveriesInput
+  trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
+  customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
+}
+
+export type DeliveryUncheckedCreateWithoutInvoiceInput = {
+  id?: string
+  tenantId: string
+  tripId: string
+  customerId: string
+  filledOut: number
+  emptyIn: number
+  paymentStatus?: string
+  totalAmountPaise: bigint | number
+  discountPaise?: bigint | number
+  finalAmountPaise: bigint | number
+  status?: string
+  createdAt?: Date | string
+}
+
+export type DeliveryCreateOrConnectWithoutInvoiceInput = {
+  where: Prisma.DeliveryWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeliveryCreateWithoutInvoiceInput, Prisma.DeliveryUncheckedCreateWithoutInvoiceInput>
+}
+
+export type DeliveryUpsertWithoutInvoiceInput = {
+  update: Prisma.XOR<Prisma.DeliveryUpdateWithoutInvoiceInput, Prisma.DeliveryUncheckedUpdateWithoutInvoiceInput>
+  create: Prisma.XOR<Prisma.DeliveryCreateWithoutInvoiceInput, Prisma.DeliveryUncheckedCreateWithoutInvoiceInput>
+  where?: Prisma.DeliveryWhereInput
+}
+
+export type DeliveryUpdateToOneWithWhereWithoutInvoiceInput = {
+  where?: Prisma.DeliveryWhereInput
+  data: Prisma.XOR<Prisma.DeliveryUpdateWithoutInvoiceInput, Prisma.DeliveryUncheckedUpdateWithoutInvoiceInput>
+}
+
+export type DeliveryUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
+  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeliveriesNestedInput
+  trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
+}
+
+export type DeliveryUncheckedUpdateWithoutInvoiceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tripId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  filledOut?: Prisma.IntFieldUpdateOperationsInput | number
+  emptyIn?: Prisma.IntFieldUpdateOperationsInput | number
+  paymentStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  totalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  discountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type DeliveryCreateWithoutTenantInput = {
   id?: string
   filledOut: number
@@ -761,6 +867,7 @@ export type DeliveryCreateWithoutTenantInput = {
   createdAt?: Date | string
   trip: Prisma.TripCreateNestedOneWithoutDeliveriesInput
   customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryUncheckedCreateWithoutTenantInput = {
@@ -775,6 +882,7 @@ export type DeliveryUncheckedCreateWithoutTenantInput = {
   finalAmountPaise: bigint | number
   status?: string
   createdAt?: Date | string
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryCreateOrConnectWithoutTenantInput = {
@@ -815,6 +923,7 @@ export type DeliveryCreateWithoutTripInput = {
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutDeliveriesInput
   customer: Prisma.CustomerCreateNestedOneWithoutDeliveriesInput
+  invoice?: Prisma.InvoiceCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryUncheckedCreateWithoutTripInput = {
@@ -829,6 +938,7 @@ export type DeliveryUncheckedCreateWithoutTripInput = {
   finalAmountPaise: bigint | number
   status?: string
   createdAt?: Date | string
+  invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutDeliveryInput
 }
 
 export type DeliveryCreateOrConnectWithoutTripInput = {
@@ -883,6 +993,7 @@ export type DeliveryUpdateWithoutCustomerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDeliveriesNestedInput
   trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateWithoutCustomerInput = {
@@ -897,6 +1008,7 @@ export type DeliveryUncheckedUpdateWithoutCustomerInput = {
   finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateManyWithoutCustomerInput = {
@@ -939,6 +1051,7 @@ export type DeliveryUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   trip?: Prisma.TripUpdateOneRequiredWithoutDeliveriesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateWithoutTenantInput = {
@@ -953,6 +1066,7 @@ export type DeliveryUncheckedUpdateWithoutTenantInput = {
   finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateManyWithoutTenantInput = {
@@ -995,6 +1109,7 @@ export type DeliveryUpdateWithoutTripInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDeliveriesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutDeliveriesNestedInput
+  invoice?: Prisma.InvoiceUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateWithoutTripInput = {
@@ -1009,6 +1124,7 @@ export type DeliveryUncheckedUpdateWithoutTripInput = {
   finalAmountPaise?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutDeliveryNestedInput
 }
 
 export type DeliveryUncheckedUpdateManyWithoutTripInput = {
@@ -1043,6 +1159,7 @@ export type DeliverySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   trip?: boolean | Prisma.TripDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.Delivery$invoiceArgs<ExtArgs>
 }, ExtArgs["result"]["delivery"]>
 
 export type DeliverySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1101,6 +1218,7 @@ export type DeliveryInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   trip?: boolean | Prisma.TripDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.Delivery$invoiceArgs<ExtArgs>
 }
 export type DeliveryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1119,6 +1237,7 @@ export type $DeliveryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     tenant: Prisma.$TenantPayload<ExtArgs>
     trip: Prisma.$TripPayload<ExtArgs>
     customer: Prisma.$CustomerPayload<ExtArgs>
+    invoice: Prisma.$InvoicePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1530,6 +1649,7 @@ export interface Prisma__DeliveryClient<T, Null = never, ExtArgs extends runtime
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   trip<T extends Prisma.TripDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TripDefaultArgs<ExtArgs>>): Prisma.Prisma__TripClient<runtime.Types.Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  invoice<T extends Prisma.Delivery$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Delivery$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1969,6 +2089,25 @@ export type DeliveryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Deliveries to delete.
    */
   limit?: number
+}
+
+/**
+ * Delivery.invoice
+ */
+export type Delivery$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invoice
+   */
+  select?: Prisma.InvoiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invoice
+   */
+  omit?: Prisma.InvoiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceInclude<ExtArgs> | null
+  where?: Prisma.InvoiceWhereInput
 }
 
 /**
